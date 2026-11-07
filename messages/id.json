@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "title": "JeniusAcademy — Belajar Seru, Masa Depan Cerah",
+    "description": "Platform belajar online untuk SD, SMP, SMA, dan persiapan UTBK dengan video pelajaran, latihan, dan pelacak progres."
+  },
+  "common": {
+    "skipToContent": "Lewati ke konten utama",
+    "free": "Gratis",
+    "perMonth": "/bulan",
+    "lessons": "{count, plural, other {# pelajaran}}",
+    "minutes": "{count} menit",
+    "back": "Kembali",
+    "placeholderNote": "Konten contoh — ganti dengan data asli."
+  },
+  "nav": {
+    "home": "Beranda",
+    "courses": "Kelas",
+    "pricing": "Paket",
+    "reviews": "Ulasan",
+    "contact": "Kontak",
+    "login": "Masuk",
+    "register": "Daftar",
+    "logout": "Keluar",
+    "hello": "Halo, {name}",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "main": "Navigasi utama"
+  },
+  "theme": {
+    "toggle": "Ganti tema",
+    "light": "Terang",
+    "dark": "Gelap"
+  },
+  "language": {
+    "label": "Bahasa"
+  },
+  "hero": {
+    "badge": "Platform belajar online",
+    "titleLine1": "Belajar Seru,",
+    "titleHighlight": "Masa Depan Cerah",
+    "subtitle": "Video pelajaran, latihan soal, dan pelacak progres untuk siswa SD, SMP, SMA, hingga persiapan UTBK — semua dalam satu tempat.",
+    "ctaPrimary": "Mulai Belajar Gratis",
+    "ctaSecondary": "Lihat Paket",
+    "scene": "Ilustrasi 3D bentuk geometris melayang"
+  },
+  "stats": {
+    "students": "Siswa belajar",
+    "lessons": "Video pelajaran",
+    "levels": "Jenjang pendidikan",
+    "rating": "Rating rata-rata"
+  },
+  "benefits": {
+    "title": "Kenapa belajar di JeniusAcademy?",
+    "subtitle": "Dirancang supaya belajar terasa ringan, terarah, dan terjangkau.",
+    "free": {
+      "title": "Kelas gratis",
+      "desc": "Mulai dari jenjang SD dan SMP tanpa biaya. Coba dulu, rasakan manfaatnya."
+    },
+    "fresh": {
+      "title": "Materi terbaru",
+      "desc": "Konten disusun mengikuti kebutuhan belajar terkini dan diperbarui berkala."
+    },
+    "easy": {
+      "title": "Mudah dipahami",
+      "desc": "Video singkat dengan penjelasan bertahap, lengkap dengan pelacak progres."
+    }
+  },
+  "levels": {
+    "title": "Pilih jenjang belajarmu",
+    "subtitle": "Dari bangku SD hingga persiapan masuk perguruan tinggi.",
+    "explore": "Lihat kelas",
+    "from": "Mulai dari"
+  },
+  "how": {
+    "title": "Cara belajarnya mudah",
+    "step1": {
+      "title": "Buat akun",
+      "desc": "Daftar dalam hitungan detik dan pilih jenjang yang sesuai."
+    },
+    "step2": {
+      "title": "Tonton & latihan",
+      "desc": "Ikuti video pelajaran lalu kerjakan latihan di setiap bab."
+    },
+    "step3": {
+      "title": "Pantau progres",
+      "desc": "Lihat berapa pelajaran yang sudah selesai dan lanjutkan kapan saja."
+    }
+  },
+  "testimonials": {
+    "title": "Kata mereka tentang JeniusAcademy",
+    "subtitle": "Cerita dari siswa dan orang tua.",
+    "all": "Lihat semua ulasan"
+  },
+  "faq": {
+    "title": "Pertanyaan yang sering diajukan",
+    "q1": { "q": "Apa itu JeniusAcademy?", "a": "JeniusAcademy adalah platform belajar online berbasis web yang menyediakan video pelajaran, latihan soal, dan pelacak progres untuk berbagai jenjang pendidikan." },
+    "q2": { "q": "Apakah ada kelas gratis?", "a": "Ya. Kelas jenjang SD dan SMP dapat diakses gratis. Jenjang SMA dan persiapan UTBK tersedia melalui paket berlangganan." },
+    "q3": { "q": "Bagaimana cara berlangganan?", "a": "Buat akun, buka halaman Paket, lalu pilih jenjang yang kamu butuhkan. Detail metode pembayaran akan tersedia setelah sistem pembayaran aktif." },
+    "q4": { "q": "Apakah progres belajar saya tersimpan?", "a": "Saat ini progres tersimpan di perangkat yang kamu pakai. Sinkronisasi antarperangkat akan hadir bersama sistem akun." },
+    "q5": { "q": "Bisa belajar dari ponsel?", "a": "Bisa. Situs dirancang responsif sehingga nyaman dipakai di ponsel, tablet, maupun laptop." },
+    "q6": { "q": "Bagaimana jika saya punya pertanyaan lain?", "a": "Hubungi kami lewat informasi kontak di bagian bawah halaman ini. Kami siap membantu." }
+  },
+  "cta": {
+    "title": "Siap mulai belajar hari ini?",
+    "subtitle": "Gabung gratis dan coba kelas pertamamu sekarang.",
+    "button": "Daftar Sekarang"
+  },
+  "contact": {
+    "title": "Hubungi kami",
+    "subtitle": "Ada pertanyaan? Kami senang membantu.",
+    "email": "Email",
+    "phone": "Telepon",
+    "whatsapp": "WhatsApp",
+    "address": "Alamat"
+  },
+  "footer": {
+    "tagline": "Belajar seru, masa depan cerah.",
+    "explore": "Jelajahi",
+    "account": "Akun",
+    "rights": "Hak cipta dilindungi.",
+    "social": "Sosial media"
+  },
+  "courses": {
+    "title": "Katalog Kelas",
+    "subtitle": "Temukan kelas yang cocok untuk jenjang dan tujuan belajarmu.",
+    "search": "Cari kelas",
+    "searchPlaceholder": "Cari judul atau pengajar…",
+    "filterLabel": "Filter jenjang",
+    "all": "Semua",
+    "empty": "Tidak ada kelas yang cocok dengan pencarianmu.",
+    "teacher": "Pengajar",
+    "view": "Lihat kelas",
+    "results": "{count, plural, =0 {Tidak ada kelas} other {# kelas}}"
+  },
+  "course": {
+    "teacher": "Pengajar",
+    "progress": "Progres belajar",
+    "completedOf": "{done} dari {total} pelajaran selesai",
+    "lessonList": "Daftar pelajaran",
+    "start": "Mulai belajar",
+    "resume": "Lanjutkan belajar",
+    "review": "Ulangi kelas",
+    "done": "Selesai",
+    "backToCourses": "Kembali ke katalog",
+    "lessonNumber": "Pelajaran {number}",
+    "priceNote": "Termasuk dalam paket {level}"
+  },
+  "lesson": {
+    "markDone": "Tandai selesai",
+    "markUndone": "Tandai belum selesai",
+    "next": "Pelajaran berikutnya",
+    "previous": "Sebelumnya",
+    "finishedCourse": "Kelas selesai",
+    "completed": "Selesai",
+    "videoTitle": "Video pelajaran: {title}",
+    "inThisCourse": "Di kelas ini",
+    "backToCourse": "Kembali ke kelas"
+  },
+  "pricing": {
+    "title": "Pilih paket belajar",
+    "subtitle": "Mulai gratis, upgrade saat kamu siap. Harga adalah contoh dan dapat diubah.",
+    "popular": "Terlaris",
+    "choose": "Pilih paket",
+    "startFree": "Mulai gratis",
+    "subjects": "Mata pelajaran",
+    "includes": "Yang kamu dapatkan",
+    "feature1": "Akses seluruh video pelajaran",
+    "feature2": "Pelacak progres belajar",
+    "feature3": "Latihan soal di setiap bab",
+    "feature4": "Belajar dari perangkat apa pun",
+    "note": "Pembayaran belum aktif pada versi pratinjau ini."
+  },
+  "reviews": {
+    "title": "Ulasan Siswa",
+    "subtitle": "Pengalaman nyata dari para pelajar kami.",
+    "formTitle": "Bagikan pengalamanmu",
+    "name": "Nama",
+    "namePlaceholder": "Nama kamu",
+    "level": "Jenjang",
+    "rating": "Rating",
+    "ratingStars": "{count} dari 5 bintang",
+    "opinion": "Ulasan",
+    "opinionPlaceholder": "Ceritakan pengalaman belajarmu…",
+    "submit": "Kirim ulasan",
+    "thanks": "Terima kasih! Ulasanmu sudah ditambahkan.",
+    "localNote": "Ulasan disimpan di browser ini sampai backend tersedia.",
+    "errorName": "Isi nama kamu.",
+    "errorRating": "Pilih rating bintang.",
+    "errorOpinion": "Tulis ulasan minimal 10 karakter.",
+    "filterAll": "Semua jenjang",
+    "yours": "Ulasanmu"
+  },
+  "auth": {
+    "panelTitle": "Belajar jadi lebih terarah",
+    "panelQuote": "“Ilmu didapat dengan belajar, dan belajar butuh ketenangan serta kesabaran.”",
+    "loginTitle": "Selamat datang kembali",
+    "loginSubtitle": "Masuk untuk melanjutkan belajar.",
+    "registerTitle": "Buat akun baru",
+    "registerSubtitle": "Gratis dan hanya butuh satu menit.",
+    "name": "Nama lengkap",
+    "namePlaceholder": "Nama kamu",
+    "email": "Email",
+    "emailPlaceholder": "nama@email.com",
+    "password": "Kata sandi",
+    "passwordPlaceholder": "Minimal 8 karakter",
+    "confirmPassword": "Ulangi kata sandi",
+    "show": "Tampilkan kata sandi",
+    "hide": "Sembunyikan kata sandi",
+    "forgot": "Lupa kata sandi?",
+    "login": "Masuk",
+    "register": "Daftar",
+    "continueGoogle": "Lanjutkan dengan Google",
+    "or": "atau",
+    "noAccount": "Belum punya akun?",
+    "haveAccount": "Sudah punya akun?",
+    "demoNote": "Mode pratinjau: akun belum tersambung ke server dan tidak ada data yang dikirim.",
+    "googleSoon": "Login Google akan tersedia setelah backend aktif.",
+    "strength": "Kekuatan kata sandi",
+    "strengthWeak": "Lemah",
+    "strengthFair": "Cukup",
+    "strengthStrong": "Kuat",
+    "errors": {
+      "name": "Nama wajib diisi.",
+      "emailRequired": "Email wajib diisi.",
+      "emailInvalid": "Format email tidak valid.",
+      "passwordRequired": "Kata sandi wajib diisi.",
+      "passwordShort": "Kata sandi minimal 8 karakter.",
+      "confirmMismatch": "Kata sandi tidak sama."
+    }
+  },
+  "forgot": {
+    "title": "Atur ulang kata sandi",
+    "subtitle": "Masukkan email dan kami akan mengirim tautan pengaturan ulang.",
+    "send": "Kirim tautan",
+    "sent": "Jika email terdaftar, tautan pengaturan ulang akan dikirim. (Pratinjau: belum ada email yang dikirim.)",
+    "back": "Kembali ke halaman masuk"
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "text": "Halaman yang kamu cari tidak ada atau sudah dipindahkan.",
+    "home": "Kembali ke beranda"
+  }
+}

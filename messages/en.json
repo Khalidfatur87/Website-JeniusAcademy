@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "title": "JeniusAcademy — Fun Learning, Bright Futures",
+    "description": "An online learning platform for elementary, junior high, senior high and UTBK prep with video lessons, practice and progress tracking."
+  },
+  "common": {
+    "skipToContent": "Skip to main content",
+    "free": "Free",
+    "perMonth": "/month",
+    "lessons": "{count, plural, one {# lesson} other {# lessons}}",
+    "minutes": "{count} min",
+    "back": "Back",
+    "placeholderNote": "Sample content — replace with real data."
+  },
+  "nav": {
+    "home": "Home",
+    "courses": "Classes",
+    "pricing": "Plans",
+    "reviews": "Reviews",
+    "contact": "Contact",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "hello": "Hi, {name}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "main": "Main navigation"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "hero": {
+    "badge": "Online learning platform",
+    "titleLine1": "Fun Learning,",
+    "titleHighlight": "Bright Futures",
+    "subtitle": "Video lessons, practice questions and progress tracking for elementary, junior high and senior high students, up to university entrance prep — all in one place.",
+    "ctaPrimary": "Start Learning Free",
+    "ctaSecondary": "View Plans",
+    "scene": "3D illustration of floating geometric shapes"
+  },
+  "stats": {
+    "students": "Active learners",
+    "lessons": "Video lessons",
+    "levels": "Education levels",
+    "rating": "Average rating"
+  },
+  "benefits": {
+    "title": "Why learn with JeniusAcademy?",
+    "subtitle": "Built to make learning feel light, focused and affordable.",
+    "free": {
+      "title": "Free classes",
+      "desc": "Start with elementary and junior high levels at no cost. Try it and feel the difference."
+    },
+    "fresh": {
+      "title": "Fresh material",
+      "desc": "Content follows current learning needs and is refreshed regularly."
+    },
+    "easy": {
+      "title": "Easy to understand",
+      "desc": "Short videos with step-by-step explanations and a built-in progress tracker."
+    }
+  },
+  "levels": {
+    "title": "Choose your level",
+    "subtitle": "From elementary school to university entrance prep.",
+    "explore": "Browse classes",
+    "from": "Starting at"
+  },
+  "how": {
+    "title": "Learning is easy",
+    "step1": {
+      "title": "Create an account",
+      "desc": "Sign up in seconds and pick the level that fits you."
+    },
+    "step2": {
+      "title": "Watch & practise",
+      "desc": "Follow the video lessons, then work through practice in every chapter."
+    },
+    "step3": {
+      "title": "Track progress",
+      "desc": "See how many lessons you've finished and pick up any time."
+    }
+  },
+  "testimonials": {
+    "title": "What learners say about JeniusAcademy",
+    "subtitle": "Stories from students and parents.",
+    "all": "See all reviews"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "q1": { "q": "What is JeniusAcademy?", "a": "JeniusAcademy is a web-based online learning platform offering video lessons, practice questions and progress tracking across several education levels." },
+    "q2": { "q": "Are there free classes?", "a": "Yes. Elementary and junior high classes are free. Senior high and UTBK prep are available through subscription plans." },
+    "q3": { "q": "How do I subscribe?", "a": "Create an account, open the Plans page and choose the level you need. Payment method details will be available once payments go live." },
+    "q4": { "q": "Is my learning progress saved?", "a": "For now progress is saved on the device you use. Cross-device sync will arrive together with the account system." },
+    "q5": { "q": "Can I learn on my phone?", "a": "Yes. The site is responsive and comfortable to use on phones, tablets and laptops." },
+    "q6": { "q": "What if I have other questions?", "a": "Reach us through the contact details at the bottom of this page. We're happy to help." }
+  },
+  "cta": {
+    "title": "Ready to start learning today?",
+    "subtitle": "Join for free and try your first class right now.",
+    "button": "Sign Up Now"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "subtitle": "Have a question? We're happy to help.",
+    "email": "Email",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "address": "Address"
+  },
+  "footer": {
+    "tagline": "Fun learning, bright futures.",
+    "explore": "Explore",
+    "account": "Account",
+    "rights": "All rights reserved.",
+    "social": "Social media"
+  },
+  "courses": {
+    "title": "Class Catalog",
+    "subtitle": "Find the class that fits your level and learning goals.",
+    "search": "Search classes",
+    "searchPlaceholder": "Search by title or teacher…",
+    "filterLabel": "Filter by level",
+    "all": "All",
+    "empty": "No classes match your search.",
+    "teacher": "Teacher",
+    "view": "View class",
+    "results": "{count, plural, =0 {No classes} one {# class} other {# classes}}"
+  },
+  "course": {
+    "teacher": "Teacher",
+    "progress": "Learning progress",
+    "completedOf": "{done} of {total} lessons completed",
+    "lessonList": "Lessons",
+    "start": "Start learning",
+    "resume": "Continue learning",
+    "review": "Review class",
+    "done": "Completed",
+    "backToCourses": "Back to catalog",
+    "lessonNumber": "Lesson {number}",
+    "priceNote": "Included in the {level} plan"
+  },
+  "lesson": {
+    "markDone": "Mark as done",
+    "markUndone": "Mark as not done",
+    "next": "Next lesson",
+    "previous": "Previous",
+    "finishedCourse": "Class complete",
+    "completed": "Completed",
+    "videoTitle": "Lesson video: {title}",
+    "inThisCourse": "In this class",
+    "backToCourse": "Back to class"
+  },
+  "pricing": {
+    "title": "Choose your plan",
+    "subtitle": "Start free, upgrade when you're ready. Prices are examples and configurable.",
+    "popular": "Best seller",
+    "choose": "Choose plan",
+    "startFree": "Start free",
+    "subjects": "Subjects",
+    "includes": "What you get",
+    "feature1": "Access to all video lessons",
+    "feature2": "Learning progress tracker",
+    "feature3": "Practice questions in every chapter",
+    "feature4": "Learn from any device",
+    "note": "Payments are not active in this preview version."
+  },
+  "reviews": {
+    "title": "Student Reviews",
+    "subtitle": "Real experiences from our learners.",
+    "formTitle": "Share your experience",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "level": "Level",
+    "rating": "Rating",
+    "ratingStars": "{count} out of 5 stars",
+    "opinion": "Review",
+    "opinionPlaceholder": "Tell us about your learning experience…",
+    "submit": "Submit review",
+    "thanks": "Thank you! Your review was added.",
+    "localNote": "Reviews are stored in this browser until a backend is available.",
+    "errorName": "Enter your name.",
+    "errorRating": "Select a star rating.",
+    "errorOpinion": "Write at least 10 characters.",
+    "filterAll": "All levels",
+    "yours": "Your review"
+  },
+  "auth": {
+    "panelTitle": "Learning with direction",
+    "panelQuote": "“Knowledge is gained by learning, and learning takes calm and patience.”",
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Log in to continue learning.",
+    "registerTitle": "Create your account",
+    "registerSubtitle": "Free, and it only takes a minute.",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "name@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "At least 8 characters",
+    "confirmPassword": "Confirm password",
+    "show": "Show password",
+    "hide": "Hide password",
+    "forgot": "Forgot password?",
+    "login": "Log in",
+    "register": "Sign up",
+    "continueGoogle": "Continue with Google",
+    "or": "or",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "demoNote": "Preview mode: accounts aren't connected to a server and no data is sent.",
+    "googleSoon": "Google sign-in will be available once the backend is live.",
+    "strength": "Password strength",
+    "strengthWeak": "Weak",
+    "strengthFair": "Fair",
+    "strengthStrong": "Strong",
+    "errors": {
+      "name": "Name is required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordRequired": "Password is required.",
+      "passwordShort": "Password must be at least 8 characters.",
+      "confirmMismatch": "Passwords don't match."
+    }
+  },
+  "forgot": {
+    "title": "Reset your password",
+    "subtitle": "Enter your email and we'll send a reset link.",
+    "send": "Send link",
+    "sent": "If the email is registered, a reset link will be sent. (Preview: no email is actually sent.)",
+    "back": "Back to log in"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home"
+  }
+}

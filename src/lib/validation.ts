@@ -1,5 +1,5 @@
 /** Validasi form auth sebagai fungsi murni: mengembalikan kunci pesan (bukan teks). */
-export type AuthMode = "login" | "register" | "forgot";
+export type AuthMode = "login" | "register" | "forgot" | "reset";
 
 export type AuthValues = {
   name: string;
@@ -27,15 +27,19 @@ export function validateAuth(mode: AuthMode, v: AuthValues): AuthErrors {
   const e: AuthErrors = {};
   if (mode === "register" && !v.name.trim()) e.name = "name";
 
-  const email = v.email.trim();
-  if (!email) e.email = "emailRequired";
-  else if (!EMAIL_RE.test(email)) e.email = "emailInvalid";
+  if (mode !== "reset") {
+    const email = v.email.trim();
+    if (!email) e.email = "emailRequired";
+    else if (!EMAIL_RE.test(email)) e.email = "emailInvalid";
+  }
 
   if (mode !== "forgot") {
     if (!v.password) e.password = "passwordRequired";
     else if (v.password.length < MIN_PASSWORD) e.password = "passwordShort";
   }
-  if (mode === "register" && v.confirm !== v.password) e.confirm = "confirmMismatch";
+  if ((mode === "register" || mode === "reset") && v.confirm !== v.password) {
+    e.confirm = "confirmMismatch";
+  }
   return e;
 }
 

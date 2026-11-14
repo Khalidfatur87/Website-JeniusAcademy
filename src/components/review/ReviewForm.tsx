@@ -7,7 +7,7 @@ import { FormField, fieldProps } from "@/components/ui/FormField";
 import { Icon } from "@/components/ui/Icon";
 import { levels, tr, type LevelId } from "@/config/courses";
 import type { Review } from "@/config/reviews";
-import { locales } from "@/config/site";
+import type { ReviewInput } from "@/lib/user-reviews";
 
 const MIN_OPINION = 10;
 
@@ -19,7 +19,8 @@ export function ReviewForm({
 }: {
   /** Nama akun yang login (baru tersedia setelah hydration). */
   defaultName: string;
-  onSubmit: (review: Review) => void;
+  /** Mengembalikan true jika ulasan berhasil dikirim. */
+  onSubmit: (review: ReviewInput) => Promise<boolean>;
 }) {
   const t = useTranslations("reviews");
   const locale = useLocale();
@@ -32,8 +33,10 @@ export function ReviewForm({
   const [opinion, setOpinion] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     const next: Errors = {};
     if (!name.trim()) next.name = t("errorName");
@@ -41,17 +44,18 @@ export function ReviewForm({
     if (opinion.trim().length < MIN_OPINION) next.opinion = t("errorOpinion");
     setErrors(next);
     setSent(false);
-    if (Object.keys(next).length) return;
+    setFailed(false);
+    if (busy || Object.keys(next).length) return;
 
-    onSubmit({
-      id: `u-${Date.now()}`,
+    setBusy(true);
+    const ok = await onSubmit({
       name: name.trim(),
       levelId,
       rating: rating as Review["rating"],
-      date: new Date().toISOString().slice(0, 10),
-      // Ulasan pengguna ditulis dalam satu bahasa; dipakai untuk semua bahasa.
-      text: Object.fromEntries(locales.map((l) => [l, opinion.trim()])) as Review["text"],
+      body: opinion.trim(),
     });
+    setBusy(false);
+    if (!ok) return setFailed(true);
     setOpinion("");
     setRating(0);
     setSent(true);
@@ -119,14 +123,19 @@ export function ReviewForm({
         />
       </FormField>
 
-      <button type="submit" className="btn btn-primary w-full">
+      <button type="submit" disabled={busy} className="btn btn-primary w-full">
         {t("submit")}
       </button>
 
       <p role="status" className="text-sm text-success">
         {sent ? t("thanks") : ""}
       </p>
-      <p className="text-xs text-muted">{t("localNote")}</p>
+      {failed && (
+        <p role="alert" className="text-sm text-danger">
+          {t("errorSubmit")}
+        </p>
+      )}
+      <p className="text-xs text-muted">{t("moderationNote")}</p>
     </form>
   );
 }

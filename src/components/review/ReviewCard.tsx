@@ -22,9 +22,12 @@ export function Stars({ value, label }: { value: number; label: string }) {
 export function ReviewCard({
   review,
   highlight,
+  pending,
 }: {
   review: Review;
   highlight?: boolean;
+  /** Ulasan milik sendiri yang belum disetujui. */
+  pending?: boolean;
 }) {
   const locale = useLocale();
   const t = useTranslations("reviews");
@@ -46,7 +49,9 @@ export function ReviewCard({
           label={t("ratingStars", { count: review.rating })}
         />
         {highlight && (
-          <span className="eyebrow !py-0.5 text-xs">{t("yours")}</span>
+          <span className="eyebrow !py-0.5 text-xs">
+            {pending ? t("pending") : t("yours")}
+          </span>
         )}
       </div>
 

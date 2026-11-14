@@ -29,10 +29,23 @@ Butuh Node.js ≥ 20.9.
 - **Bahasa baru:** tambah kode di `locales`/`localeLabels` pada `site.ts`, buat `messages/<kode>.json` (salin `en.json`), dan tambahkan teks `<kode>` pada data di `courses.ts`/`reviews.ts`.
 - Isi bertanda **PLACEHOLDER** (kontak, pengajar, ulasan, statistik, video, harga) adalah contoh dan harus diganti sebelum rilis.
 
-## Status fitur
+## Backend (Supabase)
 
-- Login/registrasi, progres belajar, dan ulasan masih **mode pratinjau**: data hanya di `localStorage` browser, tidak ada server dan tidak ada kata sandi yang disimpan. Pengganti ada di `src/lib/auth.ts`, `progress.ts`, `user-reviews.ts`.
-- Pembayaran belum tersedia.
+Akun, progres belajar, dan ulasan memakai **Supabase** (paket Free cukup).
+
+1. Buat project di supabase.com, lalu salin Project URL dan Publishable key ke `.env` / `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+   ```
+2. Jalankan [`supabase/schema.sql`](supabase/schema.sql) di Dashboard → SQL Editor (tabel + RLS + trigger profil).
+3. Authentication → URL Configuration: isi **Site URL** dan tambahkan `http://localhost:3000/**` (serta URL produksi) ke **Redirect URLs**.
+4. (Opsional) Login Google: aktifkan provider Google di Authentication → Providers, lalu set `features.googleLogin: true` di `src/config/site.ts` (tombolnya disembunyikan secara default).
+
+Perilaku: tamu menyimpan progres di `localStorage`; setelah login progres masuk ke akun (progres lokal digabung sekali). Ulasan baru berstatus **menunggu persetujuan** — setujui dengan `update public.reviews set approved = true where id = ...`.
+Kode: `src/lib/auth.ts`, `progress.ts`, `user-reviews.ts`, `src/lib/supabase/`, `src/proxy.ts` (bahasa + refresh sesi), `src/app/[locale]/auth/callback`.
+
+Pembayaran belum tersedia.
 
 ## Struktur
 

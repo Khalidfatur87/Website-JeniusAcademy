@@ -73,6 +73,8 @@ export const siteConfig = {
     threeD: true, // scene 3D di beranda & kartu miring
     darkMode: true,
     reviewForm: true,
+    /** Tombol "Lanjutkan dengan Google". Nyalakan HANYA setelah provider Google diaktifkan di Supabase. */
+    googleLogin: false,
   },
 } as const;
 

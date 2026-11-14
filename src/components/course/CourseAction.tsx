@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import type { Course } from "@/config/courses";
+import type { Course } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { routes } from "@/lib/routes";
 import { useProgress } from "@/lib/progress";

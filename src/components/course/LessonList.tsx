@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useLocale, useTranslations } from "next-intl";
-import { tr, type Course } from "@/config/courses";
+import { tr, type Course } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { routes } from "@/lib/routes";
 import { useProgress } from "@/lib/progress";

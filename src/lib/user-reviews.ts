@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { LevelId } from "@/config/courses";
 import type { Review } from "@/config/reviews";
 import { locales } from "@/config/site";
 import { useAuth } from "./auth";
@@ -11,12 +10,14 @@ import { createClient, isSupabaseConfigured } from "./supabase/client";
  * ULASAN dari tabel `reviews` (Supabase).
  * RLS mengembalikan ulasan yang sudah disetujui (semua orang) ditambah
  * ulasan milik pengguna yang login (termasuk yang masih menunggu).
+ * Super admin bisa membaca semua ulasan; ulasan orang lain yang belum
+ * disetujui tetap disaring di sini supaya tidak tampil di halaman publik.
  */
 export type DbReview = Review & { mine: boolean; pending: boolean };
 
 export type ReviewInput = {
   name: string;
-  levelId: LevelId;
+  levelId: string;
   rating: Review["rating"];
   body: string;
 };
@@ -25,7 +26,7 @@ type Row = {
   id: string;
   user_id: string | null;
   name: string;
-  level_id: LevelId;
+  level_id: string;
   rating: Review["rating"];
   body: string;
   approved: boolean;
@@ -63,7 +64,13 @@ export function useUserReviews() {
       .then(({ data, error }) => {
         if (cancelled) return;
         // Tabel belum ada / gagal: tampilkan ulasan awal saja.
-        setReviews(error || !data ? [] : (data as Row[]).map((r) => toReview(r, userId)));
+        setReviews(
+          error || !data
+            ? []
+            : (data as Row[])
+                .filter((r) => r.approved || (userId !== null && r.user_id === userId))
+                .map((r) => toReview(r, userId)),
+        );
       });
     return () => {
       cancelled = true;

@@ -3,24 +3,27 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { QuizRunner } from "@/components/quiz/QuizRunner";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { courses, getCourse, tr } from "@/config/courses";
-import { getQuiz } from "@/config/quizzes";
+import { tr } from "@/lib/content";
+import { getCourse, getCourses, getQuiz } from "@/lib/content-server";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { routes } from "@/lib/routes";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const courses = await getCourses();
   return routing.locales.flatMap((locale) =>
-    courses.filter((c) => getQuiz(c.slug)).map((c) => ({ locale, slug: c.slug })),
+    courses.filter((c) => c.quizCount > 0).map((c) => ({ locale, slug: c.slug })),
   );
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const course = getCourse(slug);
-  if (!course || !getQuiz(slug)) return {};
+  const course = await getCourse(slug);
+  if (!course || course.quizCount === 0) return {};
   const t = await getTranslations({ locale, namespace: "quiz" });
   return { title: t("title", { course: tr(course.title, locale) }) };
 }
@@ -28,9 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function QuizPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const course = getCourse(slug);
-  const questions = getQuiz(slug);
-  if (!course || !questions) notFound();
+  const course = await getCourse(slug);
+  const questions = course ? await getQuiz(slug) : [];
+  if (!course || questions.length === 0) notFound();
 
   const t = await getTranslations("quiz");
 

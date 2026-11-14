@@ -1,6 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
-import { getLevel, tr, type Course } from "@/config/courses";
+import { tr, type Course } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { levelGradient } from "@/lib/course-utils";
 import { routes } from "@/lib/routes";
@@ -10,7 +10,7 @@ import { CourseMeta } from "@/components/course/CourseMeta";
 export function CourseHero({ course }: { course: Course }) {
   const locale = useLocale();
   const t = useTranslations("course");
-  const level = getLevel(course.levelId);
+  const level = course.level;
 
   return (
     <header className="text-white" style={{ background: levelGradient(level.color) }}>

@@ -7,8 +7,8 @@ import { CourseHero } from "@/components/course/CourseHero";
 import { CourseProgress } from "@/components/course/CourseProgress";
 import { LessonList } from "@/components/course/LessonList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { courses, getCourse, tr } from "@/config/courses";
-import { getQuiz } from "@/config/quizzes";
+import { tr } from "@/lib/content";
+import { getCourse, getCourses } from "@/lib/content-server";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import { routes } from "@/lib/routes";
@@ -16,7 +16,10 @@ import { absoluteUrl, pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const courses = await getCourses();
   return routing.locales.flatMap((locale) =>
     courses.map((c) => ({ locale, slug: c.slug })),
   );
@@ -24,7 +27,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const course = getCourse(slug);
+  const course = await getCourse(slug);
   if (!course) return {};
   return {
     title: tr(course.title, locale),
@@ -36,11 +39,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CoursePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const course = getCourse(slug);
+  const course = await getCourse(slug);
   if (!course) notFound();
 
   const t = await getTranslations();
-  const quiz = getQuiz(course.slug);
 
   return (
     <>
@@ -74,8 +76,9 @@ export default async function CoursePage({ params }: Props) {
             <h2 className="text-lg">{t("course.progress")}</h2>
             <CourseProgress course={course} />
             <CourseAction course={course} />
-            {quiz && <CourseQuizLink slug={course.slug} count={quiz.length} />}
-            <p className="text-xs text-muted">{t("common.placeholderNote")}</p>
+            {course.quizCount > 0 && (
+              <CourseQuizLink slug={course.slug} count={course.quizCount} />
+            )}
           </div>
         </aside>
       </div>

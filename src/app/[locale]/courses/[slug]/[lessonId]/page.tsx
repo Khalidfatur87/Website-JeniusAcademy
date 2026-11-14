@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CourseProgress } from "@/components/course/CourseProgress";
-import { Icon } from "@/components/ui/Icon";
 import { LessonControls } from "@/components/course/LessonControls";
 import { LessonList } from "@/components/course/LessonList";
-import { courses, getCourse, tr } from "@/config/courses";
+import { tr } from "@/lib/content";
+import { getCourse, getCourses } from "@/lib/content-server";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { routes } from "@/lib/routes";
@@ -14,7 +14,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string; lessonId: string }>;
 };
 
-export function generateStaticParams() {
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const courses = await getCourses();
   return routing.locales.flatMap((locale) =>
     courses.flatMap((c) =>
       c.lessons.map((l) => ({ locale, slug: c.slug, lessonId: l.id })),
@@ -24,14 +27,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug, lessonId } = await params;
-  const lesson = getCourse(slug)?.lessons.find((l) => l.id === lessonId);
+  const lesson = (await getCourse(slug))?.lessons.find((l) => l.id === lessonId);
   return lesson ? { title: tr(lesson.title, locale) } : {};
 }
 
 export default async function LessonPage({ params }: Props) {
   const { locale, slug, lessonId } = await params;
   setRequestLocale(locale);
-  const course = getCourse(slug);
+  const course = await getCourse(slug);
   const index = course?.lessons.findIndex((l) => l.id === lessonId) ?? -1;
   if (!course || index < 0) notFound();
 
@@ -90,11 +93,6 @@ export default async function LessonPage({ params }: Props) {
               nextId={course.lessons[index + 1]?.id}
             />
           </div>
-
-          <p className="mt-6 flex items-start gap-2 text-xs text-muted">
-            <Icon name="sparkles" size={14} className="mt-0.5 shrink-0" />
-            {t("common.placeholderNote")}
-          </p>
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">

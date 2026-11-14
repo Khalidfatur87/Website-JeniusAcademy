@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import type { Course } from "@/config/courses";
+import type { Course } from "@/lib/content";
 import { courseColor, lessonIds } from "@/lib/course-utils";
 import { useProgress } from "@/lib/progress";
 

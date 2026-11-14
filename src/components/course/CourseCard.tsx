@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { getLevel, tr, type Course } from "@/config/courses";
+import { tr, type Course } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { levelGradient } from "@/lib/course-utils";
@@ -12,7 +12,7 @@ import { CourseProgress } from "@/components/course/CourseProgress";
 export function CourseCard({ course }: { course: Course }) {
   const locale = useLocale();
   const t = useTranslations("courses");
-  const level = getLevel(course.levelId);
+  const level = course.level;
 
   return (
     <TiltCard enabled={siteConfig.features.threeD} className="rounded-[var(--radius)]">

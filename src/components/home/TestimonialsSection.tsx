@@ -3,12 +3,13 @@ import { ReviewCard } from "@/components/review/ReviewCard";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { seedReviews } from "@/config/reviews";
+import type { Level } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { routes } from "@/lib/routes";
 
 const FEATURED_COUNT = 3;
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ levels }: { levels: Level[] }) {
   const t = useTranslations("testimonials");
 
   return (
@@ -23,7 +24,7 @@ export function TestimonialsSection() {
         <ul className="mt-10 grid gap-6 md:grid-cols-3">
           {seedReviews.slice(0, FEATURED_COUNT).map((r) => (
             <li key={r.id}>
-              <ReviewCard review={r} />
+              <ReviewCard review={r} level={levels.find((l) => l.id === r.levelId)} />
             </li>
           ))}
         </ul>

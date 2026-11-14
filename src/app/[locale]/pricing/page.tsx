@@ -4,7 +4,9 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { routes } from "@/lib/routes";
 import { pageAlternates } from "@/lib/seo";
 import { PricingCard } from "@/components/pricing/PricingCard";
-import { levels } from "@/config/courses";
+import { getLevels } from "@/lib/content-server";
+
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -28,6 +30,7 @@ export default async function PricingPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("pricing");
+  const levels = await getLevels();
 
   return (
     <>

@@ -3,15 +3,16 @@
  * ------------------------------------------------------------------
  * PLACEHOLDER — nama dan isi ulasan di bawah fiktif. Ganti dengan
  * testimoni asli (dengan izin penulisnya) sebelum rilis.
- * Ulasan yang dikirim lewat formulir hanya tersimpan di browser
- * pengunjung sampai backend tersedia.
+ * Ulasan yang dikirim lewat formulir tersimpan di tabel `reviews`
+ * dan tampil setelah disetujui super admin (CMS → Ulasan).
  */
-import type { L10n, LevelId } from "./courses";
+import type { L10n } from "@/lib/content";
 
 export type Review = {
   id: string;
   name: string;
-  levelId: LevelId;
+  /** Id jenjang (tabel levels). */
+  levelId: string;
   rating: 1 | 2 | 3 | 4 | 5;
   date: string; // ISO
   text: L10n;

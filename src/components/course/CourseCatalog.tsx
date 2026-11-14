@@ -5,16 +5,16 @@ import { useSearchParams } from "next/navigation";
 import { useId, useMemo, useState } from "react";
 import { FilterPills } from "@/components/ui/FilterPills";
 import { Icon } from "@/components/ui/Icon";
-import { courses, levels, tr, type LevelId } from "@/config/courses";
+import { tr, type Course, type Level } from "@/lib/content";
 import { levelFilterOptions } from "@/lib/course-utils";
 import { CourseCard } from "@/components/course/CourseCard";
 
-export function CourseCatalog() {
+export function CourseCatalog({ courses, levels }: { courses: Course[]; levels: Level[] }) {
   const t = useTranslations("courses");
   const locale = useLocale();
   const param = useSearchParams().get("level");
   const initialLevel = levels.find((l) => l.id === param)?.id;
-  const [level, setLevel] = useState<LevelId | "all">(initialLevel ?? "all");
+  const [level, setLevel] = useState<string>(initialLevel ?? "all");
   const [query, setQuery] = useState("");
   const searchId = useId();
 
@@ -27,14 +27,14 @@ export function CourseCatalog() {
         s.toLowerCase().includes(q),
       );
     });
-  }, [level, query, locale]);
+  }, [courses, level, query, locale]);
 
   return (
     <div>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <FilterPills
           label={t("filterLabel")}
-          options={levelFilterOptions(locale, t("all"))}
+          options={levelFilterOptions(levels, locale, t("all"))}
           value={level}
           onChange={setLevel}
         />

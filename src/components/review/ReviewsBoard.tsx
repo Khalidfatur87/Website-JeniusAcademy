@@ -3,22 +3,22 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { FilterPills } from "@/components/ui/FilterPills";
-import type { LevelId } from "@/config/courses";
 import { seedReviews, type Review } from "@/config/reviews";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
+import type { Level } from "@/lib/content";
 import { levelFilterOptions } from "@/lib/course-utils";
 import { routes } from "@/lib/routes";
 import { useUserReviews } from "@/lib/user-reviews";
 import { ReviewCard } from "@/components/review/ReviewCard";
 import { ReviewForm } from "@/components/review/ReviewForm";
 
-export function ReviewsBoard({ formEnabled }: { formEnabled: boolean }) {
+export function ReviewsBoard({ formEnabled, levels }: { formEnabled: boolean; levels: Level[] }) {
   const t = useTranslations("reviews");
   const locale = useLocale();
   const { user } = useAuth();
   const { reviews: fromDb, add } = useUserReviews();
-  const [filter, setFilter] = useState<LevelId | "all">("all");
+  const [filter, setFilter] = useState<string>("all");
 
   const visible: (Review & { mine?: boolean; pending?: boolean })[] = [
     ...fromDb,
@@ -30,7 +30,7 @@ export function ReviewsBoard({ formEnabled }: { formEnabled: boolean }) {
       <div>
         <FilterPills
           label={t("level")}
-          options={levelFilterOptions(locale, t("filterAll"))}
+          options={levelFilterOptions(levels, locale, t("filterAll"))}
           value={filter}
           onChange={setFilter}
         />
@@ -38,7 +38,12 @@ export function ReviewsBoard({ formEnabled }: { formEnabled: boolean }) {
         <ul className="mt-6 grid gap-6 md:grid-cols-2">
           {visible.map((r) => (
             <li key={r.id}>
-              <ReviewCard review={r} highlight={r.mine} pending={r.pending} />
+              <ReviewCard
+                review={r}
+                level={levels.find((l) => l.id === r.levelId)}
+                highlight={r.mine}
+                pending={r.pending}
+              />
             </li>
           ))}
         </ul>
@@ -47,7 +52,7 @@ export function ReviewsBoard({ formEnabled }: { formEnabled: boolean }) {
       {formEnabled && (
         <aside className="lg:sticky lg:top-24 lg:self-start">
           {user ? (
-            <ReviewForm defaultName={user.name} onSubmit={add} />
+            <ReviewForm defaultName={user.name} levels={levels} onSubmit={add} />
           ) : (
             <div className="card space-y-4 p-6">
               <h2 className="text-xl">{t("formTitle")}</h2>

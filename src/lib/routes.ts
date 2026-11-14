@@ -1,5 +1,3 @@
-import type { LevelId } from "@/config/courses";
-
 /** Satu-satunya tempat path internal dirakit. Dipakai bersama `Link` dari @/i18n/navigation. */
 export const routes = {
   home: "/",
@@ -12,8 +10,17 @@ export const routes = {
   resetPassword: "/reset-password",
   dashboard: "/dashboard",
   contact: "/#contact",
-  coursesByLevel: (id: LevelId) => `/courses?level=${id}`,
+  coursesByLevel: (id: string) => `/courses?level=${id}`,
   course: (slug: string) => `/courses/${slug}`,
   quiz: (slug: string) => `/courses/${slug}/quiz`,
   lesson: (slug: string, lessonId: string) => `/courses/${slug}/${lessonId}`,
+  // CMS
+  admin: "/admin",
+  adminCourses: "/admin/courses",
+  adminNewCourse: "/admin/courses/new",
+  adminCourse: (slug: string) => `/admin/courses/${slug}`,
+  adminStudents: (slug: string) => `/admin/courses/${slug}/students`,
+  adminLevels: "/admin/levels",
+  adminUsers: "/admin/users",
+  adminReviews: "/admin/reviews",
 } as const;

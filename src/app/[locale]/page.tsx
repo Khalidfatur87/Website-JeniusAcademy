@@ -10,8 +10,11 @@ import { LevelsSection } from "@/components/home/LevelsSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
+import { getLevels } from "@/lib/content-server";
 import { routes } from "@/lib/routes";
 import { pageAlternates } from "@/lib/seo";
+
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -31,6 +34,7 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   const socials = Object.values(siteConfig.socials).filter(Boolean);
+  const levels = await getLevels();
 
   return (
     <>
@@ -48,9 +52,9 @@ export default async function HomePage({
       />
       <HeroSection />
       <BenefitsSection />
-      <LevelsSection />
+      <LevelsSection levels={levels} />
       <HowItWorksSection />
-      <TestimonialsSection />
+      <TestimonialsSection levels={levels} />
       <FaqSection />
       <CtaSection />
       <ContactSection />

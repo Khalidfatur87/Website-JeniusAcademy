@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Course } from "@/config/courses";
+import type { Course, Level } from "@/lib/content";
 import { summarize } from "./dashboard";
 import type { Attempt } from "./quiz";
 
@@ -10,9 +10,20 @@ const lesson = (id: string) => ({
   youtubeId: "x",
 });
 
+const level: Level = {
+  id: "sd",
+  name: { id: "SD", en: "Elementary" },
+  tagline: { id: "", en: "" },
+  price: 0,
+  subjects: [],
+  color: "#22C55E",
+};
+
 const course = (slug: string, ids: string[]): Course => ({
   slug,
   levelId: "sd",
+  level,
+  quizCount: 0,
   title: { id: slug, en: slug },
   summary: { id: "", en: "" },
   teacher: "T",

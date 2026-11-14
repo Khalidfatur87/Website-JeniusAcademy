@@ -1,4 +1,4 @@
-import type { QuizQuestion } from "@/config/quizzes";
+import type { QuizQuestion } from "@/lib/content";
 
 /** Satu percobaan kuis. `at` berformat ISO. */
 export type Attempt = {

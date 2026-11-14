@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useId, useState, type FormEvent } from "react";
 import { FormField, fieldProps } from "@/components/ui/FormField";
 import { Icon } from "@/components/ui/Icon";
-import { levels, tr, type LevelId } from "@/config/courses";
+import { tr, type Level } from "@/lib/content";
 import type { Review } from "@/config/reviews";
 import type { ReviewInput } from "@/lib/user-reviews";
 
@@ -15,8 +15,10 @@ type Errors = Partial<Record<"name" | "rating" | "opinion", string>>;
 
 export function ReviewForm({
   defaultName,
+  levels,
   onSubmit,
 }: {
+  levels: Level[];
   /** Nama akun yang login (baru tersedia setelah hydration). */
   defaultName: string;
   /** Mengembalikan true jika ulasan berhasil dikirim. */
@@ -28,7 +30,9 @@ export function ReviewForm({
   // null = belum diedit → pakai nama akun.
   const [typedName, setName] = useState<string | null>(null);
   const name = typedName ?? defaultName;
-  const [levelId, setLevelId] = useState<LevelId>("sma");
+  const [levelId, setLevelId] = useState(
+    () => (levels.find((l) => l.id === "sma") ?? levels[0])?.id ?? "",
+  );
   const [rating, setRating] = useState(0);
   const [opinion, setOpinion] = useState("");
   const [errors, setErrors] = useState<Errors>({});
@@ -80,7 +84,7 @@ export function ReviewForm({
           id={`${id}-level`}
           className="field"
           value={levelId}
-          onChange={(e) => setLevelId(e.target.value as LevelId)}
+          onChange={(e) => setLevelId(e.target.value)}
         >
           {levels.map((l) => (
             <option key={l.id} value={l.id}>

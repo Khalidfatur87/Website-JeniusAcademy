@@ -1,5 +1,5 @@
 import { useLocale, useTranslations } from "next-intl";
-import { getLevel, tr } from "@/config/courses";
+import { tr, type Level } from "@/lib/content";
 import type { Review } from "@/config/reviews";
 import { formatDate } from "@/lib/format";
 import { Icon } from "@/components/ui/Icon";
@@ -21,17 +21,19 @@ export function Stars({ value, label }: { value: number; label: string }) {
 
 export function ReviewCard({
   review,
+  level,
   highlight,
   pending,
 }: {
   review: Review;
+  /** Jenjang ulasan (warna avatar + nama). */
+  level?: Level;
   highlight?: boolean;
   /** Ulasan milik sendiri yang belum disetujui. */
   pending?: boolean;
 }) {
   const locale = useLocale();
   const t = useTranslations("reviews");
-  const level = getLevel(review.levelId);
   const initials = review.name
     .split(/\s+/)
     .map((w) => w[0])
@@ -63,14 +65,15 @@ export function ReviewCard({
         <span
           aria-hidden="true"
           className="grid size-10 shrink-0 place-items-center rounded-full text-sm font-bold text-white"
-          style={{ background: level.color }}
+          style={{ background: level?.color ?? "var(--brand)" }}
         >
           {initials}
         </span>
         <span className="min-w-0 text-sm">
           <span className="block truncate font-semibold">{review.name}</span>
           <span className="block truncate text-muted">
-            {tr(level.name, locale)} · {formatDate(review.date, locale)}
+            {level && `${tr(level.name, locale)} · `}
+            {formatDate(review.date, locale)}
           </span>
         </span>
       </figcaption>

@@ -1,4 +1,4 @@
-import type { Course, Lesson } from "@/config/courses";
+import type { Course, Lesson } from "@/lib/content";
 import { attemptPercent, bestAttempt, type Attempt } from "./quiz";
 
 export type CourseStat = {

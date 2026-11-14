@@ -24,7 +24,8 @@
     "hello": "Hi, {name}",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "main": "Main navigation"
+    "main": "Main navigation",
+    "dashboard": "Dashboard"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -161,7 +162,11 @@
     "done": "Completed",
     "backToCourses": "Back to catalog",
     "lessonNumber": "Lesson {number}",
-    "priceNote": "Included in the {level} plan"
+    "priceNote": "Included in the {level} plan",
+    "quiz": "Take the quiz",
+    "quizRetake": "Retake the quiz",
+    "quizBest": "Best score: {score}/{total}",
+    "quizCount": "{count} practice questions"
   },
   "lesson": {
     "markDone": "Mark as done",
@@ -272,5 +277,47 @@
     "title": "Page not found",
     "text": "The page you're looking for doesn't exist or has moved.",
     "home": "Back to home"
+  },
+  "quiz": {
+    "title": "Quiz: {course}",
+    "subtitle": "Pick one answer for each question, then check your results.",
+    "question": "Question {number}",
+    "progress": "{answered} of {total} questions answered",
+    "submit": "Check answers",
+    "correct": "Correct",
+    "wrong": "Incorrect",
+    "explanation": "Explanation",
+    "yourScore": "Your score",
+    "scoreLine": "{score} of {total} correct",
+    "great": "Perfect! You have mastered this material.",
+    "good": "Nice! Just a little more to go.",
+    "needsReview": "Review the material and try again.",
+    "retry": "Retake quiz",
+    "backToCourse": "Back to course",
+    "saveFailed": "Your score was not saved to your account. Please try again later."
+  },
+  "dashboard": {
+    "title": "Learning dashboard",
+    "subtitle": "Track your learning progress and quiz scores.",
+    "hello": "Hi, {name}! Keep learning.",
+    "guestBanner": "Log in so your progress and quiz scores are saved to your account and available on any device.",
+    "login": "Log in",
+    "register": "Sign up",
+    "statLessons": "Lessons completed",
+    "of": "of",
+    "statStarted": "Courses started",
+    "statCompleted": "Courses completed",
+    "statAvgQuiz": "Average quiz score",
+    "noQuiz": "No quizzes yet",
+    "myCourses": "My courses",
+    "continue": "Continue",
+    "complete": "Review",
+    "lessonsDone": "{done} of {total} lessons",
+    "bestScore": "Best score",
+    "emptyTitle": "No courses started yet",
+    "emptyText": "Pick your first course and start learning.",
+    "browse": "Browse courses",
+    "recentQuiz": "Quiz history",
+    "noAttempts": "You have not taken any quizzes yet."
   }
 }

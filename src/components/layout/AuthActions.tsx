@@ -15,6 +15,10 @@ export function AuthActions({ variant }: { variant: "desktop" | "mobile" }) {
   if (user) {
     return variant === "desktop" ? (
       <>
+        <Link href={routes.dashboard} className="btn btn-ghost">
+          <Icon name="user" size={16} />
+          {t("dashboard")}
+        </Link>
         <span className="px-2 text-sm font-medium text-muted">
           {t("hello", { name: firstName ?? "" })}
         </span>
@@ -24,10 +28,16 @@ export function AuthActions({ variant }: { variant: "desktop" | "mobile" }) {
         </button>
       </>
     ) : (
-      <button type="button" onClick={signOut} className="btn btn-ghost">
-        <Icon name="logout" size={16} />
-        {t("logout")} · {firstName}
-      </button>
+      <>
+        <Link href={routes.dashboard} className="btn btn-primary">
+          <Icon name="user" size={16} />
+          {t("dashboard")}
+        </Link>
+        <button type="button" onClick={signOut} className="btn btn-ghost">
+          <Icon name="logout" size={16} />
+          {t("logout")} · {firstName}
+        </button>
+      </>
     );
   }
 

@@ -10,8 +10,10 @@ export const routes = {
   register: "/register",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  dashboard: "/dashboard",
   contact: "/#contact",
   coursesByLevel: (id: LevelId) => `/courses?level=${id}`,
   course: (slug: string) => `/courses/${slug}`,
+  quiz: (slug: string) => `/courses/${slug}/quiz`,
   lesson: (slug: string, lessonId: string) => `/courses/${slug}/${lessonId}`,
 } as const;

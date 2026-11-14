@@ -38,7 +38,7 @@ export function PasswordField({
       type="button"
       onClick={onToggleShow}
       aria-pressed={show}
-      className="inline-flex items-center gap-1 text-xs font-medium text-muted hover:text-ink"
+      className="-my-2 inline-flex items-center gap-1 py-2 text-xs font-medium text-muted hover:text-ink"
     >
       <Icon name={show ? "eyeOff" : "eye"} size={14} />
       {show ? t("hide") : t("show")}

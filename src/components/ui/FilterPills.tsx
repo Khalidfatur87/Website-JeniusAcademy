@@ -16,7 +16,12 @@ export function FilterPills<T extends string>({
   label: string;
 }) {
   return (
-    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+    // Mobile: satu baris yang bisa digeser (selebar layar); layar lebar: membungkus.
+    <div
+      role="group"
+      aria-label={label}
+      className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+    >
       {options.map((opt) => (
         <button
           key={opt.id}
@@ -24,7 +29,7 @@ export function FilterPills<T extends string>({
           aria-pressed={value === opt.id}
           onClick={() => onChange(opt.id)}
           className={clsx(
-            "rounded-full border px-4 py-2 text-sm font-semibold transition",
+            "shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
             value === opt.id
               ? "border-brand-strong bg-brand-strong text-on-brand"
               : "border-line bg-surface text-muted hover:border-brand hover:text-ink",

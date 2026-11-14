@@ -15,7 +15,7 @@ export function HeroSection() {
       <div className="aurora" />
       <div className="grid-dots absolute inset-0 -z-10" aria-hidden="true" />
 
-      <div className="container-page grid items-center gap-8 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
+      <div className="container-page grid grid-cols-1 items-center gap-8 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
         <div>
           <p className="eyebrow rise">
             <Icon name="sparkles" size={14} />

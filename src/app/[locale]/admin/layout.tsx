@@ -44,7 +44,7 @@ export default async function AdminLayout({ children, params }: Props) {
         title={t("title")}
         subtitle={t("signedInAs", { name: viewer.name, role: t(`roles.${viewer.role}`) })}
       />
-      <div className="container-page section grid gap-8 lg:grid-cols-[13rem_1fr]">
+      <div className="container-page section grid grid-cols-1 gap-8 lg:grid-cols-[13rem_1fr]">
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <AdminNav role={viewer.role} />
         </aside>

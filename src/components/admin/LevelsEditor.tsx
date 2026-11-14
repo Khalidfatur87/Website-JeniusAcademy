@@ -68,7 +68,7 @@ function LevelCard({ initial, isNew, onDone }: { initial: Draft; isNew: boolean;
 
   return (
     <div className="card space-y-5 p-6" style={{ borderTop: `4px solid ${d.color}` }}>
-      <div className="grid gap-5 sm:grid-cols-[1fr_8rem_8rem]">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_8rem_8rem]">
         <Field label={t("levels.id")} htmlFor={`${id}-id`} hint={isNew ? t("levels.idHint") : t("levels.idLocked")}>
           <input
             id={`${id}-id`}
@@ -101,7 +101,7 @@ function LevelCard({ initial, isNew, onDone }: { initial: Draft; isNew: boolean;
       <L10nInput label={t("levels.name")} value={d.name} onChange={(name) => set({ name })} required />
       <L10nInput label={t("levels.tagline")} value={d.tagline} onChange={(tagline) => set({ tagline })} />
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("levels.price")} htmlFor={`${id}-price`} hint={t("levels.priceHint")}>
           <input
             id={`${id}-price`}

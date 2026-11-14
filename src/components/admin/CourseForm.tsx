@@ -91,7 +91,7 @@ export function CourseForm({
         />
       </Field>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("course.level")} htmlFor={`${id}-level`}>
           <select
             id={`${id}-level`}
@@ -121,7 +121,7 @@ export function CourseForm({
 
       <L10nInput label={t("course.summary")} value={summary} onChange={setSummary} multiline />
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {teachers && (
           <Field label={t("course.owner")} htmlFor={`${id}-owner`} hint={t("course.ownerHint")}>
             <select

@@ -17,12 +17,12 @@ export function CourseHero({ course }: { course: Course }) {
       <div className="container-page py-12 sm:py-16">
         <Link
           href={routes.courses}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-white/85 hover:text-white"
+          className="-my-1 inline-flex items-center gap-1.5 py-1 text-sm font-medium text-white/85 hover:text-white"
         >
           <Icon name="chevronLeft" size={16} />
           {t("backToCourses")}
         </Link>
-        <p className="mt-6 inline-block rounded-full bg-black/25 px-3 py-1 text-xs font-semibold backdrop-blur">
+        <p className="mt-6 w-fit rounded-full bg-black/25 px-3 py-1 text-xs font-semibold backdrop-blur">
           {tr(level.name, locale)}
         </p>
         <h1 className="mt-3 text-[clamp(2rem,5vw,3.2rem)]">{tr(course.title, locale)}</h1>

@@ -40,7 +40,7 @@ Akun, progres belajar, dan ulasan memakai **Supabase** (paket Free cukup).
    NEXT_PUBLIC_SUPABASE_URL=...
    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
    ```
-2. Jalankan [`supabase/schema.sql`](supabase/schema.sql) di Dashboard → SQL Editor (tabel + RLS + trigger profil).
+2. Terapkan skema database: lihat **Migrasi database** di bawah (tabel + RLS + trigger profil ada di `supabase/migrations/`).
 3. Authentication → URL Configuration: isi **Site URL** dan tambahkan `http://localhost:3000/**` (serta URL produksi) ke **Redirect URLs**.
 4. (Opsional) Login Google: aktifkan provider Google di Authentication → Providers, lalu set `features.googleLogin: true` di `src/config/site.ts` (tombolnya disembunyikan secara default).
 
@@ -53,7 +53,34 @@ Pembayaran belum tersedia.
 
 - **Kuis** per kelas: bank soal di `src/config/quizzes.ts` (kunci = `slug` kelas; kelas tanpa entri tidak menampilkan tombol kuis). Soal dan kunci jawaban dikirim ke browser, jadi cocok untuk latihan, bukan ujian bernilai.
 - **Dasbor** di `/dashboard`: pelajaran selesai, kelas berjalan/tuntas, rata-rata skor kuis, riwayat kuis. Perhitungan ada di `src/lib/dashboard.ts` (fungsi murni, dites).
-- Riwayat kuis memakai tabel `quiz_attempts` (ada di `supabase/schema.sql` bagian 4 — jalankan ulang file itu setelah memperbarui). Tamu menyimpan di `localStorage`, lalu digabung ke akun saat login.
+- Riwayat kuis memakai tabel `quiz_attempts` (dibuat oleh migration `supabase/migrations/20261114000100_quiz_attempts.sql`). Tamu menyimpan di `localStorage`, lalu digabung ke akun saat login.
+
+## Migrasi database
+
+Skema database ada di `supabase/migrations/` (file SQL berversi, satu perubahan = satu file baru). **Jangan ubah tabel lewat dashboard** dan jangan mengedit migration yang sudah diterapkan — tulis migration baru:
+
+```bash
+npx supabase@3.1.0 migration new nama_perubahan   # membuat supabase/migrations/<waktu>_nama_perubahan.sql
+```
+
+**Menerapkan manual** (sekali, atau untuk lingkungan lain):
+
+```bash
+npx supabase@3.1.0 login
+npx supabase@3.1.0 link --project-ref <PROJECT_REF>     # minta password database
+npx supabase@3.1.0 db push --remote --dry-run            # lihat yang akan diterapkan
+npx supabase@3.1.0 db push --remote
+```
+
+**Otomatis lewat CI:** job `migrate` di `.github/workflows/ci.yml` menjalankan `db push` setiap push ke `main` setelah lint/typecheck/test/build lolos. Aktifkan dengan mengisi di GitHub → Settings → Secrets and variables → Actions:
+
+| Jenis | Nama | Isi |
+|---|---|---|
+| Variable | `SUPABASE_PROJECT_REF` | ID project (bagian `xxxx` dari `xxxx.supabase.co`) — **mengaktifkan job** |
+| Secret | `SUPABASE_ACCESS_TOKEN` | token dari supabase.com/dashboard/account/tokens |
+| Secret | `SUPABASE_DB_PASSWORD` | password database project |
+
+Catatan: migration berjalan terpisah dari deploy aplikasi, jadi tulis perubahan yang **kompatibel ke belakang** (tambah kolom/tabel dulu, hapus yang lama di rilis berikutnya). Migration yang sudah diterapkan tidak bisa di-undo otomatis; paket Free tidak punya backup otomatis, jadi ekspor data sebelum perubahan destruktif.
 
 ## SEO
 

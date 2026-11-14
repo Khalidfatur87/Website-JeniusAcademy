@@ -29,3 +29,34 @@ jobs:
       - run: npm test
       # Kunci Supabase tidak diperlukan: build berjalan tanpa env (mode tanpa backend).
       - run: npm run build
+
+  # Menerapkan migration database (supabase/migrations) ke Supabase produksi.
+  # Hanya berjalan di push ke main, setelah semua pemeriksaan di atas lolos, dan
+  # hanya jika variabel repo SUPABASE_PROJECT_REF sudah diisi (lihat README → Migrasi database).
+  # Jika tidak ada migration baru, `db push` tidak mengubah apa pun.
+  migrate:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.SUPABASE_PROJECT_REF != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    concurrency:
+      group: db-migrate
+      cancel-in-progress: false
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_CLI: supabase@3.1.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # `link` memakai pooler (IPv4) secara bawaan, cocok untuk runner GitHub.
+      - run: npx --yes "$SUPABASE_CLI" link --project-ref "${{ vars.SUPABASE_PROJECT_REF }}"
+      - name: Daftar migration yang akan diterapkan
+        run: npx --yes "$SUPABASE_CLI" db push --remote --dry-run
+      - name: Terapkan migration
+        run: npx --yes "$SUPABASE_CLI" db push --remote --yes

@@ -34,11 +34,6 @@ export async function generateMetadata({
     metadataBase: new URL(siteConfig.url),
     title: { default: t("title"), template: `%s · ${siteConfig.name}` },
     description: t("description"),
-    alternates: {
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `/${l}`]),
-      ),
-    },
     openGraph: {
       title: t("title"),
       description: t("description"),

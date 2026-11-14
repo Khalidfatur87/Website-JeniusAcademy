@@ -33,7 +33,7 @@ export const siteConfig = {
   logo: { src: null as string | null, width: 160, height: 40 },
 
   /** Domain produksi, dipakai untuk metadata/SEO. PLACEHOLDER. */
-  url: "https://example.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
 
   /** Warna brand. Diterapkan ke seluruh situs lewat CSS variable. */
   colors: {

@@ -11,6 +11,8 @@ npm install
 npm run dev      # http://localhost:3000  (otomatis redirect ke /id)
 npm run build && npm start
 npm run lint
+npm run typecheck
+npm test         # Vitest: validasi, data kelas, kesesuaian terjemahan ID/EN, redirect aman
 ```
 
 Butuh Node.js ≥ 20.9.
@@ -46,6 +48,16 @@ Perilaku: tamu menyimpan progres di `localStorage`; setelah login progres masuk 
 Kode: `src/lib/auth.ts`, `progress.ts`, `user-reviews.ts`, `src/lib/supabase/`, `src/proxy.ts` (bahasa + refresh sesi), `src/app/[locale]/auth/callback`.
 
 Pembayaran belum tersedia.
+
+## SEO
+
+- `sitemap.xml`, `robots.txt`, canonical + hreflang per halaman, JSON-LD (`EducationalOrganization`, `Course`), dan gambar OG dinamis (`/[locale]/opengraph-image`).
+- **Set domain produksi** lewat env `NEXT_PUBLIC_SITE_URL=https://domain-anda.com` (default `https://example.com`), kalau tidak, sitemap/canonical menunjuk ke domain contoh.
+- Halaman login/daftar/reset diberi `noindex`.
+
+## CI
+
+`.github/workflows/ci.yml` menjalankan lint, typecheck, test, dan build di setiap push/PR.
 
 ## Struktur
 

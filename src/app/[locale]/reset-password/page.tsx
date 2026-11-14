@@ -8,7 +8,7 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "forgot" });
-  return { title: t("resetTitle") };
+  return { title: t("resetTitle"), robots: { index: false } };
 }
 
 export default async function Page({ params }: Props) {

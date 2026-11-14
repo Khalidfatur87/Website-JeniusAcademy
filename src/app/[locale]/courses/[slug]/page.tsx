@@ -5,8 +5,12 @@ import { CourseAction } from "@/components/course/CourseAction";
 import { CourseHero } from "@/components/course/CourseHero";
 import { CourseProgress } from "@/components/course/CourseProgress";
 import { LessonList } from "@/components/course/LessonList";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { courses, getCourse, tr } from "@/config/courses";
+import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
+import { routes } from "@/lib/routes";
+import { absoluteUrl, pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -20,7 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const course = getCourse(slug);
   if (!course) return {};
-  return { title: tr(course.title, locale), description: tr(course.summary, locale) };
+  return {
+    title: tr(course.title, locale),
+    description: tr(course.summary, locale),
+    alternates: pageAlternates(locale, routes.course(slug)),
+  };
 }
 
 export default async function CoursePage({ params }: Props) {
@@ -33,6 +41,21 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          name: tr(course.title, locale),
+          description: tr(course.summary, locale),
+          url: absoluteUrl(locale, routes.course(course.slug)),
+          inLanguage: locale,
+          provider: {
+            "@type": "Organization",
+            name: siteConfig.name,
+            url: siteConfig.url,
+          },
+        }}
+      />
       <CourseHero course={course} />
 
       <div className="container-page section grid gap-10 lg:grid-cols-[1fr_20rem]">

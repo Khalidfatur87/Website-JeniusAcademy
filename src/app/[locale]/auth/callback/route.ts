@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { safeNext } from "@/lib/safe-redirect";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -13,12 +14,7 @@ export async function GET(
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
 
-  // Hanya path internal berawalan /<locale>/ — mencegah open redirect.
-  const requested = searchParams.get("next") ?? "";
-  const next =
-    requested.startsWith(`/${locale}/`) && !requested.includes("\\")
-      ? requested
-      : `/${locale}/courses`;
+  const next = safeNext(searchParams.get("next"), locale, `/${locale}/courses`);
 
   if (code) {
     const supabase = await createClient();

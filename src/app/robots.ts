@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Route teknis (callback login) tidak perlu dirayapi.
-      disallow: routing.locales.map((l) => `/${l}/auth/`),
+      // Route teknis (callback login) dan CMS tidak perlu dirayapi.
+      disallow: routing.locales.flatMap((l) => [`/${l}/auth/`, `/${l}/admin`]),
     },
     sitemap: `${siteConfig.url.replace(/\/$/, "")}/sitemap.xml`,
   };

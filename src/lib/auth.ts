@@ -2,6 +2,7 @@
 
 import type { AuthError, User as SupabaseUser } from "@supabase/supabase-js";
 import { useSyncExternalStore } from "react";
+import type { Role } from "./content";
 import { createClient, isSupabaseConfigured } from "./supabase/client";
 
 /**
@@ -9,7 +10,8 @@ import { createClient, isSupabaseConfigured } from "./supabase/client";
  * Satu store bersama untuk semua komponen: sesi dibaca sekali lewat
  * onAuthStateChange, lalu disebarkan ke setiap pemanggil useAuth().
  */
-export type User = { id: string; name: string; email: string };
+/** `role` dimuat dari tabel profiles setelah login (sementara "student"). */
+export type User = { id: string; name: string; email: string; role: Role };
 export type AuthState = { user: User | null; ready: boolean };
 
 /** Kunci pesan galat (diterjemahkan di `auth.errors.*`). */
@@ -40,7 +42,8 @@ function setState(next: AuthState) {
     state.ready === next.ready &&
     a?.id === b?.id &&
     a?.name === b?.name &&
-    a?.email === b?.email;
+    a?.email === b?.email &&
+    a?.role === b?.role;
   if (same) return;
   state = next;
   listeners.forEach((l) => l());
@@ -53,7 +56,21 @@ function toUser(u: SupabaseUser): User {
     id: u.id,
     email,
     name: meta.name || meta.full_name || email.split("@")[0] || "",
+    role: "student",
   };
+}
+
+/** Membaca role dari profiles lalu memperbarui store (hanya untuk menampilkan menu; akses tetap dijaga RLS). */
+async function loadRole(userId: string) {
+  const { data } = await getClient()
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .maybeSingle();
+  const role = (data?.role as Role | undefined) ?? "student";
+  if (state.user?.id === userId && state.user.role !== role) {
+    setState({ ...state, user: { ...state.user, role } });
+  }
 }
 
 let client: ReturnType<typeof createClient> | undefined;
@@ -68,7 +85,13 @@ function start() {
   }
   // Event pertama (INITIAL_SESSION) memberi sesi awal.
   getClient().auth.onAuthStateChange((_event, session) => {
-    setState({ user: session ? toUser(session.user) : null, ready: true });
+    if (!session) return setState({ user: null, ready: true });
+    const user = toUser(session.user);
+    // Pertahankan role yang sudah dimuat untuk pengguna yang sama.
+    if (state.user?.id === user.id) user.role = state.user.role;
+    setState({ user, ready: true });
+    // Di luar callback auth (menghindari deadlock supabase-js).
+    setTimeout(() => void loadRole(user.id).catch(() => {}), 0);
   });
 }
 

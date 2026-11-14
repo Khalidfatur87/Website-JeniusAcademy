@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { courses, getCourse, tr } from "@/config/courses";
+import { tr, type Course } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
 import { courseColor } from "@/lib/course-utils";
@@ -56,7 +56,7 @@ function CourseRow({ stat }: { stat: CourseStat }) {
   );
 }
 
-export function DashboardView() {
+export function DashboardView({ courses }: { courses: Course[] }) {
   const t = useTranslations("dashboard");
   const locale = useLocale();
   const { user } = useAuth();
@@ -128,7 +128,7 @@ export function DashboardView() {
         {recent.length ? (
           <ul className="card divide-y divide-line">
             {recent.map((a, i) => {
-              const course = getCourse(a.courseSlug);
+              const course = courses.find((c) => c.slug === a.courseSlug);
               return (
                 <li key={`${a.courseSlug}-${a.at}-${i}`} className="flex items-center gap-4 p-4">
                   <span className="min-w-0 flex-1">

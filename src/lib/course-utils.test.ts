@@ -1,28 +1,52 @@
 import { describe, expect, it } from "vitest";
-import { courses, getCourse, levels, tr } from "@/config/courses";
+import { tr, type Course, type Level } from "@/lib/content";
 import { courseColor, courseMinutes, levelFilterOptions, lessonIds } from "./course-utils";
 
-describe("course-utils", () => {
-  const course = courses[0];
+const level = (id: string, color: string): Level => ({
+  id,
+  name: { id: `Jenjang ${id}`, en: `Level ${id}` },
+  tagline: { id: "", en: "" },
+  price: 0,
+  subjects: [],
+  color,
+});
 
+const levels = [level("sd", "#22C55E"), level("smp", "#0085FF")];
+
+const course: Course = {
+  slug: "sd-pecahan",
+  levelId: "sd",
+  level: levels[0],
+  title: { id: "Pecahan", en: "Fractions" },
+  summary: { id: "", en: "" },
+  teacher: "T",
+  quizCount: 0,
+  lessons: [
+    { id: "l1", title: { id: "a", en: "a" }, minutes: 12, youtubeId: "x" },
+    { id: "l2", title: { id: "b", en: "b" }, minutes: 15, youtubeId: "x" },
+  ],
+};
+
+describe("course-utils", () => {
   it("courseMinutes menjumlahkan durasi pelajaran", () => {
-    expect(courseMinutes(course)).toBe(course.lessons.reduce((s, l) => s + l.minutes, 0));
-    expect(courseMinutes(course)).toBeGreaterThan(0);
+    expect(courseMinutes(course)).toBe(27);
   });
 
   it("lessonIds mengembalikan id sesuai urutan", () => {
-    expect(lessonIds(course)).toEqual(course.lessons.map((l) => l.id));
+    expect(lessonIds(course)).toEqual(["l1", "l2"]);
   });
 
   it("courseColor mengikuti warna jenjang", () => {
-    const level = levels.find((l) => l.id === course.levelId)!;
-    expect(courseColor(course)).toBe(level.color);
+    expect(courseColor(course)).toBe("#22C55E");
   });
 
   it("levelFilterOptions: 'Semua' di depan, lalu tiap jenjang", () => {
-    const opts = levelFilterOptions("id", "Semua");
-    expect(opts[0]).toEqual({ id: "all", label: "Semua" });
-    expect(opts.map((o) => o.id)).toEqual(["all", ...levels.map((l) => l.id)]);
+    const opts = levelFilterOptions(levels, "en", "All");
+    expect(opts[0]).toEqual({ id: "all", label: "All" });
+    expect(opts.slice(1)).toEqual([
+      { id: "sd", label: "Level sd" },
+      { id: "smp", label: "Level smp" },
+    ]);
   });
 });
 
@@ -35,42 +59,13 @@ describe("tr (pemilih bahasa)", () => {
   it("fallback ke bahasa Indonesia untuk bahasa tak dikenal", () => {
     expect(tr({ id: "Halo", en: "Hello" }, "fr")).toBe("Halo");
   });
-});
 
-describe("integritas data kelas", () => {
-  it("slug kelas unik dan getCourse menemukannya", () => {
-    const slugs = courses.map((c) => c.slug);
-    expect(new Set(slugs).size).toBe(slugs.length);
-    for (const c of courses) expect(getCourse(c.slug)).toBe(c);
+  it("terjemahan kosong di CMS → pakai bahasa Indonesia", () => {
+    expect(tr({ id: "Halo", en: "" }, "en")).toBe("Halo");
   });
 
-  it("id pelajaran unik per kelas dan durasi positif", () => {
-    for (const c of courses) {
-      const ids = c.lessons.map((l) => l.id);
-      expect(new Set(ids).size, c.slug).toBe(ids.length);
-      expect(c.lessons.length, c.slug).toBeGreaterThan(0);
-      for (const l of c.lessons) expect(l.minutes, `${c.slug}/${l.id}`).toBeGreaterThan(0);
-    }
-  });
-
-  it("setiap kelas mengacu ke jenjang yang ada", () => {
-    const levelIds = new Set(levels.map((l) => l.id));
-    for (const c of courses) expect(levelIds.has(c.levelId), c.slug).toBe(true);
-  });
-
-  it("semua teks punya terjemahan lengkap (tidak kosong)", () => {
-    const texts = [
-      ...levels.flatMap((l) => [l.name, l.tagline, ...l.subjects]),
-      ...courses.flatMap((c) => [c.title, c.summary, ...c.lessons.map((l) => l.title)]),
-    ];
-    for (const t of texts) {
-      for (const [loc, value] of Object.entries(t)) {
-        expect(value.trim(), `${loc}: ${JSON.stringify(t)}`).not.toBe("");
-      }
-    }
-  });
-
-  it("harga tidak negatif", () => {
-    for (const l of levels) expect(l.price, l.id).toBeGreaterThanOrEqual(0);
+  it("aman untuk teks yang hilang", () => {
+    expect(tr(undefined, "id")).toBe("");
+    expect(tr({ en: "Only English" }, "id")).toBe("Only English");
   });
 });

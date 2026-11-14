@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { tr, type Level } from "@/config/courses";
+import { tr, type Level } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
@@ -48,7 +48,7 @@ export function PricingCard({ level }: { level: Level }) {
         <h3 className={`mt-6 ${sectionLabel}`}>{t("subjects")}</h3>
         <ul className="mt-2 flex flex-wrap gap-1.5">
           {level.subjects.map((s) => (
-            <li key={s.id} className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium">
+            <li key={`${s.id}-${s.en}`} className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium">
               {tr(s, locale)}
             </li>
           ))}

@@ -2,13 +2,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { levels, tr } from "@/config/courses";
+import { tr, type Level } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { routes } from "@/lib/routes";
 
-export function LevelsSection() {
+export function LevelsSection({ levels }: { levels: Level[] }) {
   const locale = useLocale();
   const t = useTranslations();
 

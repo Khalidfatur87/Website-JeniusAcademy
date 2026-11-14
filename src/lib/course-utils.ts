@@ -1,4 +1,4 @@
-import { getLevel, levels, tr, type Course } from "@/config/courses";
+import { tr, type Course, type Level } from "@/lib/content";
 
 /** Gradien kartu/header sesuai warna jenjang. */
 export const levelGradient = (color: string) =>
@@ -9,10 +9,10 @@ export const courseMinutes = (course: Course) =>
 
 export const lessonIds = (course: Course) => course.lessons.map((l) => l.id);
 
-export const courseColor = (course: Course) => getLevel(course.levelId).color;
+export const courseColor = (course: Course) => course.level.color;
 
 /** Opsi filter jenjang ("Semua" + tiap jenjang) untuk FilterPills. */
-export const levelFilterOptions = (locale: string, allLabel: string) => [
-  { id: "all" as const, label: allLabel },
+export const levelFilterOptions = (levels: Level[], locale: string, allLabel: string) => [
+  { id: "all", label: allLabel },
   ...levels.map((l) => ({ id: l.id, label: tr(l.name, locale) })),
 ];

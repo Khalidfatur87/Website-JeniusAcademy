@@ -93,12 +93,30 @@
   },
   "faq": {
     "title": "Pertanyaan yang sering diajukan",
-    "q1": { "q": "Apa itu JeniusAcademy?", "a": "JeniusAcademy adalah platform belajar online berbasis web yang menyediakan video pelajaran, latihan soal, dan pelacak progres untuk berbagai jenjang pendidikan." },
-    "q2": { "q": "Apakah ada kelas gratis?", "a": "Ya. Kelas jenjang SD dan SMP dapat diakses gratis. Jenjang SMA dan persiapan UTBK tersedia melalui paket berlangganan." },
-    "q3": { "q": "Bagaimana cara berlangganan?", "a": "Buat akun, buka halaman Paket, lalu pilih jenjang yang kamu butuhkan. Detail metode pembayaran akan tersedia setelah sistem pembayaran aktif." },
-    "q4": { "q": "Apakah progres belajar saya tersimpan?", "a": "Saat ini progres tersimpan di perangkat yang kamu pakai. Sinkronisasi antarperangkat akan hadir bersama sistem akun." },
-    "q5": { "q": "Bisa belajar dari ponsel?", "a": "Bisa. Situs dirancang responsif sehingga nyaman dipakai di ponsel, tablet, maupun laptop." },
-    "q6": { "q": "Bagaimana jika saya punya pertanyaan lain?", "a": "Hubungi kami lewat informasi kontak di bagian bawah halaman ini. Kami siap membantu." }
+    "q1": {
+      "q": "Apa itu JeniusAcademy?",
+      "a": "JeniusAcademy adalah platform belajar online berbasis web yang menyediakan video pelajaran, latihan soal, dan pelacak progres untuk berbagai jenjang pendidikan."
+    },
+    "q2": {
+      "q": "Apakah ada kelas gratis?",
+      "a": "Ya. Kelas jenjang SD dan SMP dapat diakses gratis. Jenjang SMA dan persiapan UTBK tersedia melalui paket berlangganan."
+    },
+    "q3": {
+      "q": "Bagaimana cara berlangganan?",
+      "a": "Buat akun, buka halaman Paket, lalu pilih jenjang yang kamu butuhkan. Detail metode pembayaran akan tersedia setelah sistem pembayaran aktif."
+    },
+    "q4": {
+      "q": "Apakah progres belajar saya tersimpan?",
+      "a": "Ya. Jika kamu masuk ke akun, progres tersimpan di akun dan bisa dibuka dari perangkat mana pun. Tanpa akun, progres hanya tersimpan di perangkat yang kamu pakai."
+    },
+    "q5": {
+      "q": "Bisa belajar dari ponsel?",
+      "a": "Bisa. Situs dirancang responsif sehingga nyaman dipakai di ponsel, tablet, maupun laptop."
+    },
+    "q6": {
+      "q": "Bagaimana jika saya punya pertanyaan lain?",
+      "a": "Hubungi kami lewat informasi kontak di bagian bawah halaman ini. Kami siap membantu."
+    }
   },
   "cta": {
     "title": "Siap mulai belajar hari ini?",
@@ -182,13 +200,17 @@
     "opinion": "Ulasan",
     "opinionPlaceholder": "Ceritakan pengalaman belajarmu…",
     "submit": "Kirim ulasan",
-    "thanks": "Terima kasih! Ulasanmu sudah ditambahkan.",
-    "localNote": "Ulasan disimpan di browser ini sampai backend tersedia.",
+    "thanks": "Terima kasih! Ulasanmu akan tampil setelah disetujui.",
     "errorName": "Isi nama kamu.",
     "errorRating": "Pilih rating bintang.",
     "errorOpinion": "Tulis ulasan minimal 10 karakter.",
     "filterAll": "Semua jenjang",
-    "yours": "Ulasanmu"
+    "yours": "Ulasanmu",
+    "moderationNote": "Ulasan ditinjau dulu sebelum ditampilkan untuk semua orang.",
+    "errorSubmit": "Ulasan gagal dikirim. Coba lagi.",
+    "pending": "Menunggu persetujuan",
+    "loginToReview": "Masuk ke akunmu untuk menulis ulasan.",
+    "loginCta": "Masuk untuk menulis ulasan"
   },
   "auth": {
     "panelTitle": "Belajar jadi lebih terarah",
@@ -213,8 +235,6 @@
     "or": "atau",
     "noAccount": "Belum punya akun?",
     "haveAccount": "Sudah punya akun?",
-    "demoNote": "Mode pratinjau: akun belum tersambung ke server dan tidak ada data yang dikirim.",
-    "googleSoon": "Login Google akan tersedia setelah backend aktif.",
     "strength": "Kekuatan kata sandi",
     "strengthWeak": "Lemah",
     "strengthFair": "Cukup",
@@ -225,15 +245,28 @@
       "emailInvalid": "Format email tidak valid.",
       "passwordRequired": "Kata sandi wajib diisi.",
       "passwordShort": "Kata sandi minimal 8 karakter.",
-      "confirmMismatch": "Kata sandi tidak sama."
-    }
+      "confirmMismatch": "Kata sandi tidak sama.",
+      "invalidCredentials": "Email atau kata sandi salah.",
+      "emailNotConfirmed": "Email belum dikonfirmasi. Cek kotak masuk kamu.",
+      "alreadyRegistered": "Email ini sudah terdaftar. Silakan masuk.",
+      "rateLimited": "Terlalu banyak percobaan. Coba lagi beberapa saat lagi.",
+      "weakPassword": "Kata sandi terlalu lemah. Gunakan kombinasi yang lebih kuat.",
+      "sessionMissing": "Tautan sudah kedaluwarsa. Minta tautan atur ulang yang baru.",
+      "notConfigured": "Layanan akun belum dikonfigurasi.",
+      "generic": "Terjadi kesalahan. Coba lagi."
+    },
+    "checkEmail": "Pendaftaran berhasil. Cek email kamu dan klik tautan konfirmasi untuk mengaktifkan akun."
   },
   "forgot": {
     "title": "Atur ulang kata sandi",
     "subtitle": "Masukkan email dan kami akan mengirim tautan pengaturan ulang.",
     "send": "Kirim tautan",
-    "sent": "Jika email terdaftar, tautan pengaturan ulang akan dikirim. (Pratinjau: belum ada email yang dikirim.)",
-    "back": "Kembali ke halaman masuk"
+    "sent": "Jika email terdaftar, tautan pengaturan ulang akan dikirim. Cek kotak masuk kamu.",
+    "back": "Kembali ke halaman masuk",
+    "resetTitle": "Buat kata sandi baru",
+    "resetSubtitle": "Masukkan kata sandi baru untuk akunmu.",
+    "save": "Simpan kata sandi",
+    "saved": "Kata sandi berhasil diubah."
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",

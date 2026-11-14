@@ -93,12 +93,30 @@
   },
   "faq": {
     "title": "Frequently asked questions",
-    "q1": { "q": "What is JeniusAcademy?", "a": "JeniusAcademy is a web-based online learning platform offering video lessons, practice questions and progress tracking across several education levels." },
-    "q2": { "q": "Are there free classes?", "a": "Yes. Elementary and junior high classes are free. Senior high and UTBK prep are available through subscription plans." },
-    "q3": { "q": "How do I subscribe?", "a": "Create an account, open the Plans page and choose the level you need. Payment method details will be available once payments go live." },
-    "q4": { "q": "Is my learning progress saved?", "a": "For now progress is saved on the device you use. Cross-device sync will arrive together with the account system." },
-    "q5": { "q": "Can I learn on my phone?", "a": "Yes. The site is responsive and comfortable to use on phones, tablets and laptops." },
-    "q6": { "q": "What if I have other questions?", "a": "Reach us through the contact details at the bottom of this page. We're happy to help." }
+    "q1": {
+      "q": "What is JeniusAcademy?",
+      "a": "JeniusAcademy is a web-based online learning platform offering video lessons, practice questions and progress tracking across several education levels."
+    },
+    "q2": {
+      "q": "Are there free classes?",
+      "a": "Yes. Elementary and junior high classes are free. Senior high and UTBK prep are available through subscription plans."
+    },
+    "q3": {
+      "q": "How do I subscribe?",
+      "a": "Create an account, open the Plans page and choose the level you need. Payment method details will be available once payments go live."
+    },
+    "q4": {
+      "q": "Is my learning progress saved?",
+      "a": "Yes. When you are logged in, your progress is saved to your account and available on any device. Without an account it is stored only on the device you use."
+    },
+    "q5": {
+      "q": "Can I learn on my phone?",
+      "a": "Yes. The site is responsive and comfortable to use on phones, tablets and laptops."
+    },
+    "q6": {
+      "q": "What if I have other questions?",
+      "a": "Reach us through the contact details at the bottom of this page. We're happy to help."
+    }
   },
   "cta": {
     "title": "Ready to start learning today?",
@@ -182,13 +200,17 @@
     "opinion": "Review",
     "opinionPlaceholder": "Tell us about your learning experience…",
     "submit": "Submit review",
-    "thanks": "Thank you! Your review was added.",
-    "localNote": "Reviews are stored in this browser until a backend is available.",
+    "thanks": "Thank you! Your review will appear once approved.",
     "errorName": "Enter your name.",
     "errorRating": "Select a star rating.",
     "errorOpinion": "Write at least 10 characters.",
     "filterAll": "All levels",
-    "yours": "Your review"
+    "yours": "Your review",
+    "moderationNote": "Reviews are checked before they are shown publicly.",
+    "errorSubmit": "Could not submit your review. Please try again.",
+    "pending": "Awaiting approval",
+    "loginToReview": "Log in to write a review.",
+    "loginCta": "Log in to write a review"
   },
   "auth": {
     "panelTitle": "Learning with direction",
@@ -213,8 +235,6 @@
     "or": "or",
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
-    "demoNote": "Preview mode: accounts aren't connected to a server and no data is sent.",
-    "googleSoon": "Google sign-in will be available once the backend is live.",
     "strength": "Password strength",
     "strengthWeak": "Weak",
     "strengthFair": "Fair",
@@ -225,15 +245,28 @@
       "emailInvalid": "Enter a valid email address.",
       "passwordRequired": "Password is required.",
       "passwordShort": "Password must be at least 8 characters.",
-      "confirmMismatch": "Passwords don't match."
-    }
+      "confirmMismatch": "Passwords don't match.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailNotConfirmed": "Email not confirmed yet. Check your inbox.",
+      "alreadyRegistered": "This email is already registered. Please log in.",
+      "rateLimited": "Too many attempts. Please try again in a moment.",
+      "weakPassword": "Password is too weak. Use a stronger combination.",
+      "sessionMissing": "This link has expired. Request a new reset link.",
+      "notConfigured": "The account service is not configured.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "checkEmail": "Sign-up successful. Check your email and click the confirmation link to activate your account."
   },
   "forgot": {
     "title": "Reset your password",
     "subtitle": "Enter your email and we'll send a reset link.",
     "send": "Send link",
-    "sent": "If the email is registered, a reset link will be sent. (Preview: no email is actually sent.)",
-    "back": "Back to log in"
+    "sent": "If the email is registered, a reset link will be sent. Check your inbox.",
+    "back": "Back to log in",
+    "resetTitle": "Create a new password",
+    "resetSubtitle": "Enter a new password for your account.",
+    "save": "Save password",
+    "saved": "Your password was updated."
   },
   "notFound": {
     "title": "Page not found",

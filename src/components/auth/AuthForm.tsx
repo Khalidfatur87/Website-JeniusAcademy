@@ -1,10 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useState, type FormEvent } from "react";
 import { FormField, fieldProps } from "@/components/ui/FormField";
+import { siteConfig } from "@/config/site";
 import { Link, useRouter } from "@/i18n/navigation";
-import { useAuth } from "@/lib/auth";
+import { useAuth, type AuthFailure } from "@/lib/auth";
 import { routes } from "@/lib/routes";
 import {
   validateAuth,
@@ -18,21 +19,23 @@ import { PasswordStrength } from "@/components/auth/PasswordStrength";
 const linkClass = "font-semibold text-brand-ink hover:underline";
 
 /**
- * Form login / registrasi / lupa kata sandi (PRATINJAU).
- * Belum ada server: tidak ada kata sandi yang disimpan atau dikirim.
- * Validasi ada di lib/validation.ts; field di komponen terpisah.
+ * Form login / registrasi / lupa & atur ulang kata sandi (Supabase Auth).
+ * Validasi ada di lib/validation.ts; panggilan server di lib/auth.ts.
  */
 export function AuthForm({ mode }: { mode: AuthMode }) {
   const t = useTranslations("auth");
   const tf = useTranslations("forgot");
+  const locale = useLocale();
   const router = useRouter();
-  const { signIn } = useAuth();
+  const auth = useAuth();
   const uid = useId();
 
   const [values, setValues] = useState({ name: "", email: "", password: "", confirm: "" });
   const [showPw, setShowPw] = useState(false);
   const [errors, setErrors] = useState<AuthErrors>({});
   const [notice, setNotice] = useState("");
+  const [failure, setFailure] = useState<AuthFailure | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const set = (key: keyof typeof values) => (value: string) =>
     setValues((v) => ({ ...v, [key]: value }));
@@ -40,22 +43,65 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const err = (key: keyof AuthErrors) =>
     errors[key] ? t(`errors.${errors[key]}`) : undefined;
 
-  const submit = (ev: FormEvent) => {
+  const creating = mode === "register" || mode === "reset";
+
+  const submit = async (ev: FormEvent) => {
     ev.preventDefault();
+    if (busy) return;
     const found = validateAuth(mode, values);
     setErrors(found);
     setNotice("");
+    setFailure(null);
     if (Object.keys(found).length) return;
 
-    if (mode === "forgot") return setNotice(tf("sent"));
-
     const email = values.email.trim();
-    signIn({ name: values.name.trim() || email.split("@")[0], email });
-    router.push(routes.courses);
+    setBusy(true);
+    try {
+      if (mode === "forgot") {
+        const { error } = await auth.sendPasswordReset(email, locale);
+        // Tidak membedakan email terdaftar/tidak (mencegah penelusuran akun).
+        return error && error !== "generic"
+          ? setFailure(error)
+          : setNotice(tf("sent"));
+      }
+
+      if (mode === "reset") {
+        const { error } = await auth.updatePassword(values.password);
+        if (error) return setFailure(error);
+        setNotice(tf("saved"));
+        return router.push(routes.courses);
+      }
+
+      if (mode === "register") {
+        const name = values.name.trim();
+        const res = await auth.signUp({ name, email, password: values.password }, locale);
+        if (res.error) return setFailure(res.error);
+        if (res.needsConfirmation) return setNotice(t("checkEmail"));
+        return router.push(routes.courses);
+      }
+
+      const { error } = await auth.signIn({ email, password: values.password });
+      if (error) return setFailure(error);
+      router.push(routes.courses);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const google = async () => {
+    setFailure(null);
+    setNotice("");
+    const { error } = await auth.signInWithGoogle(locale);
+    if (error) setFailure(error);
   };
 
   const id = (k: string) => `${uid}-${k}`;
-  const submitLabel = { login: t("login"), register: t("register"), forgot: tf("send") }[mode];
+  const submitLabel = {
+    login: t("login"),
+    register: t("register"),
+    forgot: tf("send"),
+    reset: tf("save"),
+  }[mode];
 
   return (
     <form onSubmit={submit} noValidate className="space-y-4">
@@ -72,17 +118,19 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </FormField>
       )}
 
-      <FormField id={id("email")} label={t("email")} error={err("email")}>
-        <input
-          {...fieldProps(id("email"), err("email"))}
-          type="email"
-          className="field"
-          autoComplete="email"
-          value={values.email}
-          placeholder={t("emailPlaceholder")}
-          onChange={(e) => set("email")(e.target.value)}
-        />
-      </FormField>
+      {mode !== "reset" && (
+        <FormField id={id("email")} label={t("email")} error={err("email")}>
+          <input
+            {...fieldProps(id("email"), err("email"))}
+            type="email"
+            className="field"
+            autoComplete="email"
+            value={values.email}
+            placeholder={t("emailPlaceholder")}
+            onChange={(e) => set("email")(e.target.value)}
+          />
+        </FormField>
+      )}
 
       {mode !== "forgot" && (
         <PasswordField
@@ -96,11 +144,11 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           placeholder={t("passwordPlaceholder")}
         >
-          {mode === "register" && <PasswordStrength password={values.password} />}
+          {creating && <PasswordStrength password={values.password} />}
         </PasswordField>
       )}
 
-      {mode === "register" && (
+      {creating && (
         <PasswordField
           id={id("confirm")}
           label={t("confirmPassword")}
@@ -120,15 +168,20 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </div>
       )}
 
-      <button type="submit" className="btn btn-primary btn-lg w-full">
+      <button type="submit" disabled={busy} className="btn btn-primary btn-lg w-full">
         {submitLabel}
       </button>
 
       <p role="status" className="text-sm text-success">
         {notice}
       </p>
+      {failure && (
+        <p role="alert" className="text-sm text-danger">
+          {t(`errors.${failure}`)}
+        </p>
+      )}
 
-      {mode === "forgot" ? (
+      {mode === "forgot" || mode === "reset" ? (
         <p className="text-center text-sm">
           <Link href={routes.login} className={linkClass}>
             {tf("back")}
@@ -136,11 +189,15 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </p>
       ) : (
         <>
-          <div className="relative text-center text-xs uppercase tracking-wider text-muted">
-            <span className="absolute inset-x-0 top-1/2 -z-0 h-px bg-line" aria-hidden="true" />
-            <span className="relative bg-surface px-3">{t("or")}</span>
-          </div>
-          <GoogleButton onClick={() => setNotice(t("googleSoon"))} />
+          {siteConfig.features.googleLogin && (
+            <>
+              <div className="relative text-center text-xs uppercase tracking-wider text-muted">
+                <span className="absolute inset-x-0 top-1/2 -z-0 h-px bg-line" aria-hidden="true" />
+                <span className="relative bg-surface px-3">{t("or")}</span>
+              </div>
+              <GoogleButton onClick={google} />
+            </>
+          )}
 
           <p className="text-center text-sm text-muted">
             {mode === "login" ? t("noAccount") : t("haveAccount")}{" "}
@@ -150,8 +207,6 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           </p>
         </>
       )}
-
-      <p className="rounded-xl bg-surface-2 p-3 text-xs text-muted">{t("demoNote")}</p>
     </form>
   );
 }

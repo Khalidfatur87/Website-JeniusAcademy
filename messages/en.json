@@ -26,7 +26,8 @@
     "closeMenu": "Close menu",
     "main": "Main navigation",
     "dashboard": "Dashboard",
-    "cms": "CMS"
+    "cms": "CMS",
+    "account": "Account menu"
   },
   "theme": {
     "toggle": "Toggle theme",

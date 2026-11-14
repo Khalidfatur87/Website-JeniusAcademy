@@ -26,7 +26,8 @@
     "closeMenu": "Tutup menu",
     "main": "Navigasi utama",
     "dashboard": "Dasbor",
-    "cms": "CMS"
+    "cms": "CMS",
+    "account": "Menu akun"
   },
   "theme": {
     "toggle": "Ganti tema",

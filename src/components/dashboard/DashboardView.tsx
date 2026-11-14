@@ -84,7 +84,7 @@ export function DashboardView({ courses }: { courses: Course[] }) {
         </div>
       )}
 
-      <section aria-label={t("title")} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section aria-label={t("title")} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label={t("statLessons")}
           value={s.doneLessons}

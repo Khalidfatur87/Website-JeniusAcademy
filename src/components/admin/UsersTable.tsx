@@ -102,7 +102,7 @@ export function UsersTable({ users, selfId }: { users: AdminUser[]; selfId: stri
 
       <ul className="space-y-3">
         {shown.map((u) => (
-          <li key={u.id} className="card grid gap-3 p-4 sm:grid-cols-[1fr_14rem] sm:items-center">
+          <li key={u.id} className="card grid grid-cols-1 gap-3 p-4 sm:grid-cols-[1fr_14rem] sm:items-center">
             <div className="min-w-0">
               <p className="truncate font-semibold">
                 {u.name || "—"}

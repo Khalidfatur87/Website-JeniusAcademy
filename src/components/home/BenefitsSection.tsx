@@ -18,7 +18,7 @@ export function BenefitsSection() {
       <div className="container-page">
         <SectionHeading title={t("title")} subtitle={t("subtitle")} />
 
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+        <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           {benefits.map(({ key, icon }) => (
             <li key={key}>
               <TiltCard enabled={siteConfig.features.threeD} className="rounded-[var(--radius)]">

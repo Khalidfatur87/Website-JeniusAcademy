@@ -37,7 +37,7 @@ export default async function PricingPage({
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
 
       <div className="container-page section">
-        <ul className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {levels.map((level) => (
             <li key={level.id} className="pt-4">
               <PricingCard level={level} />

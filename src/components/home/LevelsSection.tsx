@@ -17,7 +17,7 @@ export function LevelsSection({ levels }: { levels: Level[] }) {
       <div className="container-page">
         <SectionHeading title={t("levels.title")} subtitle={t("levels.subtitle")} />
 
-        <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {levels.map((level) => (
             <li key={level.id}>
               <TiltCard enabled={siteConfig.features.threeD} className="rounded-[var(--radius)]">

@@ -71,7 +71,7 @@ export function ReviewCard({
         </span>
         <span className="min-w-0 text-sm">
           <span className="block truncate font-semibold">{review.name}</span>
-          <span className="block truncate text-muted">
+          <span className="block text-muted">
             {level && `${tr(level.name, locale)} · `}
             {formatDate(review.date, locale)}
           </span>

@@ -47,13 +47,13 @@ export default async function LessonPage({ params }: Props) {
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
-            <Link href={routes.courses} className="hover:text-brand-ink">
+            <Link href={routes.courses} className="inline-block py-1 hover:text-brand-ink">
               {t("nav.courses")}
             </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li>
-            <Link href={routes.course(course.slug)} className="hover:text-brand-ink">
+            <Link href={routes.course(course.slug)} className="inline-block py-1 hover:text-brand-ink">
               {tr(course.title, locale)}
             </Link>
           </li>
@@ -64,7 +64,7 @@ export default async function LessonPage({ params }: Props) {
         </ol>
       </nav>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_22rem]">
         <div>
           <div className="aspect-video overflow-hidden rounded-2xl border border-line bg-black shadow-glow">
             <iframe

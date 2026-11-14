@@ -21,7 +21,7 @@ export function TestimonialsSection({ levels }: { levels: Level[] }) {
             <Icon name="arrowRight" size={16} />
           </Link>
         </SectionHeading>
-        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+        <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
           {seedReviews.slice(0, FEATURED_COUNT).map((r) => (
             <li key={r.id}>
               <ReviewCard review={r} level={levels.find((l) => l.id === r.levelId)} />

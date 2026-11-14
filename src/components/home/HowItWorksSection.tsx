@@ -10,7 +10,7 @@ export function HowItWorksSection() {
     <section className="section">
       <div className="container-page">
         <SectionHeading wide title={t("title")} />
-        <ol className="mt-12 grid gap-8 md:grid-cols-3">
+        <ol className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
           {steps.map((s, i) => (
             <li key={s} className="relative">
               <span className="text-6xl font-bold text-brand/20">0{i + 1}</span>

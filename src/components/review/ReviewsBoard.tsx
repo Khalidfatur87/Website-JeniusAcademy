@@ -26,7 +26,7 @@ export function ReviewsBoard({ formEnabled, levels }: { formEnabled: boolean; le
   ].filter((r) => filter === "all" || r.levelId === filter);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1fr_22rem]">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_22rem]">
       <div>
         <FilterPills
           label={t("level")}
@@ -35,7 +35,7 @@ export function ReviewsBoard({ formEnabled, levels }: { formEnabled: boolean; le
           onChange={setFilter}
         />
 
-        <ul className="mt-6 grid gap-6 md:grid-cols-2">
+        <ul className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           {visible.map((r) => (
             <li key={r.id}>
               <ReviewCard

@@ -63,7 +63,7 @@ export default async function CoursePage({ params }: Props) {
       />
       <CourseHero course={course} />
 
-      <div className="container-page section grid gap-10 lg:grid-cols-[1fr_20rem]">
+      <div className="container-page section grid grid-cols-1 gap-10 lg:grid-cols-[1fr_20rem]">
         <section aria-labelledby="lessons-heading">
           <h2 id="lessons-heading" className="mb-5 text-2xl">
             {t("course.lessonList")}

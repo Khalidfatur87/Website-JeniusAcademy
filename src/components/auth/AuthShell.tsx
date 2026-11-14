@@ -16,7 +16,7 @@ export function AuthShell({
   const t = useTranslations("auth");
 
   return (
-    <div className="container-page grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-2 lg:gap-16">
+    <div className="container-page grid grid-cols-1 min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-2 lg:gap-16">
       <aside
         className="perspective relative hidden overflow-hidden rounded-3xl bg-brand-strong p-10 text-on-brand lg:block"
         

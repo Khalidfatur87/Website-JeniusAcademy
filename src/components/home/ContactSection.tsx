@@ -31,7 +31,7 @@ export function ContactSection() {
       <div className="container-page max-w-3xl text-center">
         <SectionHeading wide title={t("title")} subtitle={t("subtitle")} />
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {items.map(({ key, icon, text, href }) => (
             <li key={key} className="card flex items-center gap-4 p-5 text-left">
               <Icon name={icon} className="shrink-0 text-brand-ink" />

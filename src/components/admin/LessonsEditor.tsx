@@ -84,7 +84,7 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
               required
             />
 
-            <div className="grid gap-4 sm:grid-cols-[1fr_9rem]">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_9rem]">
               <Field label={t("lessons.video")} htmlFor={`${id}-${row.key}-v`} hint={t("lessons.videoHint")}>
                 <input
                   id={`${id}-${row.key}-v`}

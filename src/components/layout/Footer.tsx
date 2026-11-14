@@ -41,8 +41,8 @@ export function Footer() {
 
   return (
     <footer className="border-t border-line bg-surface">
-      <div className="container-page grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div className="max-w-sm">
+      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="col-span-2 max-w-sm md:col-span-1">
           <Logo />
           <p className="mt-4 text-muted">{t("footer.tagline")}</p>
           {socials.length > 0 && (
@@ -69,10 +69,10 @@ export function Footer() {
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
               {t(`footer.${titleKey}`)}
             </h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-0.5">
               {links.map(({ href, key }) => (
                 <li key={key}>
-                  <Link href={href} className="hover:text-brand-ink">
+                  <Link href={href} className="inline-block py-1.5 hover:text-brand-ink">
                     {t(`nav.${key}`)}
                   </Link>
                 </li>

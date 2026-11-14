@@ -49,6 +49,12 @@ Kode: `src/lib/auth.ts`, `progress.ts`, `user-reviews.ts`, `src/lib/supabase/`, 
 
 Pembayaran belum tersedia.
 
+## Kuis & dasbor
+
+- **Kuis** per kelas: bank soal di `src/config/quizzes.ts` (kunci = `slug` kelas; kelas tanpa entri tidak menampilkan tombol kuis). Soal dan kunci jawaban dikirim ke browser, jadi cocok untuk latihan, bukan ujian bernilai.
+- **Dasbor** di `/dashboard`: pelajaran selesai, kelas berjalan/tuntas, rata-rata skor kuis, riwayat kuis. Perhitungan ada di `src/lib/dashboard.ts` (fungsi murni, dites).
+- Riwayat kuis memakai tabel `quiz_attempts` (ada di `supabase/schema.sql` bagian 4 — jalankan ulang file itu setelah memperbarui). Tamu menyimpan di `localStorage`, lalu digabung ke akun saat login.
+
 ## SEO
 
 - `sitemap.xml`, `robots.txt`, canonical + hreflang per halaman, JSON-LD (`EducationalOrganization`, `Course`), dan gambar OG dinamis (`/[locale]/opengraph-image`).

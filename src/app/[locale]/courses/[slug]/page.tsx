@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CourseAction } from "@/components/course/CourseAction";
+import { CourseQuizLink } from "@/components/course/CourseQuizLink";
 import { CourseHero } from "@/components/course/CourseHero";
 import { CourseProgress } from "@/components/course/CourseProgress";
 import { LessonList } from "@/components/course/LessonList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { courses, getCourse, tr } from "@/config/courses";
+import { getQuiz } from "@/config/quizzes";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import { routes } from "@/lib/routes";
@@ -38,6 +40,7 @@ export default async function CoursePage({ params }: Props) {
   if (!course) notFound();
 
   const t = await getTranslations();
+  const quiz = getQuiz(course.slug);
 
   return (
     <>
@@ -71,6 +74,7 @@ export default async function CoursePage({ params }: Props) {
             <h2 className="text-lg">{t("course.progress")}</h2>
             <CourseProgress course={course} />
             <CourseAction course={course} />
+            {quiz && <CourseQuizLink slug={course.slug} count={quiz.length} />}
             <p className="text-xs text-muted">{t("common.placeholderNote")}</p>
           </div>
         </aside>

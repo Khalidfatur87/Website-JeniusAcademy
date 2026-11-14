@@ -24,7 +24,8 @@
     "hello": "Halo, {name}",
     "openMenu": "Buka menu",
     "closeMenu": "Tutup menu",
-    "main": "Navigasi utama"
+    "main": "Navigasi utama",
+    "dashboard": "Dasbor"
   },
   "theme": {
     "toggle": "Ganti tema",
@@ -161,7 +162,11 @@
     "done": "Selesai",
     "backToCourses": "Kembali ke katalog",
     "lessonNumber": "Pelajaran {number}",
-    "priceNote": "Termasuk dalam paket {level}"
+    "priceNote": "Termasuk dalam paket {level}",
+    "quiz": "Kerjakan kuis",
+    "quizRetake": "Ulangi kuis",
+    "quizBest": "Skor terbaik: {score}/{total}",
+    "quizCount": "{count} soal latihan"
   },
   "lesson": {
     "markDone": "Tandai selesai",
@@ -272,5 +277,47 @@
     "title": "Halaman tidak ditemukan",
     "text": "Halaman yang kamu cari tidak ada atau sudah dipindahkan.",
     "home": "Kembali ke beranda"
+  },
+  "quiz": {
+    "title": "Kuis: {course}",
+    "subtitle": "Pilih satu jawaban untuk setiap soal, lalu periksa hasilnya.",
+    "question": "Soal {number}",
+    "progress": "{answered} dari {total} soal terjawab",
+    "submit": "Periksa jawaban",
+    "correct": "Benar",
+    "wrong": "Salah",
+    "explanation": "Pembahasan",
+    "yourScore": "Skor kamu",
+    "scoreLine": "{score} dari {total} benar",
+    "great": "Sempurna! Kamu menguasai materi ini.",
+    "good": "Bagus! Tinggal sedikit lagi.",
+    "needsReview": "Yuk tinjau lagi materinya, lalu coba lagi.",
+    "retry": "Ulangi kuis",
+    "backToCourse": "Kembali ke kelas",
+    "saveFailed": "Skor belum tersimpan di akunmu. Coba lagi nanti."
+  },
+  "dashboard": {
+    "title": "Dasbor belajar",
+    "subtitle": "Pantau progres belajar dan skor kuismu.",
+    "hello": "Halo, {name}! Lanjutkan belajarmu.",
+    "guestBanner": "Masuk agar progres dan skor kuis tersimpan di akunmu dan bisa dibuka dari perangkat mana pun.",
+    "login": "Masuk",
+    "register": "Daftar",
+    "statLessons": "Pelajaran selesai",
+    "of": "dari",
+    "statStarted": "Kelas dimulai",
+    "statCompleted": "Kelas selesai",
+    "statAvgQuiz": "Rata-rata skor kuis",
+    "noQuiz": "Belum ada kuis",
+    "myCourses": "Kelas saya",
+    "continue": "Lanjutkan",
+    "complete": "Ulangi",
+    "lessonsDone": "{done} dari {total} pelajaran",
+    "bestScore": "Skor terbaik",
+    "emptyTitle": "Belum ada kelas yang dimulai",
+    "emptyText": "Pilih kelas pertamamu dan mulai belajar.",
+    "browse": "Jelajahi kelas",
+    "recentQuiz": "Riwayat kuis",
+    "noAttempts": "Belum ada kuis yang dikerjakan."
   }
 }

@@ -13,16 +13,18 @@ export type Viewer = { id: string; name: string; email: string; role: Role };
 export const getViewer = cache(async () => {
   if (!isSupabaseConfigured) return null;
   const sb = await createClient();
-  const {
-    data: { user },
-  } = await sb.auth.getUser();
-  if (!user) return null;
+  // getClaims memverifikasi tanda tangan JWT secara lokal (tanpa memanggil
+  // server auth bila project memakai signing key asimetris) — lebih cepat dari getUser.
+  const { data: auth } = await sb.auth.getClaims();
+  const claims = auth?.claims;
+  if (!claims?.sub) return null;
 
-  const { data } = await sb.from("profiles").select("name, role").eq("id", user.id).maybeSingle();
+  const { data } = await sb.from("profiles").select("name, role").eq("id", claims.sub).maybeSingle();
+  const email = typeof claims.email === "string" ? claims.email : "";
   const viewer: Viewer = {
-    id: user.id,
-    email: user.email ?? "",
-    name: data?.name ?? user.email ?? "",
+    id: claims.sub,
+    email,
+    name: data?.name || email,
     role: (data?.role as Role | undefined) ?? "student",
   };
   return { sb, viewer };

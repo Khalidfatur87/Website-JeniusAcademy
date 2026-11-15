@@ -1,18 +1,10 @@
-import type { QuizQuestion } from "@/lib/content";
-
-/** Satu percobaan kuis. `at` berformat ISO. */
+/** Satu percobaan kuis. `at` berformat ISO. Penilaian dilakukan di server (`submit_quiz`). */
 export type Attempt = {
   courseSlug: string;
   score: number;
   total: number;
   at: string;
 };
-
-/** Menilai jawaban: `answers` memetakan id soal → indeks opsi yang dipilih. */
-export function gradeQuiz(questions: QuizQuestion[], answers: Record<string, number>) {
-  const score = questions.filter((q) => answers[q.id] === q.answer).length;
-  return { score, total: questions.length };
-}
 
 const ratio = (a: Pick<Attempt, "score" | "total">) => (a.total > 0 ? a.score / a.total : 0);
 
@@ -29,4 +21,20 @@ export function bestAttempt(attempts: Attempt[], courseSlug: string): Attempt | 
     }
   }
   return best;
+}
+
+/** Syarat sertifikat (sama dengan claim_certificate di database). */
+export function certificateStatus(input: {
+  doneLessons: number;
+  totalLessons: number;
+  quizCount: number;
+  best?: Pick<Attempt, "score" | "total">;
+  minPercent: number;
+}): "ready" | "lessons" | "quiz" {
+  if (input.totalLessons === 0 || input.doneLessons < input.totalLessons) return "lessons";
+  if (input.quizCount > 0) {
+    const b = input.best;
+    if (!b || b.total === 0 || b.score * 100 < input.minPercent * b.total) return "quiz";
+  }
+  return "ready";
 }

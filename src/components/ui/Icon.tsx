@@ -108,6 +108,56 @@ const paths = {
   facebook: <path d="M14 8h3V4h-3a4 4 0 00-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" />,
   tiktok: <path d="M14 3v11.5a3.5 3.5 0 11-3.5-3.5M14 3c.3 2.6 1.9 4.2 5 4.5" />,
   twitter: <path d="M4 4l16 16M20 4L4 20" />,
+  lock: (
+    <>
+      <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+      <path d="M8 10.5V7a4 4 0 018 0v3.5" />
+    </>
+  ),
+  download: <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />,
+  upload: <path d="M12 16V5M7 9.5l5-5 5 5M5 20h14" />,
+  file: (
+    <>
+      <path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z" />
+      <path d="M14 3v5h5M9 13h6M9 17h6" />
+    </>
+  ),
+  flame: (
+    <path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 01-10 0c0-2 .8-3.5 2-4.5.2 1.8 1 3 2.2 3.5C10.5 9.5 11 6 12 3z" />
+  ),
+  award: (
+    <>
+      <circle cx="12" cy="9" r="6" />
+      <path d="M8.5 14l-1.5 7 5-2.5 5 2.5-1.5-7" />
+    </>
+  ),
+  chat: (
+    <path d="M21 12a8 8 0 01-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1121 12z" />
+  ),
+  grip: (
+    <path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" strokeWidth={3} />
+  ),
+  target: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" />
+    </>
+  ),
+  chart: <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />,
+  trash: <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" />,
+  printer: (
+    <>
+      <path d="M7 9V3h10v6M7 18H5a2 2 0 01-2-2v-5a2 2 0 012-2h14a2 2 0 012 2v5a2 2 0 01-2 2h-2" />
+      <rect x="7" y="14" width="10" height="7" rx="1" />
+    </>
+  ),
+  whatsapp: (
+    <>
+      <path d="M4 20l1.3-4A8.5 8.5 0 1112 20.5a8.4 8.4 0 01-4-1L4 20z" />
+      <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2L9 9.5z" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof paths;

@@ -68,6 +68,13 @@ export const siteConfig = {
 
   currency: { code: "IDR", locale: "id-ID" },
 
+  /**
+   * Sertifikat kelas: semua pelajaran selesai + skor kuis terbaik minimal sekian persen
+   * (jika kelas punya kuis). Nilai ini hanya untuk tampilan — batas sebenarnya
+   * ada di fungsi database `certificate_min_percent()`; samakan keduanya.
+   */
+  certificate: { minQuizPercent: 70 },
+
   /** Saklar fitur. */
   features: {
     threeD: true, // scene 3D di beranda & kartu miring
@@ -75,6 +82,8 @@ export const siteConfig = {
     reviewForm: true,
     /** Tombol "Lanjutkan dengan Google". Nyalakan HANYA setelah provider Google diaktifkan di Supabase. */
     googleLogin: false,
+    /** Tombol WhatsApp mengambang (hanya tampil jika contact.whatsapp diisi). */
+    whatsappButton: true,
   },
 } as const;
 

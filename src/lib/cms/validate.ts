@@ -30,6 +30,10 @@ export type LessonInput = {
   minutes: number;
   /** ID video atau tautan YouTube. */
   video: string;
+  /** Catatan / ringkasan materi (teks biasa). */
+  notes: L10n;
+  /** Pratinjau gratis untuk semua orang. */
+  freePreview: boolean;
 };
 
 export type QuestionInput = {
@@ -148,7 +152,16 @@ export function validateCourse(input: CourseInput): Result<CourseInput> {
   };
 }
 
-export type CleanLesson = { id: string; title: L10n; minutes: number; youtubeId: string };
+export type CleanLesson = {
+  id: string;
+  title: L10n;
+  minutes: number;
+  youtubeId: string;
+  notes: L10n;
+  freePreview: boolean;
+};
+
+export const NOTES_MAX = 5000;
 
 /** Memvalidasi daftar pelajaran (urutan = urutan tampil) dan memberi id untuk pelajaran baru. */
 export function validateLessons(list: LessonInput[]): Result<CleanLesson[]> {
@@ -168,12 +181,14 @@ export function validateLessons(list: LessonInput[]): Result<CleanLesson[]> {
     }
     const youtubeId = parseYoutubeId(l.video);
     if (!youtubeId) return fail("lessonVideoInvalid", i);
+    const notes = cleanL10n(l.notes);
+    if (Object.values(notes).some((t) => t.length > NOTES_MAX)) return fail("lessonNotesTooLong", i);
     let id = l.id;
     if (!id) {
       id = nextLessonId(ids);
       ids.push(id);
     }
-    out.push({ id, title, minutes: l.minutes, youtubeId });
+    out.push({ id, title, minutes: l.minutes, youtubeId, notes, freePreview: Boolean(l.freePreview) });
   }
   return { ok: true, value: out };
 }
@@ -242,4 +257,66 @@ export function validateLevel(input: LevelInput): Result<LevelInput> {
       position: input.position,
     },
   };
+}
+
+// ---- langganan -------------------------------------------------------------
+
+/** Pilihan durasi langganan (bulan); null = tanpa batas waktu. */
+export const SUBSCRIPTION_MONTHS = [1, 3, 6, 12] as const;
+
+/**
+ * Tanggal berakhir langganan. Jika masih ada langganan aktif, durasi
+ * ditambahkan dari tanggal berakhirnya (perpanjangan), bukan dari hari ini.
+ */
+export function subscriptionExpiry(
+  months: number | null,
+  currentExpiry: string | null | undefined,
+  now: Date = new Date(),
+): string | null {
+  if (months === null) return null;
+  const current = currentExpiry ? new Date(currentExpiry) : null;
+  const base = current && current > now ? current : now;
+  const d = new Date(base);
+  const day = d.getUTCDate();
+  d.setUTCMonth(d.getUTCMonth() + months);
+  // 31 Jan + 1 bulan → akhir Februari, bukan 3 Maret.
+  if (d.getUTCDate() < day) d.setUTCDate(0);
+  return d.toISOString();
+}
+
+export function validateSubscriptionMonths(months: unknown): months is number | null {
+  return months === null || (SUBSCRIPTION_MONTHS as readonly number[]).includes(months as number);
+}
+
+// ---- materi ------------------------------------------------------------------
+
+export const MATERIAL_MAX_BYTES = 20 * 1024 * 1024;
+export const MATERIAL_TYPES = [
+  "application/pdf",
+  "image/png",
+  "image/jpeg",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/zip",
+];
+
+/** Nama file aman untuk Storage: huruf/angka/titik/tanda hubung, ekstensi dipertahankan. */
+export function safeFileName(name: string): string {
+  const dot = name.lastIndexOf(".");
+  const base = dot > 0 ? name.slice(0, dot) : name;
+  const ext = dot > 0 ? name.slice(dot + 1).toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 8) : "";
+  const slug = slugify(base, 60) || "file";
+  return ext ? `${slug}.${ext}` : slug;
+}
+
+/** Path materi di bucket: <slug>/<id pelajaran>/<waktu>-<nama aman>. */
+export const materialPath = (slug: string, lessonId: string, fileName: string, now = Date.now()) =>
+  `${slug}/${lessonId}/${now}-${safeFileName(fileName)}`;
+
+/** Judul materi bawaan dari nama file, mis. "ringkasan-bab-1.pdf" → "ringkasan bab 1". */
+export function materialTitle(fileName: string): string {
+  const dot = fileName.lastIndexOf(".");
+  const base = (dot > 0 ? fileName.slice(0, dot) : fileName).replace(/[_-]+/g, " ").trim();
+  return (base || fileName).slice(0, 120);
 }

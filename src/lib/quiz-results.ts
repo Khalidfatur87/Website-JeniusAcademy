@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { useAuth } from "./auth";
+import { getClient, useAuth } from "./auth";
+import type { QuizResult } from "./content";
 import type { Attempt } from "./quiz";
 import { createLocalStore } from "./store";
-import { createClient } from "./supabase/client";
 
 /**
  * RIWAYAT KUIS
- * - Tamu: localStorage.
- * - Login: tabel `quiz_attempts` (Supabase); riwayat lokal digabung sekali.
- * - Server tidak terjangkau (mis. tabel belum dibuat): tetap memakai localStorage.
+ * - Penilaian selalu di server (RPC `submit_quiz`): kunci jawaban tidak pernah
+ *   dikirim sebelum kuis diserahkan, dan siswa tidak bisa menulis skornya sendiri.
+ * - Login: server langsung menyimpan percobaan di tabel `quiz_attempts`.
+ * - Tamu: skor hanya disimpan di localStorage (tidak dipindahkan ke akun
+ *   saat login, karena skor dari browser tidak bisa dipercaya).
  */
 const localStore = createLocalStore<Attempt[]>("ja:quiz", []);
 
@@ -44,24 +46,7 @@ const toAttempt = (r: Row): Attempt => ({
 let loadingFor: string | null = null;
 
 async function load(userId: string) {
-  const sb = createClient();
-
-  // Gabungkan riwayat lokal (dibuat sebelum login) ke akun ini.
-  const pending = localStore.get();
-  if (pending.length) {
-    const { error } = await sb.from("quiz_attempts").insert(
-      pending.map((a) => ({
-        user_id: userId,
-        course_slug: a.courseSlug,
-        score: a.score,
-        total: a.total,
-        created_at: a.at,
-      })),
-    );
-    if (!error) localStore.set([]);
-  }
-
-  const { data, error } = await sb
+  const { data, error } = await getClient()
     .from("quiz_attempts")
     .select("course_slug, score, total, created_at")
     .order("created_at", { ascending: false });
@@ -81,6 +66,15 @@ function reset() {
   if (remote !== EMPTY) setRemote(EMPTY);
 }
 
+export type SubmitError = "noAccess" | "generic";
+
+type RpcResult = {
+  score: number;
+  total: number;
+  recorded: boolean;
+  results: { id: string; answer: number; explanation: QuizResult["results"][number]["explanation"] }[];
+};
+
 export function useQuizResults() {
   const { user } = useAuth();
   const userId = user?.id ?? null;
@@ -97,29 +91,28 @@ export function useQuizResults() {
   }, [userId]);
 
   const useServer = userId !== null && server.userId === userId && server.ok;
-  const attempts = useServer ? server.attempts : local;
+  const attempts = userId ? (useServer ? server.attempts : []) : local;
 
-  /** Menyimpan hasil. Mengembalikan false jika gagal tersimpan di akun. */
-  const record = async (courseSlug: string, score: number, total: number): Promise<boolean> => {
-    const attempt: Attempt = { courseSlug, score, total, at: new Date().toISOString() };
-
-    if (!useServer) {
-      localStore.set([attempt, ...localStore.get()]);
-      return true;
-    }
-    const { error } = await createClient().from("quiz_attempts").insert({
-      user_id: userId,
-      course_slug: courseSlug,
-      score,
-      total,
-      created_at: attempt.at,
+  /** Menyerahkan jawaban untuk dinilai server. */
+  const submit = async (
+    courseSlug: string,
+    answers: Record<string, number>,
+  ): Promise<{ result: QuizResult } | { error: SubmitError }> => {
+    const { data, error } = await getClient().rpc("submit_quiz", {
+      p_slug: courseSlug,
+      p_answers: answers,
     });
-    if (error) return false;
-    if (remote.userId === userId) {
+    if (error) return { error: error.message.includes("no_access") ? "noAccess" : "generic" };
+    const r = data as RpcResult;
+    const attempt: Attempt = { courseSlug, score: r.score, total: r.total, at: new Date().toISOString() };
+
+    if (!r.recorded) {
+      localStore.set([attempt, ...localStore.get()]);
+    } else if (userId && remote.userId === userId) {
       setRemote({ ...remote, attempts: [attempt, ...remote.attempts] });
     }
-    return true;
+    return { result: { score: r.score, total: r.total, recorded: r.recorded, results: r.results } };
   };
 
-  return { attempts, record };
+  return { attempts, submit };
 }

@@ -20,10 +20,11 @@ const course: Course = {
   title: { id: "Pecahan", en: "Fractions" },
   summary: { id: "", en: "" },
   teacher: "T",
+  teacherId: null,
   quizCount: 0,
   lessons: [
-    { id: "l1", title: { id: "a", en: "a" }, minutes: 12, youtubeId: "x" },
-    { id: "l2", title: { id: "b", en: "b" }, minutes: 15, youtubeId: "x" },
+    { id: "l1", title: { id: "a", en: "a" }, minutes: 12, freePreview: false },
+    { id: "l2", title: { id: "b", en: "b" }, minutes: 15, freePreview: false },
   ],
 };
 

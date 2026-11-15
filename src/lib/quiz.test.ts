@@ -1,22 +1,23 @@
 import { describe, expect, it } from "vitest";
-import type { QuizQuestion } from "@/lib/content";
-import { attemptPercent, bestAttempt, gradeQuiz, type Attempt } from "./quiz";
+import { attemptPercent, bestAttempt, certificateStatus, type Attempt } from "./quiz";
 
-const qs: QuizQuestion[] = [
-  { id: "a", prompt: { id: "", en: "" }, options: [], answer: 1, explanation: { id: "", en: "" } },
-  { id: "b", prompt: { id: "", en: "" }, options: [], answer: 0, explanation: { id: "", en: "" } },
-  { id: "c", prompt: { id: "", en: "" }, options: [], answer: 2, explanation: { id: "", en: "" } },
-];
+describe("certificateStatus", () => {
+  const base = { doneLessons: 4, totalLessons: 4, quizCount: 4, minPercent: 70 };
 
-describe("gradeQuiz", () => {
-  it("menghitung jawaban benar", () => {
-    expect(gradeQuiz(qs, { a: 1, b: 0, c: 2 })).toEqual({ score: 3, total: 3 });
-    expect(gradeQuiz(qs, { a: 1, b: 1, c: 0 })).toEqual({ score: 1, total: 3 });
+  it("butuh semua pelajaran selesai", () => {
+    expect(certificateStatus({ ...base, doneLessons: 3, best: { score: 4, total: 4 } })).toBe("lessons");
+    expect(certificateStatus({ ...base, doneLessons: 0, totalLessons: 0 })).toBe("lessons");
   });
 
-  it("soal tak terjawab dihitung salah", () => {
-    expect(gradeQuiz(qs, { a: 1 })).toEqual({ score: 1, total: 3 });
-    expect(gradeQuiz(qs, {})).toEqual({ score: 0, total: 3 });
+  it("butuh skor kuis minimal batas", () => {
+    expect(certificateStatus(base)).toBe("quiz");
+    expect(certificateStatus({ ...base, best: { score: 2, total: 4 } })).toBe("quiz");
+    expect(certificateStatus({ ...base, best: { score: 7, total: 10 } })).toBe("ready");
+    expect(certificateStatus({ ...base, best: { score: 3, total: 4 } })).toBe("ready");
+  });
+
+  it("kelas tanpa kuis cukup menyelesaikan pelajaran", () => {
+    expect(certificateStatus({ ...base, quizCount: 0 })).toBe("ready");
   });
 });
 

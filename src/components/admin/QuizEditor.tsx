@@ -9,7 +9,7 @@ import { useRouter } from "@/i18n/navigation";
 import { saveQuestions } from "@/lib/cms/actions";
 import type { AdminCourse } from "@/lib/cms/queries";
 import type { L10n } from "@/lib/content";
-import { emptyL10n, L10nInput, move, RowButton, SaveStatus, type Status } from "./fields";
+import { DragHandle, emptyL10n, L10nInput, move, RowButton, SaveStatus, useDragSort, type Status } from "./fields";
 
 type Row = {
   key: string;
@@ -30,6 +30,7 @@ export function QuizEditor({ slug, questions }: { slug: string; questions: Admin
   const router = useRouter();
   const id = useId();
   const [rows, setRows] = useState<Row[]>(() => questions.map((q) => ({ key: q.id, ...q })));
+  const drag = useDragSort(setRows);
   const [status, setStatus] = useState<Status>("idle");
   const [pending, start] = useTransition();
 
@@ -88,9 +89,12 @@ export function QuizEditor({ slug, questions }: { slug: string; questions: Admin
       {rows.length === 0 && <p className="card p-6 text-center text-muted">{t("quiz.empty")}</p>}
 
       <ol className="space-y-4">
-        {rows.map((row, i) => (
-          <li key={row.key} className="card space-y-4 p-5">
+        {rows.map((row, i) => {
+          const { className: dragClass, ...dragProps } = drag.item(i);
+          return (
+          <li key={row.key} {...dragProps} className={`card space-y-4 p-5 transition ${dragClass}`}>
             <div className="flex items-center gap-2">
+              <DragHandle label={t("dragToSort")} {...drag.handle(i)} />
               <span className="flex-1 font-semibold">
                 {t("quiz.question")} {i + 1}
               </span>
@@ -181,7 +185,8 @@ export function QuizEditor({ slug, questions }: { slug: string; questions: Admin
               multiline
             />
           </li>
-        ))}
+          );
+        })}
       </ol>
 
       <div className="flex flex-wrap items-center gap-3">

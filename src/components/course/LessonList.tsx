@@ -6,6 +6,7 @@ import { tr, type Course } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { routes } from "@/lib/routes";
 import { useProgress } from "@/lib/progress";
+import { useCourseAccess } from "@/lib/use-access";
 import { Icon } from "@/components/ui/Icon";
 
 /**
@@ -24,12 +25,16 @@ export function LessonList({
   const t = useTranslations();
   const locale = useLocale();
   const { isDone } = useProgress();
+  const { access, loaded, free } = useCourseAccess(course);
 
   return (
     <ol className="space-y-2">
       {course.lessons.map((lesson, i) => {
         const done = isDone(course.slug, lesson.id);
         const current = lesson.id === currentId;
+        // Gembok hanya setelah status akses diketahui (hindari kedip).
+        const locked = loaded && !access && !lesson.freePreview;
+        const preview = !free && lesson.freePreview && !(loaded && access);
         return (
           <li key={lesson.id}>
             <Link
@@ -54,6 +59,11 @@ export function LessonList({
                 <span className="block truncate font-medium">
                   {tr(lesson.title, locale)}
                 </span>
+                {preview && (
+                  <span className="mt-0.5 inline-block rounded-full bg-success/15 px-2 py-0.5 text-[0.7rem] font-semibold text-success">
+                    {t("access.previewBadge")}
+                  </span>
+                )}
                 {!compact && (
                   <span className="block text-xs text-muted">
                     {t("course.lessonNumber", { number: i + 1 })} ·{" "}
@@ -62,7 +72,13 @@ export function LessonList({
                 )}
               </span>
               {done && <span className="sr-only">{t("lesson.completed")}</span>}
-              {!done && <Icon name="chevronRight" size={18} className="text-muted" />}
+              {!done && locked && (
+                <>
+                  <Icon name="lock" size={16} className="text-muted" />
+                  <span className="sr-only">{t("access.locked")}</span>
+                </>
+              )}
+              {!done && !locked && <Icon name="chevronRight" size={18} className="text-muted" />}
             </Link>
           </li>
         );

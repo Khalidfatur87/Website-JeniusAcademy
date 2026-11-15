@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  materialPath,
+  materialTitle,
   nextLessonId,
+  safeFileName,
+  subscriptionExpiry,
+  validateSubscriptionMonths,
   parseYoutubeId,
   slugify,
   validateCourse,
@@ -93,12 +98,13 @@ describe("validateCourse", () => {
 
 describe("validateLessons", () => {
   const video = "https://youtu.be/y1BZBU5YXcM";
+  const extra = { notes: t(""), freePreview: false };
 
   it("memberi id baru tanpa bentrok dengan id lama", () => {
     const r = validateLessons([
-      { title: t("Baru"), minutes: 5, video },
-      { id: "l2", title: t("Lama"), minutes: 10, video },
-      { title: t("Baru 2"), minutes: 5, video },
+      { title: t("Baru"), minutes: 5, video, ...extra },
+      { id: "l2", title: t("Lama"), minutes: 10, video, ...extra },
+      { title: t("Baru 2"), minutes: 5, video, ...extra },
     ]);
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.value.map((l) => l.id)).toEqual(["l3", "l2", "l4"]);
@@ -106,21 +112,35 @@ describe("validateLessons", () => {
 
   it("melaporkan baris yang salah", () => {
     const r = validateLessons([
-      { title: t("A"), minutes: 5, video },
-      { title: t("B"), minutes: 0, video },
+      { title: t("A"), minutes: 5, video, ...extra },
+      { title: t("B"), minutes: 0, video, ...extra },
     ]);
     expect(r).toEqual({ ok: false, error: { code: "lessonMinutesInvalid", index: 1 } });
   });
 
   it("menolak video yang bukan YouTube", () => {
-    const r = validateLessons([{ title: t("A"), minutes: 5, video: "bukan video" }]);
+    const r = validateLessons([{ title: t("A"), minutes: 5, video: "bukan video", ...extra }]);
     expect(r).toEqual({ ok: false, error: { code: "lessonVideoInvalid", index: 0 } });
+  });
+
+  it("menyimpan catatan (dirapikan) dan status pratinjau", () => {
+    const r = validateLessons([{ title: t("A"), minutes: 5, video, notes: t("  Ringkasan  "), freePreview: true }]);
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.value[0].notes.id).toBe("Ringkasan");
+      expect(r.value[0].freePreview).toBe(true);
+    }
+  });
+
+  it("menolak catatan terlalu panjang", () => {
+    const r = validateLessons([{ title: t("A"), minutes: 5, video, notes: t("x".repeat(5001)), freePreview: false }]);
+    expect(r).toEqual({ ok: false, error: { code: "lessonNotesTooLong", index: 0 } });
   });
 
   it("menolak id kembar", () => {
     const r = validateLessons([
-      { id: "l1", title: t("A"), minutes: 5, video },
-      { id: "l1", title: t("B"), minutes: 5, video },
+      { id: "l1", title: t("A"), minutes: 5, video, ...extra },
+      { id: "l1", title: t("B"), minutes: 5, video, ...extra },
     ]);
     expect(r.ok).toBe(false);
   });
@@ -183,5 +203,50 @@ describe("validateLevel", () => {
     const r = validateLevel({ ...base, ...patch });
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error.code).toBe(code);
+  });
+});
+
+describe("subscriptionExpiry", () => {
+  const now = new Date("2026-01-31T10:00:00Z");
+
+  it("tanpa batas → null", () => {
+    expect(subscriptionExpiry(null, null, now)).toBeNull();
+  });
+
+  it("dihitung dari hari ini; akhir bulan tidak meluap", () => {
+    expect(subscriptionExpiry(1, null, now)).toBe("2026-02-28T10:00:00.000Z");
+    expect(subscriptionExpiry(12, null, now)).toBe("2027-01-31T10:00:00.000Z");
+  });
+
+  it("perpanjangan dihitung dari tanggal berakhir yang masih aktif", () => {
+    expect(subscriptionExpiry(3, "2026-03-15T00:00:00Z", now)).toBe("2026-06-15T00:00:00.000Z");
+  });
+
+  it("langganan yang sudah lewat dihitung ulang dari hari ini", () => {
+    expect(subscriptionExpiry(1, "2025-12-01T00:00:00Z", now)).toBe("2026-02-28T10:00:00.000Z");
+  });
+
+  it("hanya durasi yang tersedia yang diterima", () => {
+    expect(validateSubscriptionMonths(3)).toBe(true);
+    expect(validateSubscriptionMonths(null)).toBe(true);
+    expect(validateSubscriptionMonths(2)).toBe(false);
+    expect(validateSubscriptionMonths("3")).toBe(false);
+  });
+});
+
+describe("materi", () => {
+  it("nama file aman untuk Storage", () => {
+    expect(safeFileName("Ringkasan Bab 1 (Final).PDF")).toBe("ringkasan-bab-1-final.pdf");
+    expect(safeFileName("../../rahasia.pdf")).toBe("rahasia.pdf");
+    expect(safeFileName("???.docx")).toBe("file.docx");
+    expect(safeFileName("tanpa-ekstensi")).toBe("tanpa-ekstensi");
+  });
+
+  it("path di folder kelas/pelajaran", () => {
+    expect(materialPath("sma-fisika", "l2", "Rumus.pdf", 123)).toBe("sma-fisika/l2/123-rumus.pdf");
+  });
+
+  it("judul bawaan dari nama file", () => {
+    expect(materialTitle("ringkasan_bab-1.pdf")).toBe("ringkasan bab 1");
   });
 });

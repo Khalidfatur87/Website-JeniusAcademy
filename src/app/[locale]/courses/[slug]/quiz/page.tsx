@@ -49,7 +49,7 @@ export default async function QuizPage({ params }: Props) {
       </PageHeader>
 
       <div className="container-page section max-w-3xl">
-        <QuizRunner slug={course.slug} questions={questions} />
+        <QuizRunner course={course} questions={questions} />
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { tr, type Course } from "@/lib/content";
+import { tr, type Course, type Level } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
 import { courseColor } from "@/lib/course-utils";
@@ -14,6 +14,8 @@ import { useProgress } from "@/lib/progress";
 import { attemptPercent } from "@/lib/quiz";
 import { useQuizResults } from "@/lib/quiz-results";
 import { routes } from "@/lib/routes";
+import { useCertificates, useSubscriptions } from "@/lib/user-data";
+import { StreakCard } from "./StreakCard";
 
 function StatCard({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
@@ -56,12 +58,14 @@ function CourseRow({ stat }: { stat: CourseStat }) {
   );
 }
 
-export function DashboardView({ courses }: { courses: Course[] }) {
+export function DashboardView({ courses, levels }: { courses: Course[]; levels: Level[] }) {
   const t = useTranslations("dashboard");
   const locale = useLocale();
   const { user } = useAuth();
-  const { doneIds } = useProgress();
+  const { doneIds, activity } = useProgress();
   const { attempts } = useQuizResults();
+  const subs = useSubscriptions();
+  const certs = useCertificates();
 
   const s = summarize(courses, doneIds, attempts);
   const recent = attempts.slice(0, 5);
@@ -83,6 +87,8 @@ export function DashboardView({ courses }: { courses: Course[] }) {
           </div>
         </div>
       )}
+
+      <StreakCard lessonTimes={activity} quizTimes={attempts.map((a) => a.at)} />
 
       <section aria-label={t("title")} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
@@ -120,6 +126,59 @@ export function DashboardView({ courses }: { courses: Course[] }) {
           </div>
         )}
       </section>
+
+      {user && (subs.value.length > 0 || certs.value.length > 0) && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {subs.value.length > 0 && (
+            <section aria-labelledby="my-subs" className="space-y-4">
+              <h2 id="my-subs" className="text-2xl">
+                {t("mySubscriptions")}
+              </h2>
+              <ul className="card divide-y divide-line">
+                {subs.value.map((sub) => {
+                  const level = levels.find((l) => l.id === sub.levelId);
+                  const active = sub.expiresAt === null || new Date(sub.expiresAt) > new Date();
+                  return (
+                    <li key={sub.levelId} className="flex items-center gap-3 p-4">
+                      <span className="min-w-0 flex-1 truncate font-medium">
+                        {level ? tr(level.name, locale) : sub.levelId}
+                      </span>
+                      <span className={`text-sm ${active ? "text-success" : "text-muted"}`}>
+                        {sub.expiresAt === null
+                          ? t("subForever")
+                          : active
+                            ? t("subUntil", { date: formatDate(sub.expiresAt, locale) })
+                            : t("subExpired", { date: formatDate(sub.expiresAt, locale) })}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+          {certs.value.length > 0 && (
+            <section aria-labelledby="my-certs" className="space-y-4">
+              <h2 id="my-certs" className="text-2xl">
+                {t("myCertificates")}
+              </h2>
+              <ul className="card divide-y divide-line">
+                {certs.value.map((c) => (
+                  <li key={c.code} className="flex items-center gap-3 p-4">
+                    <Icon name="award" size={20} className="shrink-0 text-accent" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-medium">{tr(c.courseTitle, locale)}</span>
+                      <span className="block text-xs text-muted">{formatDate(c.issuedAt, locale)}</span>
+                    </span>
+                    <Link href={routes.certificate(c.code)} className="text-sm font-semibold text-brand-ink hover:underline">
+                      {t("viewCertificate")}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      )}
 
       <section aria-labelledby="quiz-history" className="space-y-4">
         <h2 id="quiz-history" className="text-2xl">

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DashboardView } from "@/components/dashboard/DashboardView";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { getCourses } from "@/lib/content-server";
+import { getCourses, getLevels } from "@/lib/content-server";
 
 export const revalidate = 300;
 
@@ -18,12 +18,12 @@ export default async function DashboardPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("dashboard");
-  const courses = await getCourses();
+  const [courses, levels] = await Promise.all([getCourses(), getLevels()]);
 
   return (
     <>
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
-      <DashboardView courses={courses} />
+      <DashboardView courses={courses} levels={levels} />
     </>
   );
 }

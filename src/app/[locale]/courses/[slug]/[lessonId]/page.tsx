@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CourseProgress } from "@/components/course/CourseProgress";
-import { LessonControls } from "@/components/course/LessonControls";
 import { LessonList } from "@/components/course/LessonList";
+import { LessonPlayer } from "@/components/course/LessonPlayer";
 import { tr } from "@/lib/content";
 import { getCourse, getCourses } from "@/lib/content-server";
 import { Link } from "@/i18n/navigation";
@@ -65,35 +65,24 @@ export default async function LessonPage({ params }: Props) {
       </nav>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_22rem]">
-        <div>
-          <div className="aspect-video overflow-hidden rounded-2xl border border-line bg-black shadow-glow">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${lesson.youtubeId}`}
-              title={t("lesson.videoTitle", { title })}
-              loading="lazy"
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="size-full"
-            />
-          </div>
-
-          <div className="mt-6">
-            <p className="text-sm font-semibold text-muted">
-              {t("course.lessonNumber", { number: index + 1 })} ·{" "}
-              {t("common.minutes", { count: lesson.minutes })}
-            </p>
-            <h1 className="mt-1 text-[clamp(1.6rem,3.5vw,2.2rem)]">{title}</h1>
-          </div>
-
-          <div className="mt-6">
-            <LessonControls
-              slug={course.slug}
-              lessonId={lesson.id}
-              prevId={course.lessons[index - 1]?.id}
-              nextId={course.lessons[index + 1]?.id}
-            />
-          </div>
-        </div>
+        <LessonPlayer
+          course={course}
+          index={index}
+          heading={
+            <>
+              <p className="text-sm font-semibold text-muted">
+                {t("course.lessonNumber", { number: index + 1 })} ·{" "}
+                {t("common.minutes", { count: lesson.minutes })}
+                {lesson.freePreview && course.level.price > 0 && (
+                  <span className="ml-2 rounded-full bg-success/15 px-2 py-0.5 text-xs font-semibold text-success">
+                    {t("access.previewBadge")}
+                  </span>
+                )}
+              </p>
+              <h1 className="mt-1 text-[clamp(1.6rem,3.5vw,2.2rem)]">{title}</h1>
+            </>
+          }
+        />
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="card p-5">

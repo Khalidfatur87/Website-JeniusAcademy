@@ -12,15 +12,19 @@ import { createClient } from "./supabase/client";
  *   Progres lokal yang dibuat sebelum login digabung ke akun sekali saja.
  * - Jika server tidak bisa dijangkau (mis. tabel belum dibuat), tetap
  *   memakai localStorage supaya fitur belajar tidak berhenti.
+ * - Waktu penyelesaian dipakai untuk streak & target mingguan di dasbor.
  */
 type ProgressMap = Record<string, string[]>; // courseSlug -> id pelajaran selesai
 
 const localStore = createLocalStore<ProgressMap>("ja:progress", {});
+/** Waktu (ISO) pelajaran ditandai selesai oleh tamu — untuk streak. */
+const localActivity = createLocalStore<string[]>("ja:activity", []);
+const MAX_LOCAL_ACTIVITY = 500;
 
 // ---- store server (per pengguna) -----------------------------------------
 
-type Remote = { userId: string | null; map: ProgressMap; ok: boolean };
-const EMPTY_REMOTE: Remote = { userId: null, map: {}, ok: false };
+type Remote = { userId: string | null; map: ProgressMap; dates: string[]; ok: boolean };
+const EMPTY_REMOTE: Remote = { userId: null, map: {}, dates: [], ok: false };
 
 let remote: Remote = EMPTY_REMOTE;
 const listeners = new Set<() => void>();
@@ -56,20 +60,20 @@ async function load(userId: string) {
 
   const { data, error } = await sb
     .from("lesson_progress")
-    .select("course_slug, lesson_id");
+    .select("course_slug, lesson_id, completed_at");
   if (loading?.userId !== userId) return; // pengguna berganti selagi memuat
-  if (error || !data) return setRemote({ userId, map: {}, ok: false });
+  if (error || !data) return setRemote({ userId, map: {}, dates: [], ok: false });
 
   const map: ProgressMap = {};
   for (const r of data) (map[r.course_slug] ??= []).push(r.lesson_id);
-  setRemote({ userId, map, ok: true });
+  setRemote({ userId, map, dates: data.map((r) => r.completed_at as string), ok: true });
 }
 
 function ensureLoaded(userId: string) {
   if (loading?.userId === userId) return;
   loading = { userId, promise: Promise.resolve() };
   loading.promise = load(userId).catch(() =>
-    setRemote({ userId, map: {}, ok: false }),
+    setRemote({ userId, map: {}, dates: [], ok: false }),
   );
 }
 
@@ -84,7 +88,8 @@ function applyRemote(userId: string, slug: string, lessonId: string, done: boole
   const next = done
     ? list.includes(lessonId) ? list : [...list, lessonId]
     : list.filter((id) => id !== lessonId);
-  setRemote({ ...remote, map: { ...remote.map, [slug]: next } });
+  const dates = done && !list.includes(lessonId) ? [...remote.dates, new Date().toISOString()] : remote.dates;
+  setRemote({ ...remote, map: { ...remote.map, [slug]: next }, dates });
 }
 
 /** Ubah status selesai: langsung di UI, lalu ke server (dibatalkan jika gagal). */
@@ -106,6 +111,7 @@ export function useProgress() {
   const { user } = useAuth();
   const userId = user?.id ?? null;
   const local = localStore.useValue();
+  const localDates = localActivity.useValue();
   const server = useSyncExternalStore(
     subscribeRemote,
     () => remote,
@@ -135,6 +141,9 @@ export function useProgress() {
       ? list.includes(lessonId) ? list : [...list, lessonId]
       : list.filter((id) => id !== lessonId);
     localStore.set({ ...current, [slug]: next });
+    if (done && !list.includes(lessonId)) {
+      localActivity.set([...localActivity.get(), new Date().toISOString()].slice(-MAX_LOCAL_ACTIVITY));
+    }
   };
 
   const toggle = (slug: string, lessonId: string) =>
@@ -144,5 +153,8 @@ export function useProgress() {
     if (!isDone(slug, lessonId)) setDone(slug, lessonId, true);
   };
 
-  return { doneIds, isDone, toggle, markDone };
+  /** Waktu-waktu pelajaran diselesaikan (ISO), untuk streak & target mingguan. */
+  const activity = useServer ? server.dates : localDates;
+
+  return { doneIds, isDone, toggle, markDone, activity };
 }

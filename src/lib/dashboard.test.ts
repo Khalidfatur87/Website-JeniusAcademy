@@ -7,7 +7,7 @@ const lesson = (id: string) => ({
   id,
   title: { id: id, en: id },
   minutes: 10,
-  youtubeId: "x",
+  freePreview: false,
 });
 
 const level: Level = {
@@ -27,6 +27,7 @@ const course = (slug: string, ids: string[]): Course => ({
   title: { id: slug, en: slug },
   summary: { id: "", en: "" },
   teacher: "T",
+  teacherId: null,
   lessons: ids.map(lesson),
 });
 

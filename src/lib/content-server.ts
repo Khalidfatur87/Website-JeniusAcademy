@@ -32,20 +32,20 @@ export type LevelRow = {
   position: number;
 };
 
+/** Kolom pelajaran yang publik (video & catatan hanya lewat RPC lesson_content). */
 export type LessonRow = {
   id: string;
   title: L10n;
   minutes: number;
-  youtube_id: string;
+  free_preview: boolean;
   position: number;
 };
 
+/** Kolom soal yang publik (kunci jawaban & pembahasan tidak bisa dibaca langsung). */
 export type QuestionRow = {
   id: string;
   prompt: L10n;
   options: L10n[];
-  answer: number;
-  explanation: L10n;
   position: number;
 };
 
@@ -67,15 +67,51 @@ export const toLesson = (r: LessonRow): Lesson => ({
   id: r.id,
   title: r.title,
   minutes: r.minutes,
-  youtubeId: r.youtube_id,
+  freePreview: r.free_preview,
 });
 
 export const toQuestion = (r: QuestionRow): QuizQuestion => ({
   id: r.id,
   prompt: r.prompt,
   options: r.options,
-  answer: r.answer,
-  explanation: r.explanation,
+});
+
+/** Sertifikat untuk halaman verifikasi publik (null jika kode tidak ditemukan). */
+export type Certificate = {
+  code: string;
+  recipientName: string;
+  courseSlug: string;
+  courseTitle: L10n;
+  score: number | null;
+  total: number | null;
+  issuedAt: string;
+};
+
+export const getCertificate = cache(async (code: string): Promise<Certificate | null> => {
+  const sb = publicClient();
+  if (!sb || !/^[A-Za-z0-9]{6,32}$/.test(code)) return null;
+  const { data, error } = await sb.rpc("get_certificate", { p_code: code });
+  if (error) throw new Error(`certificate: ${error.message}`);
+  const r = (data as {
+    code: string;
+    recipient_name: string;
+    course_slug: string;
+    course_title: L10n;
+    score: number | null;
+    total: number | null;
+    issued_at: string;
+  }[])[0];
+  return r
+    ? {
+        code: r.code,
+        recipientName: r.recipient_name,
+        courseSlug: r.course_slug,
+        courseTitle: r.course_title,
+        score: r.score,
+        total: r.total,
+        issuedAt: r.issued_at,
+      }
+    : null;
 });
 
 export const byPosition = <T extends { position: number }>(a: T, b: T) => a.position - b.position;
@@ -96,12 +132,15 @@ type CourseRow = {
   title: L10n;
   summary: L10n;
   teacher_name: string;
+  teacher_id: string | null;
   lessons: LessonRow[];
-  quiz_questions: { count: number }[];
+  quiz_questions: { id: string }[];
 };
 
 const COURSE_COLUMNS =
-  "slug, level_id, title, summary, teacher_name, lessons(id, title, minutes, youtube_id, position), quiz_questions(count)";
+  "slug, level_id, title, summary, teacher_name, teacher_id, lessons(id, title, minutes, free_preview, position), quiz_questions(id)";
+// Catatan: agregat `(count)` tidak bisa dipakai karena lessons / quiz_questions
+// hanya memberi izin baca per kolom (kolom rahasia disembunyikan), jadi id dihitung di sini.
 
 // ---- kueri ----------------------------------------------------------------
 
@@ -140,8 +179,9 @@ export const getCourses = cache(async (): Promise<Course[]> => {
         title: r.title,
         summary: r.summary,
         teacher: r.teacher_name,
+        teacherId: r.teacher_id,
         lessons: [...(r.lessons ?? [])].sort(byPosition).map(toLesson),
-        quizCount: r.quiz_questions?.[0]?.count ?? 0,
+        quizCount: r.quiz_questions?.length ?? 0,
       }),
     )
     .filter((c) => c.lessons.length > 0)
@@ -152,12 +192,13 @@ export const getCourse = cache(async (slug: string) =>
   (await getCourses()).find((c) => c.slug === slug),
 );
 
+/** Soal kuis tanpa kunci jawaban. */
 export const getQuiz = cache(async (slug: string): Promise<QuizQuestion[]> => {
   const sb = publicClient();
   if (!sb) return [];
   const { data, error } = await sb
     .from("quiz_questions")
-    .select("id, prompt, options, answer, explanation, position")
+    .select("id, prompt, options, position")
     .eq("course_slug", slug)
     .order("position");
   if (error) throw new Error(`quiz: ${error.message}`);

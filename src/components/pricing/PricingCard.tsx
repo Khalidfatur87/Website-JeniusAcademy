@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { routes } from "@/lib/routes";
+import { SubscribeCta } from "@/components/course/SubscribeCta";
 
 const FEATURES = ["feature1", "feature2", "feature3", "feature4"] as const;
 
@@ -64,12 +65,26 @@ export function PricingCard({ level }: { level: Level }) {
           ))}
         </ul>
 
-        <Link
-          href={free ? routes.coursesByLevel(level.id) : routes.register}
-          className={`btn mt-7 w-full ${level.featured ? "btn-primary" : "btn-ghost"}`}
-        >
-          {free ? t("startFree") : t("choose")}
-        </Link>
+        <div className="mt-7">
+          {free ? (
+            <Link
+              href={routes.coursesByLevel(level.id)}
+              className={`btn w-full ${level.featured ? "btn-primary" : "btn-ghost"}`}
+            >
+              {t("startFree")}
+            </Link>
+          ) : (
+            <div className="space-y-2">
+              <SubscribeCta level={level} compact hidePlans primary={Boolean(level.featured)} />
+              <Link
+                href={routes.coursesByLevel(level.id)}
+                className="block text-center text-sm font-semibold text-brand-ink hover:underline"
+              >
+                {t("tryFree")}
+              </Link>
+            </div>
+          )}
+        </div>
       </article>
     </TiltCard>
   );

@@ -25,13 +25,23 @@ export type Level = {
   color: string;
 };
 
+/**
+ * Data pelajaran yang publik. Video, catatan, dan materi TIDAK ada di sini:
+ * dimuat terpisah lewat RPC `lesson_content` hanya bila siswa berhak.
+ */
 export type Lesson = {
   id: string;
   title: L10n;
   minutes: number;
-  /** ID video YouTube (bagian setelah v=). */
-  youtubeId: string;
+  /** Pratinjau gratis: bisa ditonton siapa saja, termasuk tamu. */
+  freePreview: boolean;
 };
+
+/** Isi pelajaran yang terkunci (dari RPC `lesson_content`). */
+export type LessonMaterial = { id: string; title: string; path: string; size: number };
+export type LessonContent =
+  | { access: false }
+  | { access: true; youtubeId: string; notes: L10n; materials: LessonMaterial[] };
 
 export type Course = {
   slug: string;
@@ -42,18 +52,27 @@ export type Course = {
   summary: L10n;
   /** Nama pengajar yang tampil. */
   teacher: string;
+  /** Akun guru pemilik (null = dikelola super admin). */
+  teacherId: string | null;
   lessons: Lesson[];
   /** Jumlah soal kuis (0 = tanpa kuis). */
   quizCount: number;
 };
 
+/** Soal kuis untuk siswa: TANPA kunci jawaban (dinilai di server, lihat `submit_quiz`). */
 export type QuizQuestion = {
   id: string;
   prompt: L10n;
   options: L10n[];
-  /** Indeks opsi yang benar (mulai dari 0). */
-  answer: number;
-  explanation: L10n;
+};
+
+/** Hasil penilaian server: skor + kunci jawaban & pembahasan tiap soal. */
+export type QuizResult = {
+  score: number;
+  total: number;
+  /** false untuk tamu (skor hanya disimpan di perangkat). */
+  recorded: boolean;
+  results: { id: string; answer: number; explanation: L10n }[];
 };
 
 /** Pilih teks sesuai bahasa; fallback ke bahasa Indonesia lalu bahasa pertama yang terisi. */

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { CertificatePanel } from "@/components/course/CertificatePanel";
 import { CourseAction } from "@/components/course/CourseAction";
 import { CourseQuizLink } from "@/components/course/CourseQuizLink";
 import { CourseHero } from "@/components/course/CourseHero";
@@ -79,6 +80,7 @@ export default async function CoursePage({ params }: Props) {
             {course.quizCount > 0 && (
               <CourseQuizLink slug={course.slug} count={course.quizCount} />
             )}
+            <CertificatePanel course={course} />
           </div>
         </aside>
       </div>

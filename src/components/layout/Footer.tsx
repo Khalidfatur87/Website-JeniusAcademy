@@ -40,7 +40,7 @@ export function Footer() {
   const socials = Object.entries(siteConfig.socials).filter(([, url]) => url);
 
   return (
-    <footer className="border-t border-line bg-surface">
+    <footer className="border-t border-line bg-surface print:hidden">
       <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="col-span-2 max-w-sm md:col-span-1">
           <Logo />

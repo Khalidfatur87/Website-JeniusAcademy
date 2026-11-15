@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import type { Role } from "@/lib/content";
 import { getViewer, isStaff } from "./session";
 import {
+  MATERIAL_MAX_BYTES,
+  subscriptionExpiry,
   validateCourse,
+  validateSubscriptionMonths,
   validateLessons,
   validateLevel,
   validateQuestions,
@@ -41,6 +44,7 @@ function dbError(e: { code?: string; message?: string } | null): ActionResult {
       return err("invalid");
   }
   if (e?.message?.includes("cannot_demote_self")) return err("cannotDemoteSelf");
+  if (e?.message?.includes("forbidden")) return err("forbidden");
   if (e?.message?.includes("row-level security")) return err("forbidden");
   return err("generic");
 }
@@ -108,25 +112,17 @@ export async function saveLessons(slug: string, list: LessonInput[]): Promise<Ac
   const v = validateLessons(list);
   if (!v.ok) return { ok: false, error: v.error };
 
-  const { data: allowed } = await s.sb.rpc("can_edit_course", { p_slug: slug });
-  if (!allowed) return err("forbidden");
-
+  // Disimpan sekaligus (atomik) lewat fungsi database yang memeriksa can_edit_course.
   const rows = v.value.map((l, position) => ({
-    course_slug: slug,
     id: l.id,
     title: l.title,
     minutes: l.minutes,
     youtube_id: l.youtubeId,
+    notes: l.notes,
+    free_preview: l.freePreview,
     position,
   }));
-  if (rows.length) {
-    const { error } = await s.sb.from("lessons").upsert(rows, { onConflict: "course_slug,id" });
-    if (error) return dbError(error);
-  }
-  let del = s.sb.from("lessons").delete().eq("course_slug", slug);
-  // Id pelajaran hanya [a-z0-9-] (divalidasi), aman disusun ke filter.
-  if (rows.length) del = del.not("id", "in", `(${rows.map((r) => r.id).join(",")})`);
-  const { error } = await del;
+  const { error } = await s.sb.rpc("save_lessons", { p_slug: slug, p_rows: rows });
   if (error) return dbError(error);
 
   refreshSite();
@@ -142,25 +138,15 @@ export async function saveQuestions(slug: string, list: QuestionInput[]): Promis
   const v = validateQuestions(list);
   if (!v.ok) return { ok: false, error: v.error };
 
-  const { data: allowed } = await s.sb.rpc("can_edit_course", { p_slug: slug });
-  if (!allowed) return err("forbidden");
-
   const rows = v.value.map((q, position) => ({
     id: q.id && UUID_RE.test(q.id) ? q.id : crypto.randomUUID(),
-    course_slug: slug,
     position,
     prompt: q.prompt,
     options: q.options,
     answer: q.answer,
     explanation: q.explanation,
   }));
-  if (rows.length) {
-    const { error } = await s.sb.from("quiz_questions").upsert(rows, { onConflict: "id" });
-    if (error) return dbError(error);
-  }
-  let del = s.sb.from("quiz_questions").delete().eq("course_slug", slug);
-  if (rows.length) del = del.not("id", "in", `(${rows.map((r) => r.id).join(",")})`);
-  const { error } = await del;
+  const { error } = await s.sb.rpc("save_questions", { p_slug: slug, p_rows: rows });
   if (error) return dbError(error);
 
   refreshSite();
@@ -233,5 +219,138 @@ export async function deleteReview(id: string): Promise<ActionResult> {
   const { error } = await s.sb.from("reviews").delete().eq("id", id);
   if (error) return dbError(error);
   refreshSite();
+  return { ok: true };
+}
+
+// ---- materi pelajaran ------------------------------------------------------
+
+/**
+ * Mencatat file materi yang sudah diunggah browser ke bucket "materials".
+ * Path harus berada di folder <slug>/<id pelajaran>/ (dicek juga oleh database).
+ */
+export async function addMaterial(
+  slug: string,
+  lessonId: string,
+  file: { title: string; path: string; size: number },
+): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const title = file.title.trim().slice(0, 120);
+  if (!title) return err("materialTitleRequired");
+  if (!file.path.startsWith(`${slug}/${lessonId}/`) || file.path.includes("..")) return err("invalid");
+  if (!Number.isInteger(file.size) || file.size < 0 || file.size > MATERIAL_MAX_BYTES) {
+    return err("materialTooLarge");
+  }
+  const { count } = await s.sb
+    .from("lesson_materials")
+    .select("id", { count: "exact", head: true })
+    .eq("course_slug", slug)
+    .eq("lesson_id", lessonId);
+  const { error } = await s.sb.from("lesson_materials").insert({
+    course_slug: slug,
+    lesson_id: lessonId,
+    title,
+    path: file.path,
+    size: file.size,
+    position: count ?? 0,
+  });
+  if (error) {
+    await s.sb.storage.from("materials").remove([file.path]);
+    return dbError(error);
+  }
+  return { ok: true };
+}
+
+export async function deleteMaterial(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("lesson_materials").delete().eq("id", id).select("path");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  await s.sb.storage.from("materials").remove(data.map((r) => r.path));
+  return { ok: true };
+}
+
+// ---- langganan (super admin) -------------------------------------------------
+
+/** Memberi / memperpanjang akses jenjang untuk satu pengguna. months null = tanpa batas. */
+export async function grantSubscription(
+  userId: string,
+  levelId: string,
+  months: number | null,
+  note: string,
+): Promise<ActionResult> {
+  const s = await superAdmin();
+  if (!s) return err("forbidden");
+  if (!UUID_RE.test(userId)) return err("userRequired");
+  if (!levelId) return err("levelRequired");
+  if (!validateSubscriptionMonths(months)) return err("invalid");
+  const cleanNote = note.trim();
+  if (cleanNote.length > 200) return err("noteTooLong");
+
+  const { data: current } = await s.sb
+    .from("subscriptions")
+    .select("expires_at")
+    .eq("user_id", userId)
+    .eq("level_id", levelId)
+    .maybeSingle();
+
+  const { error } = await s.sb.from("subscriptions").upsert(
+    {
+      user_id: userId,
+      level_id: levelId,
+      expires_at: subscriptionExpiry(months, current?.expires_at),
+      note: cleanNote,
+      granted_by: s.viewer.id,
+    },
+    { onConflict: "user_id,level_id" },
+  );
+  if (error) return dbError(error);
+  return { ok: true };
+}
+
+export async function revokeSubscription(userId: string, levelId: string): Promise<ActionResult> {
+  const s = await superAdmin();
+  if (!s) return err("forbidden");
+  const { error } = await s.sb
+    .from("subscriptions")
+    .delete()
+    .eq("user_id", userId)
+    .eq("level_id", levelId);
+  if (error) return dbError(error);
+  return { ok: true };
+}
+
+// ---- diskusi -------------------------------------------------------------------
+
+/** Menjawab pertanyaan siswa dari CMS. Izin dicek RLS (guru pemilik / super admin). */
+export async function replyToQuestion(
+  questionId: string,
+  slug: string,
+  lessonId: string,
+  body: string,
+): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const text = body.trim();
+  if (!text) return err("replyRequired");
+  if (text.length > 2000) return err("replyTooLong");
+  const { error } = await s.sb.from("lesson_comments").insert({
+    course_slug: slug,
+    lesson_id: lessonId,
+    user_id: s.viewer.id,
+    parent_id: questionId,
+    body: text,
+  });
+  if (error) return dbError(error);
+  return { ok: true };
+}
+
+export async function deleteQuestion(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("lesson_comments").delete().eq("id", id).select("id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
   return { ok: true };
 }

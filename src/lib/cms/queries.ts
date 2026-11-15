@@ -1,12 +1,5 @@
 import type { L10n, Level, Role } from "@/lib/content";
-import {
-  byPosition,
-  LEVEL_COLUMNS,
-  toLevel,
-  type LessonRow,
-  type LevelRow,
-  type QuestionRow,
-} from "@/lib/content-server";
+import { LEVEL_COLUMNS, toLevel, type LevelRow } from "@/lib/content-server";
 import { getViewer, type Viewer } from "./session";
 
 /** Kueri CMS: memakai sesi pengguna (RLS berlaku), hanya dipanggil dari halaman /admin. */
@@ -26,7 +19,7 @@ export type AdminCourseSummary = {
 export async function listEditableCourses(sb: Sb, viewer: Viewer): Promise<AdminCourseSummary[]> {
   let q = sb
     .from("courses")
-    .select("slug, title, level_id, published, teacher_name, position, lessons(count), quiz_questions(count)")
+    .select("slug, title, level_id, published, teacher_name, position, lessons(id), quiz_questions(id)")
     .order("position")
     .order("slug");
   // Guru juga bisa MEMBACA kelas terbit milik guru lain; di CMS hanya tampil miliknya.
@@ -39,10 +32,31 @@ export async function listEditableCourses(sb: Sb, viewer: Viewer): Promise<Admin
     levelId: r.level_id,
     published: r.published,
     teacherName: r.teacher_name,
-    lessonCount: (r.lessons as { count: number }[])[0]?.count ?? 0,
-    questionCount: (r.quiz_questions as { count: number }[])[0]?.count ?? 0,
+    // (count) tidak bisa dipakai: tabel ini hanya memberi izin baca per kolom.
+    lessonCount: (r.lessons as { id: string }[]).length,
+    questionCount: (r.quiz_questions as { id: string }[]).length,
   }));
 }
+
+export type AdminMaterial = { id: string; title: string; path: string; size: number };
+
+export type AdminLesson = {
+  id: string;
+  title: L10n;
+  minutes: number;
+  youtubeId: string;
+  notes: L10n;
+  freePreview: boolean;
+  materials: AdminMaterial[];
+};
+
+export type AdminQuestion = {
+  id: string;
+  prompt: L10n;
+  options: L10n[];
+  answer: number;
+  explanation: L10n;
+};
 
 export type AdminCourse = {
   slug: string;
@@ -53,17 +67,15 @@ export type AdminCourse = {
   teacherName: string;
   published: boolean;
   position: number;
-  lessons: { id: string; title: L10n; minutes: number; youtubeId: string }[];
-  questions: {
-    id: string;
-    prompt: L10n;
-    options: L10n[];
-    answer: number;
-    explanation: L10n;
-  }[];
+  lessons: AdminLesson[];
+  questions: AdminQuestion[];
 };
 
-/** Kelas lengkap untuk editor; null jika tidak ada ATAU bukan milik guru ini. */
+/**
+ * Kelas lengkap untuk editor; null jika tidak ada ATAU bukan milik guru ini.
+ * Video, catatan, dan kunci jawaban tidak bisa dibaca langsung dari tabel —
+ * dibaca lewat RPC yang memeriksa can_edit_course.
+ */
 export async function getEditableCourse(
   sb: Sb,
   viewer: Viewer,
@@ -71,14 +83,34 @@ export async function getEditableCourse(
 ): Promise<AdminCourse | null> {
   const { data, error } = await sb
     .from("courses")
-    .select(
-      "slug, level_id, title, summary, teacher_id, teacher_name, published, position, lessons(id, title, minutes, youtube_id, position), quiz_questions(id, prompt, options, answer, explanation, position)",
-    )
+    .select("slug, level_id, title, summary, teacher_id, teacher_name, published, position")
     .eq("slug", slug)
     .maybeSingle();
   if (error) throw new Error(error.message);
   if (!data) return null;
   if (viewer.role !== "super_admin" && data.teacher_id !== viewer.id) return null;
+
+  const [lessons, questions, materials] = await Promise.all([
+    sb.rpc("admin_course_lessons", { p_slug: slug }),
+    sb.rpc("admin_course_questions", { p_slug: slug }),
+    sb
+      .from("lesson_materials")
+      .select("id, lesson_id, title, path, size")
+      .eq("course_slug", slug)
+      .order("position")
+      .order("created_at"),
+  ]);
+  if (lessons.error) throw new Error(lessons.error.message);
+  if (questions.error) throw new Error(questions.error.message);
+  if (materials.error) throw new Error(materials.error.message);
+
+  const byLesson = new Map<string, AdminMaterial[]>();
+  for (const m of materials.data) {
+    byLesson.set(m.lesson_id, [
+      ...(byLesson.get(m.lesson_id) ?? []),
+      { id: m.id, title: m.title, path: m.path, size: m.size },
+    ]);
+  }
 
   return {
     slug: data.slug,
@@ -89,13 +121,25 @@ export async function getEditableCourse(
     teacherName: data.teacher_name,
     published: data.published,
     position: data.position,
-    lessons: [...(data.lessons as LessonRow[])].sort(byPosition).map((l) => ({
+    lessons: (
+      lessons.data as {
+        id: string;
+        title: L10n;
+        minutes: number;
+        youtube_id: string;
+        notes: L10n;
+        free_preview: boolean;
+      }[]
+    ).map((l) => ({
       id: l.id,
       title: l.title,
       minutes: l.minutes,
       youtubeId: l.youtube_id,
+      notes: l.notes ?? {},
+      freePreview: l.free_preview,
+      materials: byLesson.get(l.id) ?? [],
     })),
-    questions: [...(data.quiz_questions as QuestionRow[])].sort(byPosition).map((q) => ({
+    questions: (questions.data as AdminQuestion[]).map((q) => ({
       id: q.id,
       prompt: q.prompt,
       options: q.options,
@@ -202,4 +246,152 @@ export async function listReviews(sb: Sb): Promise<AdminReview[]> {
     approved: r.approved,
     createdAt: r.created_at,
   }));
+}
+
+// ---- langganan (super admin) -------------------------------------------------
+
+export type AdminSubscription = {
+  userId: string;
+  userName: string;
+  userEmail: string;
+  levelId: string;
+  expiresAt: string | null;
+  note: string;
+  createdAt: string;
+};
+
+export async function listSubscriptions(sb: Sb, users: AdminUser[]): Promise<AdminSubscription[]> {
+  const { data, error } = await sb
+    .from("subscriptions")
+    .select("user_id, level_id, expires_at, note, created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  const byId = new Map(users.map((u) => [u.id, u]));
+  return data.map((r) => ({
+    userId: r.user_id,
+    userName: byId.get(r.user_id)?.name ?? "",
+    userEmail: byId.get(r.user_id)?.email ?? "",
+    levelId: r.level_id,
+    expiresAt: r.expires_at,
+    note: r.note,
+    createdAt: r.created_at,
+  }));
+}
+
+// ---- diskusi ---------------------------------------------------------------
+
+export type OpenQuestion = {
+  id: string;
+  courseSlug: string;
+  lessonId: string;
+  courseTitle: L10n;
+  lessonTitle: L10n;
+  body: string;
+  createdAt: string;
+  authorName: string;
+};
+
+export async function listOpenQuestions(sb: Sb): Promise<OpenQuestion[]> {
+  const { data, error } = await sb.rpc("admin_open_questions");
+  if (error) throw new Error(error.message);
+  return (
+    data as {
+      id: string;
+      course_slug: string;
+      lesson_id: string;
+      course_title: L10n;
+      lesson_title: L10n;
+      body: string;
+      created_at: string;
+      author_name: string;
+    }[]
+  ).map((r) => ({
+    id: r.id,
+    courseSlug: r.course_slug,
+    lessonId: r.lesson_id,
+    courseTitle: r.course_title,
+    lessonTitle: r.lesson_title,
+    body: r.body,
+    createdAt: r.created_at,
+    authorName: r.author_name,
+  }));
+}
+
+// ---- statistik ----------------------------------------------------------------
+
+export type CourseStats = {
+  slug: string;
+  title: L10n;
+  published: boolean;
+  lessons: number;
+  learners: number;
+  completers: number;
+  quizTakers: number;
+  avgBestPercent: number | null;
+  certificates: number;
+};
+
+export async function courseStats(sb: Sb): Promise<CourseStats[]> {
+  const { data, error } = await sb.rpc("admin_course_stats");
+  if (error) throw new Error(error.message);
+  return (
+    data as {
+      slug: string;
+      title: L10n;
+      published: boolean;
+      lessons: number;
+      learners: number;
+      completers: number;
+      quiz_takers: number;
+      avg_best_percent: number | null;
+      certificates: number;
+    }[]
+  ).map((r) => ({
+    slug: r.slug,
+    title: r.title,
+    published: r.published,
+    lessons: r.lessons,
+    learners: r.learners,
+    completers: r.completers,
+    quizTakers: r.quiz_takers,
+    avgBestPercent: r.avg_best_percent,
+    certificates: r.certificates,
+  }));
+}
+
+export type FunnelStep = { lessonId: string; title: L10n; completed: number };
+
+export async function lessonFunnel(sb: Sb, slug: string): Promise<FunnelStep[]> {
+  const { data, error } = await sb.rpc("admin_lesson_funnel", { p_slug: slug });
+  if (error) throw new Error(error.message);
+  return (data as { lesson_id: string; title: L10n; completed: number }[]).map((r) => ({
+    lessonId: r.lesson_id,
+    title: r.title,
+    completed: r.completed,
+  }));
+}
+
+export type Overview = {
+  users: number;
+  newUsers30d: number;
+  activeLearners7d: number;
+  activeSubscriptions: number;
+  pendingReviews: number;
+  certificates: number;
+};
+
+/** Ringkasan situs; null untuk selain super admin. */
+export async function siteOverview(sb: Sb): Promise<Overview | null> {
+  const { data, error } = await sb.rpc("admin_overview");
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+  const d = data as Record<string, number>;
+  return {
+    users: d.users,
+    newUsers30d: d.new_users_30d,
+    activeLearners7d: d.active_learners_7d,
+    activeSubscriptions: d.active_subscriptions,
+    pendingReviews: d.pending_reviews,
+    certificates: d.certificates,
+  };
 }

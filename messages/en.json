@@ -27,7 +27,8 @@
     "main": "Main navigation",
     "dashboard": "Dashboard",
     "cms": "CMS",
-    "account": "Account menu"
+    "account": "Account menu",
+    "profile": "Profile"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -179,7 +180,13 @@
     "completed": "Completed",
     "videoTitle": "Lesson video: {title}",
     "inThisCourse": "In this class",
-    "backToCourse": "Back to class"
+    "backToCourse": "Back to class",
+    "loading": "Loading lesson…",
+    "unavailable": "The video isn't available yet. Try reloading the page.",
+    "notes": "Lesson notes",
+    "materials": "Learning materials",
+    "download": "Download",
+    "downloadFailed": "The file couldn't be downloaded. Please try again."
   },
   "pricing": {
     "title": "Choose your plan",
@@ -193,7 +200,8 @@
     "feature2": "Learning progress tracker",
     "feature3": "Practice questions in every chapter",
     "feature4": "Learn from any device",
-    "note": "Payments are not active in this preview version."
+    "note": "Online payment isn't available yet. Contact us to subscribe; an admin will activate your access.",
+    "tryFree": "Try the free lessons first"
   },
   "reviews": {
     "title": "Student Reviews",
@@ -296,7 +304,10 @@
     "needsReview": "Review the material and try again.",
     "retry": "Retake quiz",
     "backToCourse": "Back to course",
-    "saveFailed": "Your score was not saved to your account. Please try again later."
+    "saveFailed": "Your score was not saved to your account. Please try again later.",
+    "guestNotSaved": "This score is only saved on this device. Log in to record scores to your account.",
+    "checking": "Checking…",
+    "submitFailed": "Your answers couldn't be sent. Check your connection and try again."
   },
   "dashboard": {
     "title": "Learning dashboard",
@@ -320,7 +331,13 @@
     "emptyText": "Pick your first course and start learning.",
     "browse": "Browse courses",
     "recentQuiz": "Quiz history",
-    "noAttempts": "You have not taken any quizzes yet."
+    "noAttempts": "You have not taken any quizzes yet.",
+    "mySubscriptions": "My subscriptions",
+    "subForever": "Active",
+    "subUntil": "Active until {date}",
+    "subExpired": "Ended {date}",
+    "myCertificates": "My certificates",
+    "viewCertificate": "View"
   },
   "admin": {
     "title": "CMS",
@@ -347,7 +364,10 @@
       "courses": "Classes",
       "levels": "Levels & pricing",
       "users": "Users",
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "discussions": "Discussions",
+      "stats": "Statistics",
+      "subscriptions": "Subscriptions"
     },
     "courses": {
       "allTitle": "All classes",
@@ -398,11 +418,14 @@
       "save": "Save lessons",
       "row": "Lesson",
       "confirmDelete": "Delete this lesson? Student progress for it will no longer count.",
-      "hiddenWhenEmpty": "This class is not shown on the site yet because it has no lessons."
+      "hiddenWhenEmpty": "This class is not shown on the site yet because it has no lessons.",
+      "freePreview": "Free preview",
+      "freePreviewHint": "Anyone, including guests, can watch it even if the course is paid.",
+      "notes": "Notes / summary (optional)"
     },
     "quiz": {
       "heading": "Quiz",
-      "note": "Questions and answer keys are sent to the student's browser, so this quiz suits practice, not graded exams.",
+      "note": "Answer keys are never sent to students' browsers: answers are graded on the server and scores are recorded automatically. Keys and explanations appear only after a student submits.",
       "empty": "No questions yet. Classes without questions don't show a quiz button.",
       "question": "Question",
       "prompt": "Question",
@@ -506,7 +529,194 @@
       "levelIdInvalid": "Level ID may only contain lowercase letters, numbers and hyphens (max 30).",
       "levelNameRequired": "Level name (Indonesian) is required.",
       "priceInvalid": "Price must be a whole number ≥ 0.",
-      "colorInvalid": "Color must be a hex value, e.g. #0085FF."
+      "colorInvalid": "Color must be a hex value, e.g. #0085FF.",
+      "lessonNotesTooLong": "notes are too long (max. 5000 characters).",
+      "materialTitleRequired": "A file title is required.",
+      "materialTooLarge": "Files can be at most 20 MB.",
+      "materialType": "This file type isn't supported.",
+      "uploadFailed": "The file couldn't be uploaded. Please try again.",
+      "userRequired": "Choose a user.",
+      "noteTooLong": "The note is too long (max. 200 characters).",
+      "replyRequired": "An answer is required.",
+      "replyTooLong": "The answer is too long (max. 2000 characters)."
+    },
+    "dragToSort": "Drag to reorder",
+    "materials": {
+      "title": "Material files",
+      "upload": "Upload file",
+      "hint": "PDF, image, Word, PowerPoint, Excel or ZIP. Max. 20 MB.",
+      "saveFirst": "Save this lesson first to add material files.",
+      "delete": "Delete {title}",
+      "confirmDelete": "Delete the file \"{title}\"?"
+    },
+    "stats": {
+      "title": "Statistics",
+      "subtitle": "How students are doing in the courses you manage.",
+      "overview": "Site overview",
+      "users": "Users",
+      "newUsers": "New users (30 days)",
+      "activeLearners": "Active learners (7 days)",
+      "activeSubscriptions": "Active subscriptions",
+      "certificates": "Certificates",
+      "pendingReviews": "Pending reviews",
+      "perCourse": "Per course",
+      "empty": "No courses yet.",
+      "seeFunnel": "See per lesson",
+      "learners": "Learners",
+      "completed": "Completed",
+      "avgQuiz": "Average quiz",
+      "quizTakers": "{count} students",
+      "completionLabel": "{percent}% of learners completed the course",
+      "funnelTitle": "Per lesson: {course}",
+      "funnelHint": "How many students finished each lesson. A sharp drop shows where students tend to stop.",
+      "funnelEmpty": "No student has finished a lesson in this course yet.",
+      "funnelCount": "{count} students",
+      "dropOff": "down {percent}%"
+    },
+    "discussions": {
+      "title": "Discussions",
+      "subtitle": "Student questions no teacher has answered yet. Answered questions leave this list.",
+      "empty": "No questions are waiting for an answer.",
+      "reply": "Send answer",
+      "replyPlaceholder": "Write an answer for the student…",
+      "delete": "Delete question",
+      "confirmDelete": "Delete this question and its replies?"
+    },
+    "subscriptions": {
+      "title": "Subscriptions",
+      "subtitle": "Activate paid level access once a student has paid. Online payment isn't available yet.",
+      "noPaidLevels": "There are no paid levels yet. Set prices under Levels & pricing.",
+      "grantTitle": "Grant or extend access",
+      "searchUser": "Search users",
+      "searchPlaceholder": "Name or email",
+      "user": "User",
+      "chooseUser": "— Choose a user —",
+      "level": "Level",
+      "duration": "Duration",
+      "durationHint": "If still active, the duration is added from the current end date.",
+      "months": "{count, plural, one {# month} other {# months}}",
+      "forever": "No end date",
+      "note": "Note (optional)",
+      "noteHint": "E.g. a transfer reference or payment details.",
+      "grant": "Save access",
+      "listTitle": "Subscriptions",
+      "filter": "Subscription status",
+      "active": "Active",
+      "expiredFilter": "Ended",
+      "all": "All",
+      "empty": "No subscriptions here.",
+      "until": "until {date}",
+      "expired": "ended {date}",
+      "revoke": "Revoke",
+      "confirmRevoke": "Revoke {level} access for {name}?"
     }
+  },
+  "access": {
+    "subscribe": "Subscribe",
+    "seePlans": "See plans",
+    "contactMessage": "Hi, I'd like to subscribe to the {level} plan. My account email: {email}",
+    "lockedTitle": "This lesson is for subscribers",
+    "lockedText": "Subscribe to the {level} plan ({price}/month) to unlock every video, material, quiz and discussion in this course.",
+    "alreadySubscribed": "Already subscribed?",
+    "login": "Log in",
+    "tryPreview": "Watch the free preview lesson",
+    "tryFree": "Try for free",
+    "previewBadge": "Free",
+    "locked": "Locked",
+    "courseLocked": "This course is part of the {level} plan ({price}/month). Lessons marked Free can be watched without a subscription.",
+    "activeUntil": "Subscription active until {date}",
+    "activeForever": "Subscription active"
+  },
+  "streak": {
+    "label": "Study habit",
+    "streak": "Study streak",
+    "days_count": "{count, plural, =0 {0 days} one {# day} other {# days}}",
+    "thisWeek": "Activity this week",
+    "days": "Mo,Tu,We,Th,Fr,Sa,Su",
+    "active": "active",
+    "inactive": "inactive",
+    "weeklyGoal": "This week's goal",
+    "goalProgress": "{done}/{goal} lessons",
+    "goalLabel": "Lessons per week",
+    "change": "Change",
+    "save": "Save",
+    "goalReached": "Goal reached. Great job!",
+    "goalLeft": "{count, plural, one {# more lesson to reach your goal} other {# more lessons to reach your goal}}"
+  },
+  "certificate": {
+    "title": "Certificate",
+    "view": "View certificate",
+    "claim": "Get certificate",
+    "loginRequired": "Log in to earn a certificate when you finish the course.",
+    "reqLessons": "Finish every lesson ({done}/{total})",
+    "reqQuiz": "Score at least {percent}% on the quiz",
+    "errors": {
+      "notComplete": "Finish every lesson first.",
+      "quizRequired": "Your best quiz score hasn't reached {percent}% yet.",
+      "noAccess": "You don't have access to this course yet.",
+      "generic": "The certificate couldn't be created. Please try again."
+    },
+    "pageTitle": "Certificate: {course}",
+    "notFound": "Certificate not found",
+    "verified": "This certificate is genuine and recorded in our system.",
+    "print": "Print / save as PDF",
+    "heading": "Certificate of Completion",
+    "presentedTo": "Presented to",
+    "forCompleting": "for successfully completing the course",
+    "quizScore": "Quiz score: {score}/{total} ({percent}%)",
+    "issuedOn": "Issued on",
+    "code": "Certificate code",
+    "verifyAt": "Verify at: {url}",
+    "toCourse": "View course"
+  },
+  "discussion": {
+    "title": "Discussion",
+    "loginToAsk": "Log in to ask a question or join the discussion.",
+    "login": "Log in",
+    "askPlaceholder": "Write your question about this lesson…",
+    "ask": "Post question",
+    "replyPlaceholder": "Write an answer…",
+    "reply": "Reply",
+    "empty": "No questions yet. Be the first to ask.",
+    "failed": "Couldn't send. Please try again.",
+    "loadFailed": "The discussion couldn't be loaded.",
+    "delete": "Delete",
+    "confirmDelete": "Delete this post?"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account details, photo and study goal.",
+    "photo": "Profile photo",
+    "photoHint": "PNG, JPG or WebP, up to 2 MB.",
+    "uploadPhoto": "Upload photo",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove photo",
+    "details": "Account details",
+    "name": "Name",
+    "nameHint": "Shown in discussions and on certificates issued from now on (existing certificates don't change).",
+    "email": "Email",
+    "save": "Save",
+    "saved": "Saved.",
+    "goal": "Study goal",
+    "goalLabel": "Lessons per week (1–50)",
+    "certificates": "Certificates",
+    "noCertificates": "No certificates yet. Finish a course to earn one.",
+    "view": "View",
+    "password": "Password",
+    "passwordHint": "Set a new password for your account.",
+    "changePassword": "Change password",
+    "loginRequired": "Log in to open your profile.",
+    "login": "Log in",
+    "errors": {
+      "nameRequired": "Name is required.",
+      "nameTooLong": "Name is too long (max. 80 characters).",
+      "fileType": "The photo must be PNG, JPG or WebP.",
+      "fileSize": "The photo can be at most 2 MB.",
+      "generic": "Couldn't save. Please try again."
+    }
+  },
+  "whatsapp": {
+    "label": "Chat on WhatsApp",
+    "message": "Hi, I have a question about JeniusAcademy."
   }
 }

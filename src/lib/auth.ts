@@ -10,8 +10,18 @@ import { createClient, isSupabaseConfigured } from "./supabase/client";
  * Satu store bersama untuk semua komponen: sesi dibaca sekali lewat
  * onAuthStateChange, lalu disebarkan ke setiap pemanggil useAuth().
  */
-/** `role` dimuat dari tabel profiles setelah login (sementara "student"). */
-export type User = { id: string; name: string; email: string; role: Role };
+/**
+ * `role`, `avatarUrl`, dan `weeklyGoal` dimuat dari tabel profiles setelah login
+ * (sementara: "student", tanpa foto, target 5). `name` juga diganti nama di profiles.
+ */
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  avatarUrl: string | null;
+  weeklyGoal: number;
+};
 export type AuthState = { user: User | null; ready: boolean };
 
 /** Kunci pesan galat (diterjemahkan di `auth.errors.*`). */
@@ -43,7 +53,9 @@ function setState(next: AuthState) {
     a?.id === b?.id &&
     a?.name === b?.name &&
     a?.email === b?.email &&
-    a?.role === b?.role;
+    a?.role === b?.role &&
+    a?.avatarUrl === b?.avatarUrl &&
+    a?.weeklyGoal === b?.weeklyGoal;
   if (same) return;
   state = next;
   listeners.forEach((l) => l());
@@ -57,24 +69,51 @@ function toUser(u: SupabaseUser): User {
     email,
     name: meta.name || meta.full_name || email.split("@")[0] || "",
     role: "student",
+    avatarUrl: null,
+    weeklyGoal: 5,
   };
 }
 
-/** Membaca role dari profiles lalu memperbarui store (hanya untuk menampilkan menu; akses tetap dijaga RLS). */
-async function loadRole(userId: string) {
-  const { data } = await getClient()
-    .from("profiles")
-    .select("role")
-    .eq("id", userId)
-    .maybeSingle();
-  const role = (data?.role as Role | undefined) ?? "student";
-  if (state.user?.id === userId && state.user.role !== role) {
-    setState({ ...state, user: { ...state.user, role } });
-  }
+/** URL publik foto profil di bucket "avatars". `v` memaksa browser memuat versi terbaru. */
+export function avatarUrl(path: string | null | undefined): string | null {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!path || !base) return null;
+  return `${base.replace(/\/$/, "")}/storage/v1/object/public/avatars/${path}`;
 }
 
+/**
+ * Membaca profil (role, nama, foto, target) lalu memperbarui store.
+ * Role hanya untuk menampilkan menu; akses tetap dijaga RLS.
+ */
+async function loadProfile(userId: string) {
+  const { data } = await getClient()
+    .from("profiles")
+    .select("name, role, avatar_path, weekly_goal")
+    .eq("id", userId)
+    .maybeSingle();
+  if (state.user?.id !== userId || !data) return;
+  setState({
+    ...state,
+    user: {
+      ...state.user,
+      name: data.name || state.user.name,
+      role: (data.role as Role | undefined) ?? "student",
+      avatarUrl: avatarUrl(data.avatar_path),
+      weeklyGoal: data.weekly_goal ?? 5,
+    },
+  });
+}
+
+/** Muat ulang profil setelah diubah (halaman profil, target mingguan). */
+export async function refreshProfile() {
+  if (state.user) await loadProfile(state.user.id).catch(() => {});
+}
+
+const pickProfile = ({ name, role, avatarUrl, weeklyGoal }: User) => ({ name, role, avatarUrl, weeklyGoal });
+
 let client: ReturnType<typeof createClient> | undefined;
-const getClient = () => (client ??= createClient());
+/** Satu client browser bersama (sesi login yang sama dipakai semua modul). */
+export const getClient = () => (client ??= createClient());
 
 function start() {
   if (started) return;
@@ -87,11 +126,11 @@ function start() {
   getClient().auth.onAuthStateChange((_event, session) => {
     if (!session) return setState({ user: null, ready: true });
     const user = toUser(session.user);
-    // Pertahankan role yang sudah dimuat untuk pengguna yang sama.
-    if (state.user?.id === user.id) user.role = state.user.role;
-    setState({ user, ready: true });
+    // Pertahankan profil yang sudah dimuat untuk pengguna yang sama.
+    const prev = state.user?.id === user.id ? state.user : null;
+    setState({ user: prev ? { ...user, ...pickProfile(prev) } : user, ready: true });
     // Di luar callback auth (menghindari deadlock supabase-js).
-    setTimeout(() => void loadRole(user.id).catch(() => {}), 0);
+    setTimeout(() => void loadProfile(user.id).catch(() => {}), 0);
   });
 }
 

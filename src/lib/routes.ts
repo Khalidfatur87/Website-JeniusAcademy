@@ -9,6 +9,8 @@ export const routes = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   dashboard: "/dashboard",
+  profile: "/profile",
+  certificate: (code: string) => `/certificates/${code}`,
   contact: "/#contact",
   coursesByLevel: (id: string) => `/courses?level=${id}`,
   course: (slug: string) => `/courses/${slug}`,
@@ -23,4 +25,7 @@ export const routes = {
   adminLevels: "/admin/levels",
   adminUsers: "/admin/users",
   adminReviews: "/admin/reviews",
+  adminStats: "/admin/stats",
+  adminDiscussions: "/admin/discussions",
+  adminSubscriptions: "/admin/subscriptions",
 } as const;

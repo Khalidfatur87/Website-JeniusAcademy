@@ -27,7 +27,8 @@
     "main": "Navigasi utama",
     "dashboard": "Dasbor",
     "cms": "CMS",
-    "account": "Menu akun"
+    "account": "Menu akun",
+    "profile": "Profil"
   },
   "theme": {
     "toggle": "Ganti tema",
@@ -179,7 +180,13 @@
     "completed": "Selesai",
     "videoTitle": "Video pelajaran: {title}",
     "inThisCourse": "Di kelas ini",
-    "backToCourse": "Kembali ke kelas"
+    "backToCourse": "Kembali ke kelas",
+    "loading": "Memuat pelajaran…",
+    "unavailable": "Video belum tersedia. Coba muat ulang halaman.",
+    "notes": "Catatan pelajaran",
+    "materials": "Materi pendukung",
+    "download": "Unduh",
+    "downloadFailed": "File tidak bisa diunduh. Coba lagi."
   },
   "pricing": {
     "title": "Pilih paket belajar",
@@ -193,7 +200,8 @@
     "feature2": "Pelacak progres belajar",
     "feature3": "Latihan soal di setiap bab",
     "feature4": "Belajar dari perangkat apa pun",
-    "note": "Pembayaran belum aktif pada versi pratinjau ini."
+    "note": "Pembayaran online belum tersedia. Hubungi kami untuk berlangganan; akses diaktifkan oleh admin.",
+    "tryFree": "Coba pelajaran gratis dulu"
   },
   "reviews": {
     "title": "Ulasan Siswa",
@@ -296,7 +304,10 @@
     "needsReview": "Yuk tinjau lagi materinya, lalu coba lagi.",
     "retry": "Ulangi kuis",
     "backToCourse": "Kembali ke kelas",
-    "saveFailed": "Skor belum tersimpan di akunmu. Coba lagi nanti."
+    "saveFailed": "Skor belum tersimpan di akunmu. Coba lagi nanti.",
+    "guestNotSaved": "Skor ini hanya tersimpan di perangkat ini. Masuk agar skor tercatat di akunmu.",
+    "checking": "Memeriksa…",
+    "submitFailed": "Jawaban gagal dikirim. Periksa koneksi lalu coba lagi."
   },
   "dashboard": {
     "title": "Dasbor belajar",
@@ -320,7 +331,13 @@
     "emptyText": "Pilih kelas pertamamu dan mulai belajar.",
     "browse": "Jelajahi kelas",
     "recentQuiz": "Riwayat kuis",
-    "noAttempts": "Belum ada kuis yang dikerjakan."
+    "noAttempts": "Belum ada kuis yang dikerjakan.",
+    "mySubscriptions": "Langganan saya",
+    "subForever": "Aktif",
+    "subUntil": "Aktif sampai {date}",
+    "subExpired": "Berakhir {date}",
+    "myCertificates": "Sertifikat saya",
+    "viewCertificate": "Lihat"
   },
   "admin": {
     "title": "CMS",
@@ -347,7 +364,10 @@
       "courses": "Kelas",
       "levels": "Jenjang & harga",
       "users": "Pengguna",
-      "reviews": "Ulasan"
+      "reviews": "Ulasan",
+      "discussions": "Diskusi",
+      "stats": "Statistik",
+      "subscriptions": "Langganan"
     },
     "courses": {
       "allTitle": "Semua kelas",
@@ -398,11 +418,14 @@
       "save": "Simpan pelajaran",
       "row": "Pelajaran",
       "confirmDelete": "Hapus pelajaran ini? Progres siswa untuk pelajaran ini tidak dihitung lagi.",
-      "hiddenWhenEmpty": "Kelas ini belum tampil di situs karena belum punya pelajaran."
+      "hiddenWhenEmpty": "Kelas ini belum tampil di situs karena belum punya pelajaran.",
+      "freePreview": "Pratinjau gratis",
+      "freePreviewHint": "Bisa ditonton siapa saja, termasuk tamu, walau kelasnya berbayar.",
+      "notes": "Catatan / ringkasan (opsional)"
     },
     "quiz": {
       "heading": "Kuis",
-      "note": "Soal dan kunci jawaban dikirim ke browser siswa, jadi kuis ini cocok untuk latihan, bukan ujian bernilai.",
+      "note": "Kunci jawaban tidak dikirim ke browser siswa: jawaban dinilai di server dan skor dicatat otomatis. Kunci & pembahasan baru tampil setelah siswa menyerahkan jawaban.",
       "empty": "Belum ada soal. Kelas tanpa soal tidak menampilkan tombol kuis.",
       "question": "Soal",
       "prompt": "Pertanyaan",
@@ -506,7 +529,194 @@
       "levelIdInvalid": "ID jenjang hanya boleh huruf kecil, angka, dan tanda hubung (maks. 30).",
       "levelNameRequired": "Nama jenjang (Bahasa Indonesia) wajib diisi.",
       "priceInvalid": "Harga harus bilangan bulat ≥ 0.",
-      "colorInvalid": "Warna harus format hex, mis. #0085FF."
+      "colorInvalid": "Warna harus format hex, mis. #0085FF.",
+      "lessonNotesTooLong": "catatan terlalu panjang (maks. 5000 karakter).",
+      "materialTitleRequired": "Judul file wajib diisi.",
+      "materialTooLarge": "Ukuran file maksimal 20 MB.",
+      "materialType": "Jenis file tidak didukung.",
+      "uploadFailed": "File gagal diunggah. Coba lagi.",
+      "userRequired": "Pilih pengguna.",
+      "noteTooLong": "Catatan terlalu panjang (maks. 200 karakter).",
+      "replyRequired": "Jawaban wajib diisi.",
+      "replyTooLong": "Jawaban terlalu panjang (maks. 2000 karakter)."
+    },
+    "dragToSort": "Seret untuk mengurutkan",
+    "materials": {
+      "title": "File materi",
+      "upload": "Unggah file",
+      "hint": "PDF, gambar, Word, PowerPoint, Excel, atau ZIP. Maks. 20 MB.",
+      "saveFirst": "Simpan pelajaran ini dulu untuk menambahkan file materi.",
+      "delete": "Hapus {title}",
+      "confirmDelete": "Hapus file \"{title}\"?"
+    },
+    "stats": {
+      "title": "Statistik",
+      "subtitle": "Perkembangan siswa di kelas yang kamu kelola.",
+      "overview": "Ringkasan situs",
+      "users": "Pengguna",
+      "newUsers": "Pengguna baru (30 hari)",
+      "activeLearners": "Siswa aktif (7 hari)",
+      "activeSubscriptions": "Langganan aktif",
+      "certificates": "Sertifikat",
+      "pendingReviews": "Ulasan menunggu",
+      "perCourse": "Per kelas",
+      "empty": "Belum ada kelas.",
+      "seeFunnel": "Lihat per pelajaran",
+      "learners": "Siswa",
+      "completed": "Tuntas",
+      "avgQuiz": "Rata-rata kuis",
+      "quizTakers": "{count} siswa",
+      "completionLabel": "{percent}% siswa menuntaskan kelas",
+      "funnelTitle": "Per pelajaran: {course}",
+      "funnelHint": "Jumlah siswa yang menyelesaikan tiap pelajaran. Penurunan tajam menandai di mana siswa sering berhenti.",
+      "funnelEmpty": "Belum ada siswa yang menyelesaikan pelajaran di kelas ini.",
+      "funnelCount": "{count} siswa",
+      "dropOff": "turun {percent}%"
+    },
+    "discussions": {
+      "title": "Diskusi",
+      "subtitle": "Pertanyaan siswa yang belum dijawab guru. Setelah dijawab, pertanyaan hilang dari daftar ini.",
+      "empty": "Tidak ada pertanyaan yang menunggu jawaban.",
+      "reply": "Kirim jawaban",
+      "replyPlaceholder": "Tulis jawaban untuk siswa…",
+      "delete": "Hapus pertanyaan",
+      "confirmDelete": "Hapus pertanyaan ini beserta balasannya?"
+    },
+    "subscriptions": {
+      "title": "Langganan",
+      "subtitle": "Aktifkan akses jenjang berbayar setelah siswa membayar. Pembayaran online belum tersedia.",
+      "noPaidLevels": "Belum ada jenjang berbayar. Atur harga di Jenjang & harga.",
+      "grantTitle": "Beri atau perpanjang akses",
+      "searchUser": "Cari pengguna",
+      "searchPlaceholder": "Nama atau email",
+      "user": "Pengguna",
+      "chooseUser": "— Pilih pengguna —",
+      "level": "Jenjang",
+      "duration": "Durasi",
+      "durationHint": "Jika masih aktif, durasi ditambahkan dari tanggal berakhir.",
+      "months": "{count} bulan",
+      "forever": "Tanpa batas",
+      "note": "Catatan (opsional)",
+      "noteHint": "Mis. nomor transfer atau keterangan pembayaran.",
+      "grant": "Simpan akses",
+      "listTitle": "Daftar langganan",
+      "filter": "Status langganan",
+      "active": "Aktif",
+      "expiredFilter": "Berakhir",
+      "all": "Semua",
+      "empty": "Tidak ada langganan di sini.",
+      "until": "sampai {date}",
+      "expired": "berakhir {date}",
+      "revoke": "Cabut",
+      "confirmRevoke": "Cabut akses {level} untuk {name}?"
     }
+  },
+  "access": {
+    "subscribe": "Berlangganan",
+    "seePlans": "Lihat paket",
+    "contactMessage": "Halo, saya ingin berlangganan paket {level}. Email akun saya: {email}",
+    "lockedTitle": "Pelajaran ini khusus pelanggan",
+    "lockedText": "Berlangganan paket {level} ({price}/bulan) untuk membuka semua video, materi, kuis, dan diskusi di kelas ini.",
+    "alreadySubscribed": "Sudah berlangganan?",
+    "login": "Masuk",
+    "tryPreview": "Tonton pelajaran pratinjau gratis",
+    "tryFree": "Coba gratis",
+    "previewBadge": "Gratis",
+    "locked": "Terkunci",
+    "courseLocked": "Kelas ini termasuk paket {level} ({price}/bulan). Pelajaran bertanda Gratis bisa ditonton tanpa berlangganan.",
+    "activeUntil": "Langganan aktif sampai {date}",
+    "activeForever": "Langganan aktif"
+  },
+  "streak": {
+    "label": "Kebiasaan belajar",
+    "streak": "Streak belajar",
+    "days_count": "{count, plural, =0 {0 hari} other {# hari}}",
+    "thisWeek": "Aktivitas minggu ini",
+    "days": "Sn,Sl,Rb,Km,Jm,Sb,Mg",
+    "active": "aktif",
+    "inactive": "tidak aktif",
+    "weeklyGoal": "Target minggu ini",
+    "goalProgress": "{done}/{goal} pelajaran",
+    "goalLabel": "Pelajaran per minggu",
+    "change": "Ubah",
+    "save": "Simpan",
+    "goalReached": "Target tercapai. Hebat!",
+    "goalLeft": "{count, plural, other {# pelajaran lagi untuk mencapai target}}"
+  },
+  "certificate": {
+    "title": "Sertifikat",
+    "view": "Lihat sertifikat",
+    "claim": "Ambil sertifikat",
+    "loginRequired": "Masuk untuk mendapatkan sertifikat setelah menyelesaikan kelas.",
+    "reqLessons": "Selesaikan semua pelajaran ({done}/{total})",
+    "reqQuiz": "Raih skor kuis minimal {percent}%",
+    "errors": {
+      "notComplete": "Selesaikan semua pelajaran terlebih dahulu.",
+      "quizRequired": "Skor kuis terbaikmu belum mencapai {percent}%.",
+      "noAccess": "Kamu belum punya akses ke kelas ini.",
+      "generic": "Sertifikat gagal dibuat. Coba lagi."
+    },
+    "pageTitle": "Sertifikat: {course}",
+    "notFound": "Sertifikat tidak ditemukan",
+    "verified": "Sertifikat ini asli dan tercatat di sistem kami.",
+    "print": "Cetak / simpan PDF",
+    "heading": "Sertifikat Penyelesaian",
+    "presentedTo": "Diberikan kepada",
+    "forCompleting": "atas keberhasilan menyelesaikan kelas",
+    "quizScore": "Skor kuis: {score}/{total} ({percent}%)",
+    "issuedOn": "Tanggal terbit",
+    "code": "Kode sertifikat",
+    "verifyAt": "Verifikasi: {url}",
+    "toCourse": "Lihat kelas"
+  },
+  "discussion": {
+    "title": "Diskusi",
+    "loginToAsk": "Masuk untuk bertanya atau ikut berdiskusi.",
+    "login": "Masuk",
+    "askPlaceholder": "Tulis pertanyaanmu tentang pelajaran ini…",
+    "ask": "Kirim pertanyaan",
+    "replyPlaceholder": "Tulis jawaban…",
+    "reply": "Balas",
+    "empty": "Belum ada pertanyaan. Jadilah yang pertama bertanya.",
+    "failed": "Gagal mengirim. Coba lagi.",
+    "loadFailed": "Diskusi gagal dimuat.",
+    "delete": "Hapus",
+    "confirmDelete": "Hapus tulisan ini?"
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Atur data akun, foto, dan target belajarmu.",
+    "photo": "Foto profil",
+    "photoHint": "PNG, JPG, atau WebP, maksimal 2 MB.",
+    "uploadPhoto": "Unggah foto",
+    "changePhoto": "Ganti foto",
+    "removePhoto": "Hapus foto",
+    "details": "Data akun",
+    "name": "Nama",
+    "nameHint": "Tampil di diskusi dan di sertifikat yang terbit berikutnya (sertifikat yang sudah terbit tidak berubah).",
+    "email": "Email",
+    "save": "Simpan",
+    "saved": "Tersimpan.",
+    "goal": "Target belajar",
+    "goalLabel": "Pelajaran per minggu (1–50)",
+    "certificates": "Sertifikat",
+    "noCertificates": "Belum ada sertifikat. Selesaikan sebuah kelas untuk mendapatkannya.",
+    "view": "Lihat",
+    "password": "Kata sandi",
+    "passwordHint": "Buat kata sandi baru untuk akunmu.",
+    "changePassword": "Ubah kata sandi",
+    "loginRequired": "Masuk untuk membuka profilmu.",
+    "login": "Masuk",
+    "errors": {
+      "nameRequired": "Nama wajib diisi.",
+      "nameTooLong": "Nama terlalu panjang (maks. 80 karakter).",
+      "fileType": "Format foto harus PNG, JPG, atau WebP.",
+      "fileSize": "Ukuran foto maksimal 2 MB.",
+      "generic": "Gagal menyimpan. Coba lagi."
+    }
+  },
+  "whatsapp": {
+    "label": "Chat lewat WhatsApp",
+    "message": "Halo, saya ingin bertanya tentang JeniusAcademy."
   }
 }

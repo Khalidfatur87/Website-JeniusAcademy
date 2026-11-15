@@ -7,9 +7,18 @@ import { useRouter } from "@/i18n/navigation";
 import { saveLessons } from "@/lib/cms/actions";
 import type { AdminCourse } from "@/lib/cms/queries";
 import type { L10n } from "@/lib/content";
-import { emptyL10n, Field, L10nInput, move, RowButton, SaveStatus, type Status } from "./fields";
+import { DragHandle, emptyL10n, Field, L10nInput, move, RowButton, SaveStatus, useDragSort, type Status } from "./fields";
+import { MaterialsEditor } from "./MaterialsEditor";
 
-type Row = { key: string; id?: string; title: L10n; minutes: number; video: string };
+type Row = {
+  key: string;
+  id?: string;
+  title: L10n;
+  minutes: number;
+  video: string;
+  notes: L10n;
+  freePreview: boolean;
+};
 
 let counter = 0;
 const newKey = () => `new-${++counter}`;
@@ -20,8 +29,18 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
   const router = useRouter();
   const id = useId();
   const [rows, setRows] = useState<Row[]>(() =>
-    lessons.map((l) => ({ key: l.id, id: l.id, title: l.title, minutes: l.minutes, video: l.youtubeId })),
+    lessons.map((l) => ({
+      key: l.id,
+      id: l.id,
+      title: l.title,
+      minutes: l.minutes,
+      video: l.youtubeId,
+      notes: { ...emptyL10n(), ...l.notes },
+      freePreview: l.freePreview,
+    })),
   );
+  const drag = useDragSort(setRows);
+  const materialsOf = (lessonId?: string) => lessons.find((l) => l.id === lessonId)?.materials ?? [];
   const [status, setStatus] = useState<Status>("idle");
   const [pending, start] = useTransition();
 
@@ -29,7 +48,10 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
     setRows((r) => r.map((row, j) => (j === i ? { ...row, ...patch } : row)));
 
   const add = () =>
-    setRows((r) => [...r, { key: newKey(), title: emptyL10n(), minutes: 10, video: "" }]);
+    setRows((r) => [
+      ...r,
+      { key: newKey(), title: emptyL10n(), minutes: 10, video: "", notes: emptyL10n(), freePreview: false },
+    ]);
 
   const remove = (i: number) => {
     if (rows[i].id && !window.confirm(t("lessons.confirmDelete"))) return;
@@ -41,7 +63,14 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
     start(async () => {
       const result = await saveLessons(
         slug,
-        rows.map(({ id: lessonId, title, minutes, video }) => ({ id: lessonId, title, minutes, video })),
+        rows.map(({ id: lessonId, title, minutes, video, notes, freePreview }) => ({
+          id: lessonId,
+          title,
+          minutes,
+          video,
+          notes,
+          freePreview,
+        })),
       );
       setStatus(result);
       if (result.ok) router.refresh();
@@ -53,9 +82,12 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
       {rows.length === 0 && <p className="card p-6 text-center text-muted">{t("lessons.empty")}</p>}
 
       <ol className="space-y-4">
-        {rows.map((row, i) => (
-          <li key={row.key} className="card space-y-4 p-5">
+        {rows.map((row, i) => {
+          const { className: dragClass, ...dragProps } = drag.item(i);
+          return (
+          <li key={row.key} {...dragProps} className={`card space-y-4 p-5 transition ${dragClass}`}>
             <div className="flex items-center gap-2">
+              <DragHandle label={t("dragToSort")} {...drag.handle(i)} />
               <span className="grid size-8 place-items-center rounded-full bg-surface-2 text-sm font-bold">
                 {i + 1}
               </span>
@@ -106,8 +138,35 @@ export function LessonsEditor({ slug, lessons }: { slug: string; lessons: AdminC
                 />
               </Field>
             </div>
+
+            <label className="flex items-start gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={row.freePreview}
+                onChange={(e) => update(i, { freePreview: e.target.checked })}
+                className="mt-0.5 size-4 accent-[var(--brand)]"
+              />
+              <span>
+                <span className="font-medium">{t("lessons.freePreview")}</span>
+                <span className="block text-xs text-muted">{t("lessons.freePreviewHint")}</span>
+              </span>
+            </label>
+
+            <L10nInput
+              label={t("lessons.notes")}
+              value={row.notes}
+              onChange={(notes) => update(i, { notes })}
+              multiline
+            />
+
+            {row.id ? (
+              <MaterialsEditor slug={slug} lessonId={row.id} materials={materialsOf(row.id)} />
+            ) : (
+              <p className="text-xs text-muted">{t("materials.saveFirst")}</p>
+            )}
           </li>
-        ))}
+          );
+        })}
       </ol>
 
       <div className="flex flex-wrap items-center gap-3">

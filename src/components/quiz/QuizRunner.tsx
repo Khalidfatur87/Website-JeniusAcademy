@@ -5,39 +5,46 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { tr, type QuizQuestion } from "@/lib/content";
+import { LockedLesson } from "@/components/course/LockedLesson";
+import { useAuth } from "@/lib/auth";
+import { tr, type Course, type QuizQuestion, type QuizResult } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
-import { attemptPercent, gradeQuiz } from "@/lib/quiz";
-import { useQuizResults } from "@/lib/quiz-results";
+import { attemptPercent } from "@/lib/quiz";
+import { useQuizResults, type SubmitError } from "@/lib/quiz-results";
 import { routes } from "@/lib/routes";
+import { useCourseAccess } from "@/lib/use-access";
 
-type Result = { score: number; total: number; saved: boolean };
-
-/** Kuis satu halaman: jawab semua soal → periksa → skor + pembahasan. */
-export function QuizRunner({
-  slug,
-  questions,
-}: {
-  slug: string;
-  questions: QuizQuestion[];
-}) {
+/**
+ * Kuis satu halaman: jawab semua soal → dinilai server → skor + kunci & pembahasan.
+ * Kunci jawaban baru dikirim setelah jawaban diserahkan.
+ */
+export function QuizRunner({ course, questions }: { course: Course; questions: QuizQuestion[] }) {
   const t = useTranslations("quiz");
   const locale = useLocale();
-  const { record } = useQuizResults();
+  const slug = course.slug;
+  const { user } = useAuth();
+  const { access, loaded } = useCourseAccess(course);
+  const { submit: send } = useQuizResults();
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [result, setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<QuizResult | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<SubmitError | null>(null);
 
   const answered = Object.keys(answers).length;
   const submitted = result !== null;
   const ready = answered === questions.length;
+  const key = new Map(result?.results.map((r) => [r.id, r]) ?? []);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!ready || submitted) return;
-    const { score, total } = gradeQuiz(questions, answers);
-    setResult({ score, total, saved: true });
-    const saved = await record(slug, score, total);
-    if (!saved) setResult({ score, total, saved: false });
+    if (!ready || submitted || busy) return;
+    setBusy(true);
+    setError(null);
+    const r = await send(slug, answers).catch(() => ({ error: "generic" as const }));
+    setBusy(false);
+    if ("error" in r) return setError(r.error);
+    setResult(r.result);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const retry = () => {
@@ -45,6 +52,10 @@ export function QuizRunner({
     setResult(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if ((loaded && !access) || error === "noAccess") {
+    return <LockedLesson course={course} currentId="" inline />;
+  }
 
   const percent = result ? attemptPercent(result) : 0;
   const verdict = percent === 100 ? t("great") : percent >= 70 ? t("good") : t("needsReview");
@@ -60,7 +71,7 @@ export function QuizRunner({
           </p>
           <ProgressBar value={percent} label={t("scoreLine", { score: result.score, total: result.total })} color="var(--success)" />
           <p>{verdict}</p>
-          {!result.saved && <p className="text-sm text-danger">{t("saveFailed")}</p>}
+          {!result.recorded && <p className="text-sm text-muted">{user ? t("saveFailed") : t("guestNotSaved")}</p>}
           <div className="flex flex-wrap gap-3">
             <button type="button" onClick={retry} className="btn btn-primary">
               {t("retry")}
@@ -74,6 +85,7 @@ export function QuizRunner({
 
       {questions.map((q, i) => {
         const chosen = answers[q.id];
+        const graded = key.get(q.id);
         const labelId = `q-${q.id}-label`;
         return (
           <div key={q.id} className="card space-y-4 p-6">
@@ -85,7 +97,7 @@ export function QuizRunner({
             <div role="radiogroup" aria-labelledby={labelId} className="space-y-2">
               {q.options.map((opt, oi) => {
                 const isChosen = chosen === oi;
-                const isRight = oi === q.answer;
+                const isRight = oi === graded?.answer;
                 return (
                   <label
                     key={oi}
@@ -120,18 +132,22 @@ export function QuizRunner({
               })}
             </div>
 
-            {submitted && (
+            {graded && (
               <p className="rounded-xl bg-surface-2 p-3 text-sm">
                 <span
                   className={clsx(
                     "mr-1 font-semibold",
-                    chosen === q.answer ? "text-success" : "text-danger",
+                    chosen === graded.answer ? "text-success" : "text-danger",
                   )}
                 >
-                  {chosen === q.answer ? t("correct") : t("wrong")}.
+                  {chosen === graded.answer ? t("correct") : t("wrong")}.
                 </span>
-                <span className="font-semibold">{t("explanation")}: </span>
-                {tr(q.explanation, locale)}
+                {tr(graded.explanation, locale) && (
+                  <>
+                    <span className="font-semibold">{t("explanation")}: </span>
+                    {tr(graded.explanation, locale)}
+                  </>
+                )}
               </p>
             )}
           </div>
@@ -140,12 +156,17 @@ export function QuizRunner({
 
       {!submitted && (
         <div className="flex flex-wrap items-center gap-4">
-          <button type="submit" disabled={!ready} className="btn btn-primary btn-lg">
-            {t("submit")}
+          <button type="submit" disabled={!ready || busy} className="btn btn-primary btn-lg">
+            {busy ? t("checking") : t("submit")}
           </button>
           <p className="text-sm text-muted" aria-live="polite">
             {t("progress", { answered, total: questions.length })}
           </p>
+          {error === "generic" && (
+            <p role="alert" className="w-full text-sm text-danger">
+              {t("submitFailed")}
+            </p>
+          )}
         </div>
       )}
     </form>

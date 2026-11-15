@@ -2,7 +2,9 @@
 
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
-import { useId, type ReactNode } from "react";
+import { useId, useState, type Dispatch, type DragEvent, type ReactNode, type SetStateAction } from "react";
+import { Icon } from "@/components/ui/Icon";
+import { reorder } from "@/lib/list";
 import { localeLabels, locales } from "@/config/site";
 import type { L10n } from "@/lib/content";
 import type { ActionResult } from "@/lib/cms/actions";
@@ -136,13 +138,64 @@ export function RowButton({
   );
 }
 
-/** Memindahkan elemen daftar satu langkah ke atas (-1) atau bawah (+1). */
-export function move<T>(list: T[], index: number, delta: -1 | 1): T[] {
-  const to = index + delta;
-  if (to < 0 || to >= list.length) return list;
-  const next = [...list];
-  [next[index], next[to]] = [next[to], next[index]];
-  return next;
+export { move } from "@/lib/list";
+
+/**
+ * Drag-and-drop untuk daftar di CMS (mouse/trackpad). Yang bisa diseret hanya
+ * pegangannya (gambar seret memakai seluruh kartu), supaya teks di dalam input
+ * tetap bisa diseleksi. Tombol ↑/↓ tetap tersedia untuk keyboard dan layar sentuh.
+ */
+export function useDragSort<T>(setRows: Dispatch<SetStateAction<T[]>>) {
+  const [from, setFrom] = useState<number | null>(null);
+  const [over, setOver] = useState<number | null>(null);
+
+  const clear = () => {
+    setFrom(null);
+    setOver(null);
+  };
+
+  const item = (i: number) => ({
+    onDragOver: (e: DragEvent) => {
+      if (from === null) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      if (over !== i) setOver(i);
+    },
+    onDrop: (e: DragEvent) => {
+      e.preventDefault();
+      if (from !== null && from !== i) setRows((r) => reorder(r, from, i));
+      clear();
+    },
+    className: clsx(from === i && "opacity-50", over === i && from !== null && from !== i && "ring-2 ring-brand"),
+  });
+
+  const handle = (i: number) => ({
+    draggable: true,
+    onDragStart: (e: DragEvent<HTMLElement>) => {
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", String(i));
+      const card = e.currentTarget.closest("li");
+      if (card) e.dataTransfer.setDragImage(card, 24, 24);
+      setFrom(i);
+    },
+    onDragEnd: clear,
+  });
+
+  return { item, handle };
+}
+
+/** Pegangan seret (ikon titik-titik). */
+export function DragHandle({ label, ...props }: { label: string } & ReturnType<ReturnType<typeof useDragSort>["handle"]>) {
+  return (
+    <span
+      {...props}
+      title={label}
+      aria-hidden="true"
+      className="hidden cursor-grab select-none rounded-lg p-1.5 text-muted hover:bg-surface-2 active:cursor-grabbing md:inline-grid"
+    >
+      <Icon name="grip" size={18} />
+    </span>
+  );
 }
 
 export const emptyL10n = (): L10n =>

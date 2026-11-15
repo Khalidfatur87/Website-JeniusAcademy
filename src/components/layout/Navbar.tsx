@@ -37,7 +37,7 @@ export function Navbar({ darkModeEnabled }: { darkModeEnabled: boolean }) {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-50 border-b transition-colors",
+        "sticky top-0 z-50 border-b transition-colors print:hidden",
         scrolled || open
           ? "border-line bg-page/85 backdrop-blur-xl"
           : "border-transparent bg-transparent",

@@ -7,39 +7,17 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { useAuth, type User } from "@/lib/auth";
 import { useEscape } from "@/lib/hooks";
 import { routes } from "@/lib/routes";
+import { Avatar } from "@/components/ui/Avatar";
 import { Icon } from "@/components/ui/Icon";
 
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase() || "?";
-
 const isStaff = (user: User) => user.role === "teacher" || user.role === "super_admin";
-
-function Avatar({ name, size = "size-8" }: { name: string; size?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={clsx(
-        "grid shrink-0 place-items-center rounded-full bg-brand-strong text-xs font-bold text-on-brand",
-        size,
-      )}
-    >
-      {initials(name)}
-    </span>
-  );
-}
 
 /** Nama, email, dan role — kepala menu akun. */
 function UserSummary({ user }: { user: User }) {
   const roles = useTranslations("admin.roles");
   return (
     <div className="flex items-center gap-3">
-      <Avatar name={user.name} size="size-10" />
+      <Avatar name={user.name} src={user.avatarUrl} size="size-10" />
       <div className="min-w-0">
         <p className="truncate font-semibold">{user.name}</p>
         <p className="truncate text-xs text-muted">{user.email}</p>
@@ -64,7 +42,7 @@ function MenuItem({
 }: {
   href?: string;
   onClick?: () => void;
-  icon: "user" | "book" | "logout";
+  icon: "user" | "book" | "logout" | "chart";
   children: ReactNode;
   active?: boolean;
   danger?: boolean;
@@ -90,15 +68,20 @@ function MenuItem({
   );
 }
 
-/** Daftar menu akun: Dasbor, CMS (guru/super admin), Keluar. */
+/** Daftar menu akun: Dasbor, Profil, CMS (guru/super admin), Keluar. */
 function AccountLinks({ user, onSignOut }: { user: User; onSignOut: () => void }) {
   const t = useTranslations("nav");
   const pathname = usePathname();
   return (
     <ul className="space-y-1">
       <li>
-        <MenuItem href={routes.dashboard} icon="user" active={pathname.startsWith(routes.dashboard)}>
+        <MenuItem href={routes.dashboard} icon="chart" active={pathname.startsWith(routes.dashboard)}>
           {t("dashboard")}
+        </MenuItem>
+      </li>
+      <li>
+        <MenuItem href={routes.profile} icon="user" active={pathname.startsWith(routes.profile)}>
+          {t("profile")}
         </MenuItem>
       </li>
       {isStaff(user) && (
@@ -158,7 +141,7 @@ function AccountMenu({ user, onSignOut }: { user: User; onSignOut: () => void })
           open ? "border-brand" : "border-line hover:border-brand",
         )}
       >
-        <Avatar name={user.name} size="size-7" />
+        <Avatar name={user.name} src={user.avatarUrl} size="size-7" />
         <span className="max-w-[8rem] truncate">{firstName}</span>
         <Icon name="chevronDown" size={16} className={clsx("text-muted transition", open && "rotate-180")} />
       </button>

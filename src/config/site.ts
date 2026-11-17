@@ -26,11 +26,19 @@ export const siteConfig = {
   wordmark: { first: "Jenius", second: "Academy" },
 
   /**
-   * LOGO (PLACEHOLDER)
-   * Letakkan file logo di /public/brand lalu isi `src`,
-   * mis. "/brand/logo.svg". Jika null, wordmark teks dipakai.
+   * LOGO
+   * - `mark`: simbol logo yang tampil di samping tulisan "JeniusAcademy".
+   *   null = kotak huruf pertama nama situs.
+   * - `src`: logo LENGKAP (simbol + tulisan dalam satu gambar). Jika diisi,
+   *   gambar ini menggantikan simbol + tulisan sekaligus.
+   * File diletakkan di /public/brand. Favicon ada di src/app/icon.png & apple-icon.png.
    */
-  logo: { src: null as string | null, width: 160, height: 40 },
+  logo: {
+    mark: { src: "/brand/logo-mark.png" as string | null, width: 239, height: 160 },
+    src: null as string | null,
+    width: 160,
+    height: 40,
+  },
 
   /** Domain produksi, dipakai untuk metadata/SEO. PLACEHOLDER. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",

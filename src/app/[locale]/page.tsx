@@ -44,8 +44,8 @@ export default async function HomePage({
           "@type": "EducationalOrganization",
           name: siteConfig.name,
           url: siteConfig.url,
-          ...(siteConfig.logo.src && {
-            logo: new URL(siteConfig.logo.src, siteConfig.url).toString(),
+          ...((siteConfig.logo.src ?? siteConfig.logo.mark.src) && {
+            logo: new URL((siteConfig.logo.src ?? siteConfig.logo.mark.src)!, siteConfig.url).toString(),
           }),
           ...(socials.length && { sameAs: socials }),
         }}

@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site";
@@ -21,6 +23,10 @@ export default async function OgImage({
   const t = await getTranslations({ locale, namespace: "meta" });
   const { first, second } = siteConfig.wordmark;
   const tagline = t("title").split(" — ")[1] ?? t("title");
+  const mark = siteConfig.logo.mark;
+  const markData = mark.src
+    ? `data:image/png;base64,${(await readFile(join(process.cwd(), "public", mark.src))).toString("base64")}`
+    : null;
 
   return new ImageResponse(
     (
@@ -36,7 +42,20 @@ export default async function OgImage({
           background: `linear-gradient(135deg, ${siteConfig.colors.primary}, #07101f)`,
         }}
       >
-        <div style={{ display: "flex", fontSize: 40, fontWeight: 700 }}>
+        <div style={{ display: "flex", alignItems: "center", fontSize: 40, fontWeight: 700 }}>
+          {markData && (
+            <div
+              style={{
+                display: "flex",
+                marginRight: 20,
+                padding: "8px 12px",
+                borderRadius: 18,
+                background: "#ffffff",
+              }}
+            >
+              <img src={markData} width={Math.round((56 * mark.width) / mark.height)} height={56} alt="" />
+            </div>
+          )}
           <span>{first}</span>
           <span style={{ color: siteConfig.colors.accent }}>{second}</span>
         </div>

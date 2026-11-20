@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useId, useState, useTransition } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { siteConfig } from "@/config/site";
 import { useRouter } from "@/i18n/navigation";
 import { deleteLevel, saveLevel } from "@/lib/cms/actions";
 import type { AdminLevel } from "@/lib/cms/queries";
@@ -206,7 +207,7 @@ export function LevelsEditor({ levels }: { levels: AdminLevel[] }) {
             originalPrice: "",
             featured: false,
             subjects: [],
-            color: "#0085FF",
+            color: siteConfig.colors.primary,
             position: nextPosition,
           }}
         />

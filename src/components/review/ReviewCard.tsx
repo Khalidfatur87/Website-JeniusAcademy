@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/Icon";
 
 export function Stars({ value, label }: { value: number; label: string }) {
   return (
-    <span className="inline-flex gap-0.5 text-accent" role="img" aria-label={label}>
+    <span className="inline-flex gap-0.5 text-warning" role="img" aria-label={label}>
       {[1, 2, 3, 4, 5].map((n) => (
         <Icon
           key={n}

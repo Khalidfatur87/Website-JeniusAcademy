@@ -106,7 +106,7 @@ export function ReviewForm({
               onClick={() => setRating(n)}
               className={clsx(
                 "rounded-lg p-1.5 transition hover:scale-110",
-                n <= rating ? "text-accent" : "text-line hover:text-accent/60",
+                n <= rating ? "text-warning" : "text-line hover:text-warning/60",
               )}
             >
               <Icon name="star" size={28} />

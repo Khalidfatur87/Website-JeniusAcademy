@@ -26,7 +26,7 @@ export function PricingCard({ level }: { level: Level }) {
         }`}
       >
         {level.featured && (
-          <span className="tilt-lift absolute -top-3.5 left-6 rounded-full bg-accent px-3 py-1 text-xs font-bold text-[#3b2600]">
+          <span className="tilt-lift absolute -top-3.5 left-6 rounded-full bg-accent px-3 py-1 text-xs font-bold text-white">
             {t("popular")}
           </span>
         )}

@@ -43,10 +43,15 @@ export const siteConfig = {
   /** Domain produksi, dipakai untuk metadata/SEO. PLACEHOLDER. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
 
-  /** Warna brand. Diterapkan ke seluruh situs lewat CSS variable. */
+  /**
+   * Warna brand, diambil dari logo (toska & ungu). Diterapkan ke seluruh situs
+   * lewat CSS variable. Tombol memakai versi lebih gelap dari `primary`, jadi
+   * teks putih tetap terbaca (kontras ±6,4:1). `accent` dipakai di belakang
+   * teks putih (lencana "Terlaris"): jangan dibuat lebih terang (kontras 4,7:1).
+   */
   colors: {
-    primary: "#0085FF",
-    accent: "#FFB020",
+    primary: "#2B93A8",
+    accent: "#6A6BBD",
   },
 
   /** Kontak. PLACEHOLDER: kosongkan string untuk menyembunyikan baris itu. */

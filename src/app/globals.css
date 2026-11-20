@@ -8,20 +8,22 @@
  * Warna lain ada di sini; mode gelap lewat class .dark (diatur oleh src/lib/theme.ts).
  */
 :root {
-  --brand: #0085ff;
-  --accent: #ffb020;
+  --brand: #2b93a8;
+  --accent: #6a6bbd;
 
-  --page: #f6f9ff;
+  --page: #f5fafb;
   --surface: #ffffff;
-  --surface-2: #eef4ff;
+  --surface-2: #eaf5f6;
   --ink: #0b1b33;
   --muted: #53647c;
-  --line: #dde6f3;
+  --line: #d9e7ea;
   --on-brand: #ffffff;
   --brand-strong: color-mix(in oklab, var(--brand) 78%, black);
   --brand-ink: var(--brand-strong);
   --success: #16a34a;
   --danger: #dc2626;
+  /* Kuning-oranye untuk bintang rating, streak, dan peringatan (bukan warna brand). */
+  --warning: #f59e0b;
 
   --shadow-sm: 0 1px 2px rgb(11 27 51 / 0.06), 0 1px 3px rgb(11 27 51 / 0.08);
   --shadow-md: 0 8px 24px -8px rgb(11 27 51 / 0.18);
@@ -59,6 +61,7 @@
   --color-on-brand: var(--on-brand);
   --color-success: var(--success);
   --color-danger: var(--danger);
+  --color-warning: var(--warning);
 
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 

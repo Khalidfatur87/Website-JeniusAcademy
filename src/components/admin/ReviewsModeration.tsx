@@ -36,7 +36,7 @@ function ReviewRow({ review, level }: { review: AdminReview; level?: Level }) {
           className={
             review.approved
               ? "rounded-full bg-success/15 px-2.5 py-0.5 text-xs font-semibold text-success"
-              : "rounded-full bg-accent/20 px-2.5 py-0.5 text-xs font-semibold"
+              : "rounded-full bg-warning/20 px-2.5 py-0.5 text-xs font-semibold"
           }
         >
           {review.approved ? t("reviews.approved") : t("reviews.pending")}

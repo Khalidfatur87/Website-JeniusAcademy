@@ -8,6 +8,15 @@ import {
   subscriptionExpiry,
   validateCourse,
   validateSubscriptionMonths,
+  generateJoinCode,
+  validateAssignment,
+  validateLive,
+  validateTryout,
+  validateTryoutSections,
+  type AssignmentInput,
+  type LiveInput,
+  type TryoutInput,
+  type TryoutSectionInput,
   validateLessons,
   validateLevel,
   validateQuestions,
@@ -350,6 +359,204 @@ export async function deleteQuestion(id: string): Promise<ActionResult> {
   const s = await staff();
   if (!s) return err("forbidden");
   const { data, error } = await s.sb.from("lesson_comments").delete().eq("id", id).select("id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  return { ok: true };
+}
+
+// ---- try-out -------------------------------------------------------------------
+
+export async function saveTryout(input: TryoutInput, mode: "create" | "update"): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const v = validateTryout(input);
+  if (!v.ok) return { ok: false, error: v.error };
+  const x = v.value;
+  const row = {
+    level_id: x.levelId,
+    title: x.title,
+    description: x.description,
+    published: x.published,
+    opens_at: x.opensAt,
+    closes_at: x.closesAt,
+    position: x.position,
+  };
+  if (mode === "create") {
+    const { error } = await s.sb.from("tryouts").insert({ slug: x.slug, created_by: s.viewer.id, ...row });
+    if (error) return error.code === "23505" ? err("slugTaken") : dbError(error);
+  } else {
+    const { data, error } = await s.sb.from("tryouts").update(row).eq("slug", x.slug).select("slug");
+    if (error) return dbError(error);
+    if (!data?.length) return err("forbidden");
+  }
+  revalidatePath("/[locale]/tryouts", "layout");
+  return { ok: true };
+}
+
+export async function deleteTryout(slug: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("tryouts").delete().eq("slug", slug).select("slug");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  revalidatePath("/[locale]/tryouts", "layout");
+  return { ok: true };
+}
+
+/** Menyimpan seluruh subtes & soal sekaligus (ditolak database bila sudah ada peserta). */
+export async function saveTryoutContent(slug: string, sections: TryoutSectionInput[]): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const v = validateTryoutSections(sections);
+  if (!v.ok) return { ok: false, error: v.error };
+  const { error } = await s.sb.rpc("save_tryout_content", { p_slug: slug, p_sections: v.value });
+  if (error) return error.message.includes("has_attempts") ? err("tryoutLocked") : dbError(error);
+  revalidatePath("/[locale]/tryouts", "layout");
+  return { ok: true };
+}
+
+// ---- kelas live ------------------------------------------------------------------
+
+export async function saveLive(input: LiveInput, id: string | null): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const v = validateLive(input);
+  if (!v.ok) return { ok: false, error: v.error };
+  const x = v.value;
+  const row = {
+    level_id: x.levelId,
+    course_slug: x.courseSlug,
+    title: x.title,
+    description: x.description,
+    starts_at: x.startsAt,
+    minutes: x.minutes,
+    host_name: x.hostName,
+    join_url: x.joinUrl,
+    recording_youtube_id: x.recordingYoutubeId,
+  };
+  if (id) {
+    if (!UUID_RE.test(id)) return err("invalid");
+    const { data, error } = await s.sb.from("live_sessions").update(row).eq("id", id).select("id");
+    if (error) return dbError(error);
+    if (!data?.length) return err("forbidden");
+  } else {
+    const { error } = await s.sb.from("live_sessions").insert({ ...row, created_by: s.viewer.id });
+    if (error) return dbError(error);
+  }
+  revalidatePath("/[locale]/live", "layout");
+  return { ok: true };
+}
+
+export async function deleteLive(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("live_sessions").delete().eq("id", id).select("id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  revalidatePath("/[locale]/live", "layout");
+  return { ok: true };
+}
+
+/** Rekaman sesi → pelajaran baru di akhir kelas terkait. */
+export async function liveToLesson(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { error } = await s.sb.rpc("live_to_lesson", { p_id: id });
+  if (error) return error.message.includes("invalid") ? err("liveNeedsCourse") : dbError(error);
+  refreshSite();
+  return { ok: true };
+}
+
+// ---- mode sekolah ------------------------------------------------------------------
+
+export async function createClassroom(name: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const clean = name.trim();
+  if (!clean) return err("titleRequired");
+  if (clean.length > 80) return err("titleTooLong");
+  // Ulangi bila kode kebetulan sudah dipakai.
+  for (let i = 0; i < 5; i++) {
+    const { error } = await s.sb
+      .from("classrooms")
+      .insert({ name: clean, teacher_id: s.viewer.id, join_code: generateJoinCode() });
+    if (!error) return { ok: true };
+    if (error.code !== "23505") return dbError(error);
+  }
+  return err("generic");
+}
+
+export async function updateClassroom(id: string, patch: { name?: string; archived?: boolean }): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const row: { name?: string; archived?: boolean } = {};
+  if (patch.name !== undefined) {
+    const clean = patch.name.trim();
+    if (!clean) return err("titleRequired");
+    if (clean.length > 80) return err("titleTooLong");
+    row.name = clean;
+  }
+  if (patch.archived !== undefined) row.archived = Boolean(patch.archived);
+  const { data, error } = await s.sb.from("classrooms").update(row).eq("id", id).select("id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  return { ok: true };
+}
+
+export async function deleteClassroom(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("classrooms").delete().eq("id", id).select("id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  return { ok: true };
+}
+
+export async function setClassroomSponsor(id: string, levelId: string | null): Promise<ActionResult> {
+  const s = await superAdmin();
+  if (!s) return err("forbidden");
+  const { error } = await s.sb.rpc("set_classroom_sponsor", { p_id: id, p_level: levelId ?? "" });
+  if (error) return dbError(error);
+  return { ok: true };
+}
+
+export async function removeClassroomMember(classroomId: string, studentId: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb
+    .from("classroom_members")
+    .delete()
+    .eq("classroom_id", classroomId)
+    .eq("student_id", studentId)
+    .select("student_id");
+  if (error) return dbError(error);
+  if (!data?.length) return err("forbidden");
+  return { ok: true };
+}
+
+export async function saveAssignment(classroomId: string, input: AssignmentInput): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const v = validateAssignment(input);
+  if (!v.ok) return { ok: false, error: v.error };
+  const a = v.value;
+  const { error } = await s.sb.from("assignments").insert({
+    classroom_id: classroomId,
+    title: a.title,
+    instructions: a.instructions,
+    kind: a.kind,
+    course_slug: a.courseSlug,
+    lesson_id: a.lessonId,
+    due_at: a.dueAt,
+  });
+  if (error) return dbError(error);
+  return { ok: true };
+}
+
+export async function deleteAssignment(id: string): Promise<ActionResult> {
+  const s = await staff();
+  if (!s) return err("forbidden");
+  const { data, error } = await s.sb.from("assignments").delete().eq("id", id).select("id");
   if (error) return dbError(error);
   if (!data?.length) return err("forbidden");
   return { ok: true };

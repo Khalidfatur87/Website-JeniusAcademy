@@ -12,6 +12,9 @@ export function AdminNav({ role }: { role: Role }) {
   const pathname = usePathname();
   const items = [
     { href: routes.adminCourses, label: t("courses") },
+    { href: routes.adminTryouts, label: t("tryouts") },
+    { href: routes.adminLive, label: t("live") },
+    { href: routes.adminClassrooms, label: t("classrooms") },
     { href: routes.adminDiscussions, label: t("discussions") },
     { href: routes.adminStats, label: t("stats") },
     ...(role === "super_admin"

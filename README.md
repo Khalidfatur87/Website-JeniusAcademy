@@ -12,7 +12,7 @@ npm run dev      # http://localhost:3000  (otomatis redirect ke /id)
 npm run build && npm start
 npm run lint
 npm run typecheck
-npm test         # Vitest: validasi (termasuk input CMS), akses langganan, streak, dasbor, kuis/sertifikat, kesesuaian terjemahan ID/EN, redirect aman
+npm test         # Vitest: validasi CMS, akses, streak, try-out, tutor AI, gamifikasi, live/.ics, email orang tua, terjemahan ID/EN, dll.
 ```
 
 Butuh Node.js ≥ 20.9.
@@ -99,6 +99,35 @@ Konten (jenjang & harga, kelas, pelajaran, soal kuis) disimpan di Supabase dan d
 - **Dasbor** di `/dashboard`: streak harian, target pelajaran per minggu, pelajaran selesai, kelas berjalan/tuntas, rata-rata skor kuis, langganan, sertifikat, riwayat kuis. Perhitungan ada di `src/lib/dashboard.ts` dan `src/lib/activity.ts` (fungsi murni, dites).
 - **Profil** di `/profile`: nama, foto, target mingguan, daftar sertifikat, ubah kata sandi.
 - **Diskusi** di setiap pelajaran: siswa yang berhak bisa bertanya dan membalas; jawaban guru diberi label. Pertanyaan yang belum dijawab guru muncul di CMS → Diskusi.
+
+## Fitur lanjutan
+
+| Fitur | Untuk siswa | Di CMS | Kode |
+|---|---|---|---|
+| **Try-out UTBK** | `/tryouts`: subtes berurutan dengan timer masing-masing, simpan otomatis, hasil per subtes vs rata-rata peserta, pembahasan, peringkat | Try-out (buat, jadwal buka/tutup, subtes & soal; isi terkunci setelah ada peserta) | `src/components/tryout/`, `src/lib/tryout*.ts` |
+| **Tutor AI** | Panel "Tanya AI" di pelajaran; tombol "Jelaskan dengan AI" di soal kuis yang salah | — | `src/app/api/tutor/route.ts`, `src/lib/tutor*.ts` |
+| **Orang tua** | Siswa membuat kode di Profil → orang tua memasukkannya di `/parent` dan melihat ringkasan (streak, pelajaran, kuis, progres kelas); email mingguan | — | `src/components/parent/`, `src/app/api/cron/weekly-parent-report` |
+| **Latihan pintar** | Soal kuis yang salah muncul lagi di `/practice` (1 → 2 → 4 → 7 → 14 hari) sampai dikuasai | — | `src/components/practice/` |
+| **Gamifikasi** | XP, level, 10 lencana di dasbor; `/leaderboard` mingguan/sepanjang waktu, per jenjang; bisa disembunyikan di Profil | — | `src/lib/gamification.ts` (aturan XP juga di fungsi `xp_table`) |
+| **Kelas live** | `/live`: jadwal, tambah ke kalender (.ics), tombol masuk 15 menit sebelum mulai (hanya yang berhak), rekaman | Kelas live (link Zoom/Meet, rekaman YouTube, "Jadikan pelajaran") | `src/components/live/`, `src/lib/live.ts` |
+| **Mode sekolah** | `/classes`: gabung dengan kode, daftar tugas & tenggat | Kelas sekolah (kode gabung, tugas, laporan murid × tugas); super admin bisa memberi **akses berbayar dari sekolah** untuk seluruh kelas | `src/components/admin/Classroom*.tsx`, `src/components/classes/` |
+| **Aplikasi (PWA)** | Bisa dipasang di layar utama, halaman offline, pengingat belajar harian (push) | — | `src/app/manifest.ts`, `public/sw.js`, `src/components/pwa/` |
+
+Semua aturan akses dijaga di database (migration `*_advanced_features.sql`): soal try-out & kunci tidak bisa dibaca langsung, batas waktu dihitung server (+2 menit toleransi), link live & rekaman hanya lewat fungsi `live_access`, kuota AI dihitung di tabel `ai_usage`.
+
+### Variabel lingkungan tambahan (opsional)
+
+Isi di Vercel → Settings → Environment Variables (Production). Tanpa variabel ini fiturnya tetap tampil tetapi bagian terkait dimatikan dengan aman.
+
+| Variabel | Untuk | Catatan |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | Tutor AI | Dari console.anthropic.com. Model `claude-opus-5-5`; batas pertanyaan per siswa per hari di `siteConfig.ai.dailyLimit` (bawaan 20). |
+| `SUPABASE_SECRET_KEY` | Tugas terjadwal (email & push) | Kunci **secret** Supabase (Project Settings → API Keys). Hanya dipakai di server; jangan diberi awalan `NEXT_PUBLIC_`. |
+| `CRON_SECRET` | Tugas terjadwal | String acak; Vercel mengirimkannya otomatis ke route cron. |
+| `RESEND_API_KEY`, `EMAIL_FROM` | Email mingguan orang tua (Minggu 18.00 WIB) | Akun resend.com dengan domain terverifikasi, mis. `EMAIL_FROM="JeniusAcademy <laporan@domain-anda.com>"`. |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Pengingat push harian (19.00 WIB) | Buat pasangan kunci: `npx web-push generate-vapid-keys`; `VAPID_SUBJECT="mailto:admin@domain-anda.com"`. |
+
+Jadwal cron ada di `vercel.json`.
 
 ## Migrasi database
 

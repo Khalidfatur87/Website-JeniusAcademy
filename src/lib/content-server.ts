@@ -1,6 +1,7 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cache } from "react";
 import type { Course, L10n, Lesson, Level, QuizQuestion } from "./content";
+import type { TryoutInfo } from "./tryout";
 
 /**
  * Membaca konten publik dari Supabase (hanya di server).
@@ -203,4 +204,82 @@ export const getQuiz = cache(async (slug: string): Promise<QuizQuestion[]> => {
     .order("position");
   if (error) throw new Error(`quiz: ${error.message}`);
   return (data as QuestionRow[]).map(toQuestion);
+});
+
+// ---- try-out & kelas live (jadwal publik) -----------------------------------
+
+type TryoutRow = {
+  slug: string;
+  level_id: string;
+  title: L10n;
+  description: L10n;
+  opens_at: string | null;
+  closes_at: string | null;
+  tryout_sections: { id: string; title: L10n; minutes: number; position: number }[];
+};
+
+/** Try-out yang terbit (tanpa soal; soal hanya lewat start_tryout setelah mulai). */
+export const getTryouts = cache(async (): Promise<TryoutInfo[]> => {
+  const sb = publicClient();
+  if (!sb) return [];
+  const { data, error } = await sb
+    .from("tryouts")
+    .select("slug, level_id, title, description, opens_at, closes_at, tryout_sections(id, title, minutes, position)")
+    .eq("published", true)
+    .order("position")
+    .order("created_at", { ascending: false });
+  // Tabel belum ada (deploy berjalan sebelum migration diterapkan): tampilkan kosong
+  // daripada menggagalkan build; halaman diperbarui sendiri lewat ISR.
+  if (error) {
+    console.error(`tryouts: ${error.message}`);
+    return [];
+  }
+  return (data as TryoutRow[]).map((r) => ({
+    slug: r.slug,
+    levelId: r.level_id,
+    title: r.title,
+    description: r.description,
+    opensAt: r.opens_at,
+    closesAt: r.closes_at,
+    sections: [...(r.tryout_sections ?? [])]
+      .sort(byPosition)
+      .map((s) => ({ id: s.id, title: s.title, minutes: s.minutes })),
+  }));
+});
+
+export const getTryout = cache(async (slug: string) => (await getTryouts()).find((t) => t.slug === slug));
+
+/** Jadwal kelas live: tanpa link masuk & rekaman (lihat RPC live_access). */
+export type LiveSession = {
+  id: string;
+  levelId: string;
+  courseSlug: string | null;
+  title: L10n;
+  description: L10n;
+  startsAt: string;
+  minutes: number;
+  hostName: string;
+};
+
+export const getLiveSessions = cache(async (): Promise<LiveSession[]> => {
+  const sb = publicClient();
+  if (!sb) return [];
+  const { data, error } = await sb
+    .from("live_sessions")
+    .select("id, level_id, course_slug, title, description, starts_at, minutes, host_name")
+    .order("starts_at");
+  if (error) {
+    console.error(`live: ${error.message}`);
+    return [];
+  }
+  return data.map((r) => ({
+    id: r.id,
+    levelId: r.level_id,
+    courseSlug: r.course_slug,
+    title: r.title as L10n,
+    description: r.description as L10n,
+    startsAt: r.starts_at,
+    minutes: r.minutes,
+    hostName: r.host_name,
+  }));
 });

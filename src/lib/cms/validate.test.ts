@@ -6,6 +6,11 @@ import {
   safeFileName,
   subscriptionExpiry,
   validateSubscriptionMonths,
+  validateTryout,
+  validateLive,
+  validateAssignment,
+  generateJoinCode,
+  validateTryoutSections,
   parseYoutubeId,
   slugify,
   validateCourse,
@@ -248,5 +253,91 @@ describe("materi", () => {
 
   it("judul bawaan dari nama file", () => {
     expect(materialTitle("ringkasan_bab-1.pdf")).toBe("ringkasan bab 1");
+  });
+});
+
+describe("try-out", () => {
+  const base = {
+    slug: "to-utbk-1",
+    levelId: "utbk",
+    title: t("Try-out 1"),
+    description: t(""),
+    published: true,
+    opensAt: null,
+    closesAt: null,
+    position: 0,
+  };
+
+  it("validasi data try-out & jadwal", () => {
+    expect(validateTryout(base).ok).toBe(true);
+    expect(validateTryout({ ...base, slug: "Bukan Slug" })).toEqual({ ok: false, error: { code: "slugInvalid" } });
+    expect(validateTryout({ ...base, opensAt: "kemarin" })).toEqual({ ok: false, error: { code: "dateInvalid" } });
+    expect(
+      validateTryout({ ...base, opensAt: "2026-12-02T00:00:00Z", closesAt: "2026-12-01T00:00:00Z" }),
+    ).toEqual({ ok: false, error: { code: "dateOrder" } });
+  });
+
+  const q = { prompt: t("1+1"), options: [t("1"), t("2")], answer: 1, explanation: t("") };
+
+  it("subtes butuh judul, menit, dan soal", () => {
+    expect(validateTryoutSections([])).toEqual({ ok: false, error: { code: "sectionsRequired" } });
+    expect(validateTryoutSections([{ title: t("PU"), minutes: 0, questions: [q] }])).toEqual({
+      ok: false,
+      error: { code: "sectionMinutesInvalid", index: 0 },
+    });
+    expect(validateTryoutSections([{ title: t("PU"), minutes: 10, questions: [] }])).toEqual({
+      ok: false,
+      error: { code: "sectionQuestionsRequired", index: 0 },
+    });
+    const r = validateTryoutSections([{ title: t("PU"), minutes: 10, questions: [q] }]);
+    expect(r.ok).toBe(true);
+  });
+
+  it("galat soal ditandai dengan nomor subtes", () => {
+    const r = validateTryoutSections([
+      { title: t("PU"), minutes: 10, questions: [q] },
+      { title: t("PK"), minutes: 5, questions: [{ ...q, answer: 9 }] },
+    ]);
+    expect(r).toEqual({ ok: false, error: { code: "sectionQuestion:questionAnswerInvalid", index: 1 } });
+  });
+});
+
+describe("kelas live", () => {
+  const base = {
+    levelId: "sma",
+    courseSlug: "",
+    title: t("Live Fisika"),
+    description: t(""),
+    startsAt: "2026-11-20T12:00:00Z",
+    minutes: 60,
+    hostName: "Pak Budi",
+    joinUrl: "https://meet.google.com/abc-defg-hij",
+    recording: "",
+  };
+  it("valid; rekaman dari tautan YouTube", () => {
+    const r = validateLive({ ...base, recording: "https://youtu.be/y1BZBU5YXcM" });
+    expect(r.ok && r.value.recordingYoutubeId).toBe("y1BZBU5YXcM");
+    expect(r.ok && r.value.courseSlug).toBeNull();
+  });
+  it("menolak link tanpa https, durasi aneh, rekaman bukan YouTube", () => {
+    expect(validateLive({ ...base, joinUrl: "http://zoom.us/x" })).toEqual({ ok: false, error: { code: "joinUrlInvalid" } });
+    expect(validateLive({ ...base, minutes: 5 })).toEqual({ ok: false, error: { code: "liveMinutesInvalid" } });
+    expect(validateLive({ ...base, recording: "bukan video" })).toEqual({ ok: false, error: { code: "lessonVideoInvalid" } });
+    expect(validateLive({ ...base, startsAt: "" })).toEqual({ ok: false, error: { code: "dateInvalid" } });
+  });
+});
+
+describe("mode sekolah", () => {
+  it("kode gabung 6 karakter tanpa huruf/angka yang mirip", () => {
+    const code = generateJoinCode();
+    expect(code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
+    expect(generateJoinCode(6, () => 0)).toBe("AAAAAA");
+  });
+  it("tugas pelajaran wajib memilih pelajaran", () => {
+    const base = { title: "Tonton", instructions: "", kind: "lesson" as const, courseSlug: "sma-fisika", lessonId: null, dueAt: null };
+    expect(validateAssignment(base)).toEqual({ ok: false, error: { code: "lessonRequired" } });
+    const r = validateAssignment({ ...base, kind: "quiz", lessonId: "l1" });
+    expect(r.ok && r.value.lessonId).toBeNull();
+    expect(validateAssignment({ ...base, lessonId: "l2", dueAt: "xx" })).toEqual({ ok: false, error: { code: "dateInvalid" } });
   });
 });

@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
-import { useId, useState, useTransition } from "react";
+import { useId, useState, useTransition, type Dispatch, type SetStateAction } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { localeLabels, locales } from "@/config/site";
 import { useRouter } from "@/i18n/navigation";
@@ -11,7 +11,7 @@ import type { AdminCourse } from "@/lib/cms/queries";
 import type { L10n } from "@/lib/content";
 import { DragHandle, emptyL10n, L10nInput, move, RowButton, SaveStatus, useDragSort, type Status } from "./fields";
 
-type Row = {
+export type QuestionRow = {
   key: string;
   id?: string;
   prompt: L10n;
@@ -23,31 +23,37 @@ type Row = {
 const MAX_OPTIONS = 6;
 let counter = 0;
 const newKey = () => `new-${++counter}`;
+type Row = QuestionRow;
 
-/** Bank soal pilihan ganda: tambah, ubah, urutkan, hapus — disimpan sekaligus. */
-export function QuizEditor({ slug, questions }: { slug: string; questions: AdminCourse["questions"] }) {
+export const newQuestion = (): QuestionRow => ({
+  key: newKey(),
+  prompt: emptyL10n(),
+  options: [emptyL10n(), emptyL10n(), emptyL10n(), emptyL10n()],
+  answer: 0,
+  explanation: emptyL10n(),
+});
+
+/**
+ * Daftar soal pilihan ganda yang bisa diedit (tambah, ubah, urutkan, hapus).
+ * Dipakai editor kuis kelas dan editor subtes try-out.
+ */
+export function QuestionList({
+  rows,
+  setRows,
+  addLabel,
+}: {
+  rows: QuestionRow[];
+  setRows: Dispatch<SetStateAction<QuestionRow[]>>;
+  addLabel?: string;
+}) {
   const t = useTranslations("admin");
-  const router = useRouter();
   const id = useId();
-  const [rows, setRows] = useState<Row[]>(() => questions.map((q) => ({ key: q.id, ...q })));
   const drag = useDragSort(setRows);
-  const [status, setStatus] = useState<Status>("idle");
-  const [pending, start] = useTransition();
 
   const update = (i: number, patch: Partial<Row>) =>
     setRows((r) => r.map((row, j) => (j === i ? { ...row, ...patch } : row)));
 
-  const add = () =>
-    setRows((r) => [
-      ...r,
-      {
-        key: newKey(),
-        prompt: emptyL10n(),
-        options: [emptyL10n(), emptyL10n(), emptyL10n(), emptyL10n()],
-        answer: 0,
-        explanation: emptyL10n(),
-      },
-    ]);
+  const add = () => setRows((r) => [...r, newQuestion()]);
 
   const remove = (i: number) => {
     if (rows[i].id && !window.confirm(t("quiz.confirmDelete"))) return;
@@ -65,27 +71,8 @@ export function QuizEditor({ slug, questions }: { slug: string; questions: Admin
     update(i, { options: row.options.filter((_, k) => k !== oi), answer });
   };
 
-  const save = () => {
-    setStatus("saving");
-    start(async () => {
-      const result = await saveQuestions(
-        slug,
-        rows.map(({ id: qid, prompt, options, answer, explanation }) => ({
-          id: qid,
-          prompt,
-          options,
-          answer,
-          explanation,
-        })),
-      );
-      setStatus(result);
-      if (result.ok) router.refresh();
-    });
-  };
-
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted">{t("quiz.note")}</p>
+    <>
       {rows.length === 0 && <p className="card p-6 text-center text-muted">{t("quiz.empty")}</p>}
 
       <ol className="space-y-4">
@@ -188,11 +175,46 @@ export function QuizEditor({ slug, questions }: { slug: string; questions: Admin
           );
         })}
       </ol>
+      <button type="button" onClick={add} className="btn btn-ghost">
+        + {addLabel ?? t("quiz.add")}
+      </button>
+    </>
+  );
+}
+
+/** Bank soal kuis satu kelas — disimpan sekaligus. */
+export function QuizEditor({ slug, questions }: { slug: string; questions: AdminCourse["questions"] }) {
+  const t = useTranslations("admin");
+  const router = useRouter();
+  const [rows, setRows] = useState<Row[]>(() => questions.map((q) => ({ key: q.id, ...q })));
+  const [status, setStatus] = useState<Status>("idle");
+  const [pending, start] = useTransition();
+
+  const save = () => {
+    setStatus("saving");
+    start(async () => {
+      const result = await saveQuestions(
+        slug,
+        rows.map(({ id: qid, prompt, options, answer, explanation }) => ({
+          id: qid,
+          prompt,
+          options,
+          answer,
+          explanation,
+        })),
+      );
+      setStatus(result);
+      if (result.ok) router.refresh();
+    });
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted">{t("quiz.note")}</p>
+
+      <QuestionList rows={rows} setRows={setRows} />
 
       <div className="flex flex-wrap items-center gap-3">
-        <button type="button" onClick={add} className="btn btn-ghost">
-          + {t("quiz.add")}
-        </button>
         <button type="button" onClick={save} disabled={pending} className="btn btn-primary">
           {t("quiz.save")}
         </button>

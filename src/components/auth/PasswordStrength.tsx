@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { passwordStrength } from "@/lib/validation";
 
-const colors = { 1: "var(--danger)", 2: "var(--accent)", 3: "var(--success)" } as const;
+const colors = { 1: "var(--danger)", 2: "var(--warning)", 3: "var(--success)" } as const;
 const labelKey = { 1: "strengthWeak", 2: "strengthFair", 3: "strengthStrong" } as const;
 
 /** Meter 3 segmen + label kekuatan kata sandi. Kosong → tidak dirender. */

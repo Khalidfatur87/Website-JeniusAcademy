@@ -123,7 +123,7 @@ const fallbackLevel = (id: string): Level => ({
   tagline: { id: "", en: "" },
   price: 0,
   subjects: [],
-  color: "#0085FF",
+  color: "#2B93A8",
 });
 
 type CourseRow = {

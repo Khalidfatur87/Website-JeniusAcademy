@@ -40,7 +40,7 @@ export function StreakCard({ lessonTimes, quizTimes }: { lessonTimes: string[]; 
   return (
     <section aria-label={t("label")} className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div className="card flex items-center gap-4 p-5">
-        <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-accent/15 text-accent">
+        <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-warning/15 text-warning">
           <Icon name="flame" size={30} />
         </span>
         <div className="min-w-0 flex-1">
@@ -50,7 +50,7 @@ export function StreakCard({ lessonTimes, quizTimes }: { lessonTimes: string[]; 
             {days.map((active, i) => (
               <li key={i} className="flex flex-col items-center gap-1">
                 <span
-                  className={`size-3 rounded-full ${active ? "bg-accent" : "bg-line"}`}
+                  className={`size-3 rounded-full ${active ? "bg-warning" : "bg-line"}`}
                   aria-hidden="true"
                 />
                 <span className="text-[0.65rem] text-muted">

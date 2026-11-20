@@ -6,6 +6,7 @@ import { useState, type FormEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { LockedLesson } from "@/components/course/LockedLesson";
+import { ExplainButton } from "@/components/tutor/ExplainButton";
 import { useAuth } from "@/lib/auth";
 import { tr, type Course, type QuizQuestion, type QuizResult } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
@@ -149,6 +150,9 @@ export function QuizRunner({ course, questions }: { course: Course; questions: Q
                   </>
                 )}
               </p>
+            )}
+            {graded && user && chosen !== graded.answer && (
+              <ExplainButton questionId={q.id} chosen={chosen} />
             )}
           </div>
         );

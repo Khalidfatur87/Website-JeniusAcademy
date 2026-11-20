@@ -15,6 +15,7 @@ import { attemptPercent } from "@/lib/quiz";
 import { useQuizResults } from "@/lib/quiz-results";
 import { routes } from "@/lib/routes";
 import { useCertificates, useSubscriptions } from "@/lib/user-data";
+import { AchievementsCard } from "@/components/gamification/AchievementsCard";
 import { StreakCard } from "./StreakCard";
 
 function StatCard({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
@@ -89,6 +90,8 @@ export function DashboardView({ courses, levels }: { courses: Course[]; levels: 
       )}
 
       <StreakCard lessonTimes={activity} quizTimes={attempts.map((a) => a.at)} />
+
+      <AchievementsCard />
 
       <section aria-label={t("title")} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

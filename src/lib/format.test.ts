@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDate, formatPrice } from "./format";
+import { formatDate, formatPrice, fromLocalInput, toLocalInput } from "./format";
 
 describe("formatPrice", () => {
   it("format Rupiah tanpa desimal", () => {
@@ -18,5 +18,19 @@ describe("formatDate", () => {
   it("memformat sesuai bahasa", () => {
     expect(formatDate("2026-05-21", "id")).toMatch(/2026/);
     expect(formatDate("2026-05-21", "en")).toMatch(/May/);
+  });
+});
+
+describe("datetime-local", () => {
+  it("bolak-balik ISO ↔ input lokal", () => {
+    const iso = new Date(2026, 10, 20, 19, 5).toISOString();
+    expect(toLocalInput(iso)).toBe("2026-11-20T19:05");
+    expect(fromLocalInput("2026-11-20T19:05")).toBe(iso);
+  });
+  it("kosong / tidak valid", () => {
+    expect(toLocalInput(null)).toBe("");
+    expect(toLocalInput("bukan tanggal")).toBe("");
+    expect(fromLocalInput("")).toBeNull();
+    expect(fromLocalInput("xx")).toBeNull();
   });
 });

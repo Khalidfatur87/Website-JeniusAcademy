@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline · JeniusAcademy</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f5fafb; --ink:#0b1b33; --muted:#53647c; --brand:#1c6877; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#07101f; --ink:#e8eef7; --muted:#9fb0c6; --brand:#7cc3d1; } }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:var(--bg); color:var(--ink);
+         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; padding:16px; box-sizing:border-box; text-align:center; }
+  img { width:96px; height:auto; }
+  h1 { font-size:1.5rem; margin:16px 0 8px; }
+  p { color:var(--muted); max-width:28rem; line-height:1.5; }
+  button { margin-top:16px; border:0; border-radius:12px; padding:12px 20px; font-weight:600; font-size:1rem;
+           background:var(--brand); color:#fff; cursor:pointer; }
+</style>
+</head>
+<body>
+  <main>
+    <img src="/brand/logo-mark.png" alt="">
+    <h1>Kamu sedang offline</h1>
+    <p>Periksa koneksi internet, lalu coba lagi. / You're offline — check your connection and try again.</p>
+    <button type="button" onclick="location.reload()">Coba lagi</button>
+  </main>
+</body>
+</html>

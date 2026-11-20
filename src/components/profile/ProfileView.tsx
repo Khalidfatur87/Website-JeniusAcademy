@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Icon } from "@/components/ui/Icon";
 import { Link } from "@/i18n/navigation";
@@ -18,7 +18,10 @@ import {
   type ProfileError,
 } from "@/lib/profile";
 import { routes } from "@/lib/routes";
+import { getShowOnLeaderboard, setShowOnLeaderboard } from "@/lib/engagement-client";
 import { useCertificates } from "@/lib/user-data";
+import { AppSettings } from "@/components/pwa/AppSettings";
+import { ParentLinkSection } from "./ParentLinkSection";
 
 type Msg = { ok: true } | { ok: false; error: ProfileError } | null;
 
@@ -231,7 +234,50 @@ function CertificatesSection() {
   );
 }
 
-/** Halaman profil: foto, nama, target mingguan, sertifikat, kata sandi. */
+function LeaderboardPrivacy({ user }: { user: User }) {
+  const t = useTranslations("profile");
+  const [show, setShow] = useState<boolean | null>(null);
+  const [msg, setMsg] = useState<Msg>(null);
+
+  useEffect(() => {
+    let alive = true;
+    getShowOnLeaderboard(user.id).then((v) => alive && setShow(v));
+    return () => {
+      alive = false;
+    };
+  }, [user.id]);
+
+  const toggle = async (next: boolean) => {
+    setShow(next);
+    const ok = await setShowOnLeaderboard(user.id, next);
+    setMsg(ok ? { ok: true } : { ok: false, error: "generic" });
+    if (!ok) setShow(!next);
+  };
+
+  return (
+    <section aria-labelledby="privacy-heading" className="card space-y-3 p-6">
+      <h2 id="privacy-heading" className="text-lg">
+        {t("privacy")}
+      </h2>
+      <label className="flex items-start gap-3 text-sm">
+        <input
+          type="checkbox"
+          checked={show ?? true}
+          disabled={show === null}
+          onChange={(e) => void toggle(e.target.checked)}
+          className="mt-0.5 size-4 accent-[var(--brand)]"
+        />
+        <span>
+          <span className="font-medium">{t("showOnLeaderboard")}</span>
+          <span className="block text-xs text-muted">{t("showOnLeaderboardHint")}</span>
+        </span>
+      </label>
+      <Status msg={msg} />
+    </section>
+  );
+}
+
+/** Halaman profil: foto, nama, target mingguan, sertifikat, orang tua, privasi, kata sandi. */
 export function ProfileView() {
   const t = useTranslations("profile");
   const { user, ready } = useAuth();
@@ -256,6 +302,9 @@ export function ProfileView() {
       <DetailsSection user={user} />
       <GoalSection user={user} />
       <CertificatesSection />
+      <ParentLinkSection />
+      <LeaderboardPrivacy user={user} />
+      <AppSettings user={user} />
       <section aria-labelledby="security-heading" className="card flex flex-col gap-4 p-6 sm:flex-row sm:items-center">
         <div className="flex-1">
           <h2 id="security-heading" className="text-lg">

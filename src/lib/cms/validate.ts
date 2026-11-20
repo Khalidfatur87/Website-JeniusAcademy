@@ -320,3 +320,172 @@ export function materialTitle(fileName: string): string {
   const base = (dot > 0 ? fileName.slice(0, dot) : fileName).replace(/[_-]+/g, " ").trim();
   return (base || fileName).slice(0, 120);
 }
+
+// ---- try-out -------------------------------------------------------------------
+
+export type TryoutInput = {
+  slug: string;
+  levelId: string;
+  title: L10n;
+  description: L10n;
+  published: boolean;
+  /** ISO atau kosong. */
+  opensAt: string | null;
+  closesAt: string | null;
+  position: number;
+};
+
+export type TryoutSectionInput = { title: L10n; minutes: number; questions: QuestionInput[] };
+
+const isoOrNull = (v: string | null) => {
+  if (!v) return { ok: true as const, value: null };
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? { ok: false as const } : { ok: true as const, value: d.toISOString() };
+};
+
+export function validateTryout(input: TryoutInput): Result<TryoutInput> {
+  const slug = input.slug.trim();
+  if (!slug) return fail("slugRequired");
+  if (slug.length > 60 || !SLUG_RE.test(slug)) return fail("slugInvalid");
+  if (!input.levelId) return fail("levelRequired");
+  const title = cleanL10n(input.title);
+  if (!filled(title)) return fail("titleRequired");
+  if (Object.values(title).some((t) => t.length > 120)) return fail("titleTooLong");
+  const description = cleanL10n(input.description);
+  if (Object.values(description).some((t) => t.length > 2000)) return fail("summaryTooLong");
+  const opens = isoOrNull(input.opensAt);
+  const closes = isoOrNull(input.closesAt);
+  if (!opens.ok || !closes.ok) return fail("dateInvalid");
+  if (opens.value && closes.value && opens.value >= closes.value) return fail("dateOrder");
+  if (!isWholeNumber(input.position)) return fail("positionInvalid");
+  return {
+    ok: true,
+    value: {
+      slug,
+      levelId: input.levelId,
+      title,
+      description,
+      published: Boolean(input.published),
+      opensAt: opens.value,
+      closesAt: closes.value,
+      position: input.position,
+    },
+  };
+}
+
+export type CleanTryoutSection = { title: L10n; minutes: number; questions: CleanQuestion[] };
+
+/** Subtes: 1–20 subtes, 1–300 menit, 1–100 soal tiap subtes. `index` galat = nomor subtes. */
+export function validateTryoutSections(list: TryoutSectionInput[]): Result<CleanTryoutSection[]> {
+  if (list.length === 0) return fail("sectionsRequired");
+  if (list.length > 20) return fail("tooManySections");
+  const out: CleanTryoutSection[] = [];
+  for (const [i, s] of list.entries()) {
+    const title = cleanL10n(s.title);
+    if (!filled(title)) return fail("sectionTitleRequired", i);
+    if (!isWholeNumber(s.minutes) || s.minutes < 1 || s.minutes > 300) return fail("sectionMinutesInvalid", i);
+    if (s.questions.length === 0) return fail("sectionQuestionsRequired", i);
+    const q = validateQuestions(s.questions);
+    if (!q.ok) return fail(`section${q.error.index !== undefined ? "Question" : ""}:${q.error.code}`, i);
+    out.push({ title, minutes: s.minutes, questions: q.value });
+  }
+  return { ok: true, value: out };
+}
+
+// ---- kelas live ----------------------------------------------------------------
+
+export type LiveInput = {
+  levelId: string;
+  courseSlug: string | null;
+  title: L10n;
+  description: L10n;
+  startsAt: string;
+  minutes: number;
+  hostName: string;
+  joinUrl: string;
+  /** ID / tautan YouTube rekaman (boleh kosong). */
+  recording: string;
+};
+
+export type CleanLive = Omit<LiveInput, "recording"> & { recordingYoutubeId: string };
+
+export function validateLive(input: LiveInput): Result<CleanLive> {
+  if (!input.levelId) return fail("levelRequired");
+  const title = cleanL10n(input.title);
+  if (!filled(title)) return fail("titleRequired");
+  if (Object.values(title).some((t) => t.length > 120)) return fail("titleTooLong");
+  const description = cleanL10n(input.description);
+  if (Object.values(description).some((t) => t.length > 2000)) return fail("summaryTooLong");
+  const start = new Date(input.startsAt);
+  if (!input.startsAt || Number.isNaN(start.getTime())) return fail("dateInvalid");
+  if (!isWholeNumber(input.minutes) || input.minutes < 10 || input.minutes > 480) return fail("liveMinutesInvalid");
+  const hostName = input.hostName.trim();
+  if (hostName.length > 80) return fail("teacherNameTooLong");
+  const joinUrl = input.joinUrl.trim();
+  if (joinUrl && !/^https:\/\/\S+$/.test(joinUrl)) return fail("joinUrlInvalid");
+  const recording = input.recording.trim();
+  const recordingYoutubeId = recording ? parseYoutubeId(recording) : "";
+  if (recordingYoutubeId === null) return fail("lessonVideoInvalid");
+  return {
+    ok: true,
+    value: {
+      levelId: input.levelId,
+      courseSlug: input.courseSlug || null,
+      title,
+      description,
+      startsAt: start.toISOString(),
+      minutes: input.minutes,
+      hostName,
+      joinUrl,
+      recordingYoutubeId,
+    },
+  };
+}
+
+// ---- mode sekolah ---------------------------------------------------------------
+
+const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // tanpa 0/O/1/I yang mirip
+
+/** Kode gabung kelas, mis. "K7M2QX". */
+export function generateJoinCode(length = 6, random: () => number = Math.random): string {
+  let s = "";
+  for (let i = 0; i < length; i++) s += CODE_ALPHABET[Math.floor(random() * CODE_ALPHABET.length)];
+  return s;
+}
+
+export type AssignmentInput = {
+  title: string;
+  instructions: string;
+  kind: "lesson" | "quiz" | "course";
+  courseSlug: string;
+  lessonId: string | null;
+  dueAt: string | null;
+};
+
+export function validateAssignment(input: AssignmentInput): Result<AssignmentInput> {
+  const title = input.title.trim();
+  if (!title) return fail("titleRequired");
+  if (title.length > 120) return fail("titleTooLong");
+  const instructions = input.instructions.trim();
+  if (instructions.length > 2000) return fail("summaryTooLong");
+  if (!["lesson", "quiz", "course"].includes(input.kind)) return fail("invalid");
+  if (!input.courseSlug) return fail("courseRequired");
+  if (input.kind === "lesson" && !input.lessonId) return fail("lessonRequired");
+  let dueAt: string | null = null;
+  if (input.dueAt) {
+    const d = new Date(input.dueAt);
+    if (Number.isNaN(d.getTime())) return fail("dateInvalid");
+    dueAt = d.toISOString();
+  }
+  return {
+    ok: true,
+    value: {
+      title,
+      instructions,
+      kind: input.kind,
+      courseSlug: input.courseSlug,
+      lessonId: input.kind === "lesson" ? input.lessonId : null,
+      dueAt,
+    },
+  };
+}

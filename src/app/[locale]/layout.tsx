@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { ServiceWorker } from "@/components/pwa/ServiceWorker";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import { themeInitScript } from "@/lib/theme-script";
@@ -90,6 +91,7 @@ export default async function LocaleLayout({
           </main>
           <Footer />
           <WhatsAppButton />
+          <ServiceWorker />
         </NextIntlClientProvider>
       </body>
     </html>

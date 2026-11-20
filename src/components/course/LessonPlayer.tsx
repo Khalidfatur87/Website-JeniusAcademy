@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, type ReactNode } from "react";
 import { LessonDiscussion } from "@/components/discussion/LessonDiscussion";
+import { TutorChat } from "@/components/tutor/TutorChat";
 import { useAuth } from "@/lib/auth";
 import { tr, type Course, type LessonContent } from "@/lib/content";
 import { fetchLessonContent } from "@/lib/lesson-content";
@@ -99,6 +100,8 @@ export function LessonPlayer({
       )}
 
       {content?.access && content.materials.length > 0 && <LessonMaterials materials={content.materials} />}
+
+      {content?.access && <TutorChat slug={course.slug} lessonId={lesson.id} />}
 
       {content?.access && <LessonDiscussion slug={course.slug} lessonId={lesson.id} />}
     </div>

@@ -88,6 +88,13 @@ export const siteConfig = {
    */
   certificate: { minQuizPercent: 70 },
 
+  /**
+   * Tutor AI ("Tanya AI"). Butuh env ANTHROPIC_API_KEY di server; tanpa itu
+   * tombolnya tetap tampil tetapi menjawab "belum diaktifkan".
+   * `dailyLimit` = pertanyaan per pengguna per hari (menahan biaya).
+   */
+  ai: { dailyLimit: 20 },
+
   /** Saklar fitur. */
   features: {
     threeD: true, // scene 3D di beranda & kartu miring
@@ -97,6 +104,8 @@ export const siteConfig = {
     googleLogin: false,
     /** Tombol WhatsApp mengambang (hanya tampil jika contact.whatsapp diisi). */
     whatsappButton: true,
+    /** Tutor AI di halaman pelajaran & pembahasan kuis. */
+    tutorAi: true,
   },
 } as const;
 

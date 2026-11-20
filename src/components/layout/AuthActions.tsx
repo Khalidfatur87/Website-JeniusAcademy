@@ -42,7 +42,7 @@ function MenuItem({
 }: {
   href?: string;
   onClick?: () => void;
-  icon: "user" | "book" | "logout" | "chart";
+  icon: "user" | "book" | "logout" | "chart" | "target" | "award" | "users" | "sparkles";
   children: ReactNode;
   active?: boolean;
   danger?: boolean;
@@ -68,7 +68,7 @@ function MenuItem({
   );
 }
 
-/** Daftar menu akun: Dasbor, Profil, CMS (guru/super admin), Keluar. */
+/** Daftar menu akun: Dasbor, Latihan, Peringkat, Kelas sekolah, Orang tua, Profil, CMS, Keluar. */
 function AccountLinks({ user, onSignOut }: { user: User; onSignOut: () => void }) {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -80,13 +80,33 @@ function AccountLinks({ user, onSignOut }: { user: User; onSignOut: () => void }
         </MenuItem>
       </li>
       <li>
+        <MenuItem href={routes.practice} icon="target" active={pathname.startsWith(routes.practice)}>
+          {t("practice")}
+        </MenuItem>
+      </li>
+      <li>
+        <MenuItem href={routes.leaderboard} icon="award" active={pathname.startsWith(routes.leaderboard)}>
+          {t("leaderboard")}
+        </MenuItem>
+      </li>
+      <li>
+        <MenuItem href={routes.classes} icon="book" active={pathname.startsWith(routes.classes)}>
+          {t("classes")}
+        </MenuItem>
+      </li>
+      <li>
+        <MenuItem href={routes.parent} icon="users" active={pathname.startsWith(routes.parent)}>
+          {t("parent")}
+        </MenuItem>
+      </li>
+      <li>
         <MenuItem href={routes.profile} icon="user" active={pathname.startsWith(routes.profile)}>
           {t("profile")}
         </MenuItem>
       </li>
       {isStaff(user) && (
         <li>
-          <MenuItem href={routes.admin} icon="book" active={pathname.startsWith(routes.admin)}>
+          <MenuItem href={routes.admin} icon="sparkles" active={pathname.startsWith(routes.admin)}>
             {t("cms")}
           </MenuItem>
         </li>

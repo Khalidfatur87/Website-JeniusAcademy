@@ -4,6 +4,8 @@ import { routes } from "@/lib/routes";
 export const navLinks = [
   { href: routes.home, key: "home" },
   { href: routes.courses, key: "courses" },
+  { href: routes.tryouts, key: "tryouts" },
+  { href: routes.live, key: "live" },
   { href: routes.pricing, key: "pricing" },
   { href: routes.reviews, key: "reviews" },
   { href: routes.contact, key: "contact" },

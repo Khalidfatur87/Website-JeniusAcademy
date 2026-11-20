@@ -395,3 +395,203 @@ export async function siteOverview(sb: Sb): Promise<Overview | null> {
     certificates: d.certificates,
   };
 }
+
+// ---- try-out -------------------------------------------------------------------
+
+export type AdminTryout = {
+  slug: string;
+  levelId: string;
+  title: L10n;
+  description: L10n;
+  published: boolean;
+  opensAt: string | null;
+  closesAt: string | null;
+  position: number;
+  sectionCount: number;
+  participants: number;
+};
+
+export async function listEditableTryouts(sb: Sb, viewer: Viewer): Promise<AdminTryout[]> {
+  let q = sb
+    .from("tryouts")
+    .select("slug, level_id, title, description, published, opens_at, closes_at, position, tryout_sections(id), tryout_attempts(id)")
+    .order("position")
+    .order("created_at", { ascending: false });
+  if (viewer.role !== "super_admin") q = q.eq("created_by", viewer.id);
+  const { data, error } = await q;
+  if (error) throw new Error(error.message);
+  return data.map((r) => ({
+    slug: r.slug,
+    levelId: r.level_id,
+    title: r.title as L10n,
+    description: r.description as L10n,
+    published: r.published,
+    opensAt: r.opens_at,
+    closesAt: r.closes_at,
+    position: r.position,
+    sectionCount: (r.tryout_sections as { id: string }[]).length,
+    // Hanya percobaan yang terlihat oleh RLS (milik sendiri); jumlah peserta asli lewat RPC di bawah.
+    participants: (r.tryout_attempts as { id: string }[]).length,
+  }));
+}
+
+export type AdminTryoutSection = {
+  id: string;
+  title: L10n;
+  minutes: number;
+  questions: AdminQuestion[];
+};
+
+export async function getEditableTryout(
+  sb: Sb,
+  viewer: Viewer,
+  slug: string,
+): Promise<(AdminTryout & { sections: AdminTryoutSection[]; locked: boolean }) | null> {
+  const list = await listEditableTryouts(sb, viewer);
+  const base = list.find((x) => x.slug === slug);
+  if (!base) return null;
+  const [content, board] = await Promise.all([
+    sb.rpc("admin_tryout_content", { p_slug: slug }),
+    sb.rpc("tryout_leaderboard", { p_slug: slug }),
+  ]);
+  if (content.error) throw new Error(content.error.message);
+  const participants = board.error ? 0 : (board.data as unknown[]).length;
+  return {
+    ...base,
+    participants: Math.max(base.participants, participants),
+    sections: (content.data ?? []) as AdminTryoutSection[],
+    // Isi tidak bisa diubah setelah ada peserta (nilai & peringkat tetap adil).
+    locked: Math.max(base.participants, participants) > 0,
+  };
+}
+
+// ---- kelas live ------------------------------------------------------------------
+
+export type AdminLive = {
+  id: string;
+  levelId: string;
+  courseSlug: string | null;
+  title: L10n;
+  description: L10n;
+  startsAt: string;
+  minutes: number;
+  hostName: string;
+  joinUrl: string;
+  recordingYoutubeId: string;
+};
+
+export async function listAdminLive(sb: Sb): Promise<AdminLive[]> {
+  const { data, error } = await sb.rpc("admin_live_sessions");
+  if (error) throw new Error(error.message);
+  return (
+    data as {
+      id: string;
+      level_id: string;
+      course_slug: string | null;
+      title: L10n;
+      description: L10n;
+      starts_at: string;
+      minutes: number;
+      host_name: string;
+      join_url: string;
+      recording_youtube_id: string;
+    }[]
+  ).map((r) => ({
+    id: r.id,
+    levelId: r.level_id,
+    courseSlug: r.course_slug,
+    title: r.title,
+    description: r.description,
+    startsAt: r.starts_at,
+    minutes: r.minutes,
+    hostName: r.host_name,
+    joinUrl: r.join_url,
+    recordingYoutubeId: r.recording_youtube_id,
+  }));
+}
+
+// ---- mode sekolah ------------------------------------------------------------------
+
+export type AdminClassroom = {
+  id: string;
+  name: string;
+  joinCode: string;
+  sponsorLevelId: string | null;
+  archived: boolean;
+  createdAt: string;
+  members: number;
+};
+
+export async function listClassrooms(sb: Sb, viewer: Viewer): Promise<AdminClassroom[]> {
+  let q = sb
+    .from("classrooms")
+    .select("id, name, join_code, sponsor_level_id, archived, created_at, classroom_members(student_id)")
+    .order("created_at", { ascending: false });
+  // Super admin melihat semua kelas sekolah; guru hanya miliknya.
+  if (viewer.role !== "super_admin") q = q.eq("teacher_id", viewer.id);
+  const { data, error } = await q;
+  if (error) throw new Error(error.message);
+  return data.map((r) => ({
+    id: r.id,
+    name: r.name,
+    joinCode: r.join_code,
+    sponsorLevelId: r.sponsor_level_id,
+    archived: r.archived,
+    createdAt: r.created_at,
+    members: (r.classroom_members as { student_id: string }[]).length,
+  }));
+}
+
+export type AdminAssignment = {
+  id: string;
+  title: string;
+  instructions: string;
+  kind: "lesson" | "quiz" | "course";
+  courseSlug: string;
+  lessonId: string | null;
+  dueAt: string | null;
+};
+
+export type ClassroomDetail = AdminClassroom & {
+  roster: { studentId: string; name: string; joinedAt: string }[];
+  assignments: AdminAssignment[];
+  report: { studentId: string; assignmentId: string; status: { done: boolean; percent?: number | null; done_count?: number; total?: number } }[];
+};
+
+export async function getClassroom(sb: Sb, viewer: Viewer, id: string): Promise<ClassroomDetail | null> {
+  const base = (await listClassrooms(sb, viewer)).find((c) => c.id === id);
+  if (!base) return null;
+  const [roster, assignments, report] = await Promise.all([
+    sb.rpc("classroom_roster", { p_id: id }),
+    sb
+      .from("assignments")
+      .select("id, title, instructions, kind, course_slug, lesson_id, due_at")
+      .eq("classroom_id", id)
+      .order("due_at", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false }),
+    sb.rpc("classroom_report", { p_id: id }),
+  ]);
+  if (roster.error) throw new Error(roster.error.message);
+  if (assignments.error) throw new Error(assignments.error.message);
+  if (report.error) throw new Error(report.error.message);
+  return {
+    ...base,
+    roster: (roster.data as { student_id: string; name: string; joined_at: string }[]).map((r) => ({
+      studentId: r.student_id,
+      name: r.name,
+      joinedAt: r.joined_at,
+    })),
+    assignments: assignments.data.map((a) => ({
+      id: a.id,
+      title: a.title,
+      instructions: a.instructions,
+      kind: a.kind as AdminAssignment["kind"],
+      courseSlug: a.course_slug,
+      lessonId: a.lesson_id,
+      dueAt: a.due_at,
+    })),
+    report: (report.data as { student_id: string; assignment_id: string; status: ClassroomDetail["report"][number]["status"] }[]).map(
+      (r) => ({ studentId: r.student_id, assignmentId: r.assignment_id, status: r.status }),
+    ),
+  };
+}

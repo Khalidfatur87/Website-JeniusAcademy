@@ -4,6 +4,10 @@ Platform belajar online (SD, SMP, SMA, UTBK) — dibangun ulang dengan **Next.js
 
 Situs statis versi lama (HTML/CSS/JS) masih ada di riwayat git, commit `2614882`.
 
+## Aplikasi Android
+
+Aplikasi Flutter untuk siswa ada di [`mobile/`](mobile/README.md) (memakai Supabase yang sama). Rencana: [`docs/MOBILE_PLAN.md`](docs/MOBILE_PLAN.md).
+
 ## Menjalankan
 
 ```bash

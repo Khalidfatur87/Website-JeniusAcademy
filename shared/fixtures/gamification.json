@@ -1,0 +1,39 @@
+{
+  "_note": "Kasus uji bersama website (src/lib/gamification.test.ts) dan aplikasi (mobile/test/domain/gamification_test.dart). Jika aturan berubah, ubah di sini dan kedua implementasi harus tetap lolos.",
+  "xpForLevel": [
+    { "level": 1, "xp": 0 },
+    { "level": 2, "xp": 100 },
+    { "level": 3, "xp": 300 },
+    { "level": 4, "xp": 600 },
+    { "level": 5, "xp": 1000 }
+  ],
+  "levelFromXp": [
+    { "xp": 0, "expected": { "level": 1, "current": 0, "needed": 100, "percent": 0 } },
+    { "xp": 99, "expected": { "level": 1, "current": 99, "needed": 100, "percent": 99 } },
+    { "xp": 100, "expected": { "level": 2, "current": 0, "needed": 200, "percent": 0 } },
+    { "xp": 450, "expected": { "level": 3, "current": 150, "needed": 300, "percent": 50 } },
+    { "xp": 1234, "expected": { "level": 5, "current": 234, "needed": 500, "percent": 47 } }
+  ],
+  "bestStreak": [
+    { "days": [], "expected": 0 },
+    { "days": ["2026-11-01", "2026-11-02", "2026-11-02", "2026-11-04", "2026-11-05", "2026-11-06"], "expected": 3 },
+    { "days": ["2026-12-31", "2027-01-01"], "expected": 2 },
+    { "days": ["2026-03-28", "2026-03-29", "2026-03-30"], "expected": 3 }
+  ],
+  "badges": [
+    { "stats": {}, "expected": [] },
+    {
+      "stats": {
+        "lessons": 12,
+        "perfectQuizzes": 1,
+        "tryouts": 1,
+        "activeDays": ["2026-11-01", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06", "2026-11-07"]
+      },
+      "expected": ["firstLesson", "tenLessons", "perfectQuiz", "streak7", "tryoutTaker"]
+    },
+    {
+      "stats": { "lessons": 50, "certificates": 3, "practiceCorrect": 50 },
+      "expected": ["firstLesson", "tenLessons", "fiftyLessons", "firstCertificate", "threeCertificates", "practice50"]
+    }
+  ]
+}

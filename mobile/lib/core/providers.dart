@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'config.dart';
@@ -19,11 +20,26 @@ final currentUserProvider = StreamProvider<User?>((ref) async* {
   }
 });
 
+/// Penyimpanan kecil di perangkat (pilihan bahasa). Diisi di main();
+/// null di tes & mode demo, sehingga pilihan hanya berlaku selama aplikasi terbuka.
+final preferencesProvider = Provider<SharedPreferences?>((ref) => null);
+
+const _localeKey = 'locale';
+
 class LocaleNotifier extends Notifier<Locale> {
   @override
-  Locale build() => AppConfig.defaultLocale;
+  Locale build() {
+    final saved = ref.watch(preferencesProvider)?.getString(_localeKey);
+    return AppConfig.locales.firstWhere(
+      (l) => l.languageCode == saved,
+      orElse: () => AppConfig.defaultLocale,
+    );
+  }
 
-  void set(Locale locale) => state = locale;
+  void set(Locale locale) {
+    state = locale;
+    ref.read(preferencesProvider)?.setString(_localeKey, locale.languageCode);
+  }
 }
 
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(LocaleNotifier.new);

@@ -18,7 +18,7 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Kuis | Soal tanpa kunci; dinilai di server (`submit_quiz`), lalu benar/salah, kunci & pembahasan per soal; skor terbaik di detail kelas |
 | Sertifikat | Syarat (semua pelajaran + kuis ≥ 70%), ambil lewat `claim_certificate`, tampilan sertifikat, cetak/PDF & tautan verifikasi di website, daftar di Profil |
 | Peringkat | Leaderboard mingguan / sepanjang waktu (RPC `xp_leaderboard`) |
-| Profil | Nama, email, pilih bahasa (ID/EN), keluar |
+| Profil | Ubah nama & foto (galeri, diperkecil 512 px, bucket `avatars`), target mingguan, tampil/sembunyi di peringkat, daftar sertifikat, bahasa ID/EN (tersimpan di perangkat), keluar |
 | Latihan | "Segera hadir" |
 
 ![Tampilan aplikasi](screenshots/jeniusacademy-portofolio.png)

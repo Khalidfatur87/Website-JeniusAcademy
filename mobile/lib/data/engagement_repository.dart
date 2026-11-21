@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/providers.dart';
 import '../domain/gamification.dart';
+import 'profile_repository.dart';
 
 class LeaderboardRow {
   const LeaderboardRow({
@@ -32,14 +33,6 @@ class EngagementRepository {
 
   final SupabaseClient _client;
 
-  /// Nama dari tabel profiles (diisi saat daftar).
-  Future<String?> myName() async {
-    final id = _client.auth.currentUser?.id;
-    if (id == null) return null;
-    final row = await _client.from('profiles').select('name').eq('id', id).maybeSingle();
-    return row?['name'] as String?;
-  }
-
   /// XP, pelajaran, hari aktif, dll. dihitung di database (RPC my_achievements).
   Future<AchievementStats> achievements() async {
     final data = await _client.rpc('my_achievements');
@@ -55,10 +48,10 @@ class EngagementRepository {
 final engagementRepositoryProvider =
     Provider((ref) => EngagementRepository(ref.watch(supabaseProvider)));
 
-final myNameProvider = FutureProvider((ref) {
-  ref.watch(currentUserProvider);
-  return ref.watch(engagementRepositoryProvider).myName();
-});
+/// Nama dari tabel profiles (diisi saat daftar, bisa diubah di Profil).
+final myNameProvider = FutureProvider<String?>(
+  (ref) async => (await ref.watch(profileProvider.future))?.name,
+);
 
 final achievementsProvider = FutureProvider((ref) {
   ref.watch(currentUserProvider);

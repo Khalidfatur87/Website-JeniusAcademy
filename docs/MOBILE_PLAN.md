@@ -38,7 +38,7 @@ Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mob
 - [x] Kuis (RPC `submit_quiz`, dinilai server) dan sertifikat (`claim_certificate`;
       cetak/PDF lewat halaman verifikasi website, daftar sertifikat di Profil)
 - [ ] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
-- [ ] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan
+- [x] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan, tampil di peringkat
 
 ### Fase 2 — Fitur lengkap
 - [ ] Try-out UTBK (timer dari server, aman saat aplikasi ke background)

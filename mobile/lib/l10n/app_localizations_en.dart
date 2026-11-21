@@ -457,4 +457,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noCertificates =>
       'No certificates yet. Finish a course to earn one.';
+
+  @override
+  String get editName => 'Edit name';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get changePhoto => 'Change photo';
+
+  @override
+  String get choosePhoto => 'Choose from gallery';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String get weeklyGoal => 'Weekly goal';
+
+  @override
+  String weeklyGoalValue(int count) {
+    return '$count lessons per week';
+  }
+
+  @override
+  String get showOnLeaderboard => 'Show my name on the leaderboard';
+
+  @override
+  String get showOnLeaderboardHint =>
+      'If off, other students won\'t see your name.';
+
+  @override
+  String get errNameRequired => 'Name is required.';
+
+  @override
+  String get errNameTooLong => 'Name can be at most 80 characters.';
+
+  @override
+  String get errFileType => 'Use a PNG, JPG or WEBP photo.';
+
+  @override
+  String get errFileSize => 'Photo must be 2 MB or smaller.';
+
+  @override
+  String get saved => 'Saved';
 }

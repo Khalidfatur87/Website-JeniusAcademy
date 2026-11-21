@@ -901,6 +901,96 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Belum ada sertifikat. Selesaikan kelas untuk mendapatkannya.'**
   String get noCertificates;
+
+  /// No description provided for @editName.
+  ///
+  /// In id, this message translates to:
+  /// **'Ubah nama'**
+  String get editName;
+
+  /// No description provided for @save.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In id, this message translates to:
+  /// **'Batal'**
+  String get cancel;
+
+  /// No description provided for @changePhoto.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti foto'**
+  String get changePhoto;
+
+  /// No description provided for @choosePhoto.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih dari galeri'**
+  String get choosePhoto;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus foto'**
+  String get removePhoto;
+
+  /// No description provided for @weeklyGoal.
+  ///
+  /// In id, this message translates to:
+  /// **'Target mingguan'**
+  String get weeklyGoal;
+
+  /// No description provided for @weeklyGoalValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} pelajaran per minggu'**
+  String weeklyGoalValue(int count);
+
+  /// No description provided for @showOnLeaderboard.
+  ///
+  /// In id, this message translates to:
+  /// **'Tampilkan nama di peringkat'**
+  String get showOnLeaderboard;
+
+  /// No description provided for @showOnLeaderboardHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Jika dimatikan, namamu tidak terlihat oleh siswa lain.'**
+  String get showOnLeaderboardHint;
+
+  /// No description provided for @errNameRequired.
+  ///
+  /// In id, this message translates to:
+  /// **'Nama wajib diisi.'**
+  String get errNameRequired;
+
+  /// No description provided for @errNameTooLong.
+  ///
+  /// In id, this message translates to:
+  /// **'Nama maksimal 80 karakter.'**
+  String get errNameTooLong;
+
+  /// No description provided for @errFileType.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan foto PNG, JPG, atau WEBP.'**
+  String get errFileType;
+
+  /// No description provided for @errFileSize.
+  ///
+  /// In id, this message translates to:
+  /// **'Ukuran foto maksimal 2 MB.'**
+  String get errFileSize;
+
+  /// No description provided for @saved.
+  ///
+  /// In id, this message translates to:
+  /// **'Tersimpan'**
+  String get saved;
 }
 
 class _AppLocalizationsDelegate

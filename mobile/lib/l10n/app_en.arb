@@ -133,5 +133,20 @@
   "copyVerifyLink": "Copy verification link",
   "linkCopied": "Link copied",
   "myCertificates": "My certificates",
-  "noCertificates": "No certificates yet. Finish a course to earn one."
+  "noCertificates": "No certificates yet. Finish a course to earn one.",
+  "editName": "Edit name",
+  "save": "Save",
+  "cancel": "Cancel",
+  "changePhoto": "Change photo",
+  "choosePhoto": "Choose from gallery",
+  "removePhoto": "Remove photo",
+  "weeklyGoal": "Weekly goal",
+  "weeklyGoalValue": "{count} lessons per week",
+  "showOnLeaderboard": "Show my name on the leaderboard",
+  "showOnLeaderboardHint": "If off, other students won't see your name.",
+  "errNameRequired": "Name is required.",
+  "errNameTooLong": "Name can be at most 80 characters.",
+  "errFileType": "Use a PNG, JPG or WEBP photo.",
+  "errFileSize": "Photo must be 2 MB or smaller.",
+  "saved": "Saved"
 }

@@ -15,6 +15,7 @@ import '../core/services.dart';
 import '../data/course_repository.dart';
 import '../data/engagement_repository.dart';
 import '../data/lesson_repository.dart';
+import '../data/profile_repository.dart';
 import '../data/quiz_repository.dart';
 import '../features/lesson/lesson_screen.dart';
 import 'demo_data.dart';
@@ -24,20 +25,27 @@ void main() {
   runApp(
     ProviderScope(
       overrides: [
-        servicesProvider.overrideWithValue(const Services(supabase: true, firebase: false)),
+        servicesProvider.overrideWithValue(
+          const Services(supabase: true, firebase: false),
+        ),
         routerProvider.overrideWith((ref) => buildRouter()),
         currentUserProvider.overrideWith((ref) => Stream.value(null)),
-        myNameProvider.overrideWith((ref) async => demoName),
+        profileRepositoryProvider.overrideWithValue(DemoProfileRepository()),
         achievementsProvider.overrideWith((ref) async => demoAchievements),
-        leaderboardProvider.overrideWith((ref, period) async => demoLeaderboard(period)),
+        leaderboardProvider.overrideWith(
+          (ref, period) async => demoLeaderboard(period),
+        ),
         levelsProvider.overrideWith((ref) async => demoLevels),
         coursesProvider.overrideWith((ref) async => demoCourses),
         courseProvider.overrideWith(
-          (ref, slug) async => demoCourses.where((c) => c.slug == slug).firstOrNull,
+          (ref, slug) async =>
+              demoCourses.where((c) => c.slug == slug).firstOrNull,
         ),
         lessonsProvider.overrideWith((ref, slug) async => demoLessons),
         progressRepositoryProvider.overrideWithValue(DemoProgressRepository()),
-        lessonContentProvider.overrideWith((ref, key) async => demoLessonContent),
+        lessonContentProvider.overrideWith(
+          (ref, key) async => demoLessonContent,
+        ),
         videoViewProvider.overrideWithValue((_) => const _DemoVideo()),
         quizRepositoryProvider.overrideWithValue(DemoQuizRepository()),
       ],
@@ -70,21 +78,35 @@ class _DemoVideo extends StatelessWidget {
               top: 18,
               child: Text(
                 'f(x) = ax² + bx + c',
-                style: TextStyle(color: Colors.white70, fontSize: 18, fontStyle: FontStyle.italic),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
             Center(
               child: Container(
                 width: 64,
                 height: 64,
-                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                child: const Icon(Icons.play_arrow_rounded, size: 40, color: Color(0xFF1E6F80)),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.play_arrow_rounded,
+                  size: 40,
+                  color: Color(0xFF1E6F80),
+                ),
               ),
             ),
             const Positioned(
               right: 12,
               bottom: 10,
-              child: Text('18:00', style: TextStyle(color: Colors.white, fontSize: 13)),
+              child: Text(
+                '18:00',
+                style: TextStyle(color: Colors.white, fontSize: 13),
+              ),
             ),
           ],
         ),

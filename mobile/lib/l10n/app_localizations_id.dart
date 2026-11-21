@@ -453,4 +453,52 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get noCertificates =>
       'Belum ada sertifikat. Selesaikan kelas untuk mendapatkannya.';
+
+  @override
+  String get editName => 'Ubah nama';
+
+  @override
+  String get save => 'Simpan';
+
+  @override
+  String get cancel => 'Batal';
+
+  @override
+  String get changePhoto => 'Ganti foto';
+
+  @override
+  String get choosePhoto => 'Pilih dari galeri';
+
+  @override
+  String get removePhoto => 'Hapus foto';
+
+  @override
+  String get weeklyGoal => 'Target mingguan';
+
+  @override
+  String weeklyGoalValue(int count) {
+    return '$count pelajaran per minggu';
+  }
+
+  @override
+  String get showOnLeaderboard => 'Tampilkan nama di peringkat';
+
+  @override
+  String get showOnLeaderboardHint =>
+      'Jika dimatikan, namamu tidak terlihat oleh siswa lain.';
+
+  @override
+  String get errNameRequired => 'Nama wajib diisi.';
+
+  @override
+  String get errNameTooLong => 'Nama maksimal 80 karakter.';
+
+  @override
+  String get errFileType => 'Gunakan foto PNG, JPG, atau WEBP.';
+
+  @override
+  String get errFileSize => 'Ukuran foto maksimal 2 MB.';
+
+  @override
+  String get saved => 'Tersimpan';
 }

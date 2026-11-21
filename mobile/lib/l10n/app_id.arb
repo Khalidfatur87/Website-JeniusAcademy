@@ -276,5 +276,27 @@
         "type": "int"
       }
     }
+  },
+  "editName": "Ubah nama",
+  "save": "Simpan",
+  "cancel": "Batal",
+  "changePhoto": "Ganti foto",
+  "choosePhoto": "Pilih dari galeri",
+  "removePhoto": "Hapus foto",
+  "weeklyGoal": "Target mingguan",
+  "weeklyGoalValue": "{count} pelajaran per minggu",
+  "showOnLeaderboard": "Tampilkan nama di peringkat",
+  "showOnLeaderboardHint": "Jika dimatikan, namamu tidak terlihat oleh siswa lain.",
+  "errNameRequired": "Nama wajib diisi.",
+  "errNameTooLong": "Nama maksimal 80 karakter.",
+  "errFileType": "Gunakan foto PNG, JPG, atau WEBP.",
+  "errFileSize": "Ukuran foto maksimal 2 MB.",
+  "saved": "Tersimpan",
+  "@weeklyGoalValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

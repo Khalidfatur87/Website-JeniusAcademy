@@ -7,7 +7,9 @@ abstract final class Env {
   static const supabaseKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
 
   /// Alamat website, dipakai untuk tautan email (konfirmasi akun, reset sandi).
-  static const siteUrl = String.fromEnvironment(
+  /// Garis miring di akhir dibuang, jadi "https://situs.app/" juga aman.
+  static String get siteUrl => _siteUrl.replaceAll(RegExp(r'/+$'), '');
+  static const _siteUrl = String.fromEnvironment(
     'SITE_URL',
     defaultValue: 'https://example.com',
   );

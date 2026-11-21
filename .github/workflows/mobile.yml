@@ -47,14 +47,22 @@ jobs:
       - run: flutter analyze
       - run: flutter test
 
-      # Konfigurasi Supabase dari GitHub → Settings → Secrets and variables → Actions → Variables
-      # (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SITE_URL). Nilainya bukan rahasia.
+      # Konfigurasi Supabase dari GitHub → Settings → Secrets and variables → Actions.
+      # Dibaca dari tab Variables; jika tidak ada, dari tab Secrets (nama sama).
       - name: Tulis env.json
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
-          SITE_URL: ${{ vars.SITE_URL }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SITE_URL: ${{ vars.SITE_URL || secrets.SITE_URL }}
         run: |
+          missing=""
+          [ -n "$SUPABASE_URL" ] || missing="$missing SUPABASE_URL"
+          [ -n "$SUPABASE_PUBLISHABLE_KEY" ] || missing="$missing SUPABASE_PUBLISHABLE_KEY"
+          if [ -n "$missing" ]; then
+            echo "::warning title=Supabase belum dikonfigurasi::Belum diisi:$missing. APK hanya menampilkan layar 'Aplikasi belum dikonfigurasi'."
+          else
+            echo "::notice title=Supabase terkonfigurasi::SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY terisi."
+          fi
           jq -n --arg u "$SUPABASE_URL" --arg k "$SUPABASE_PUBLISHABLE_KEY" --arg s "${SITE_URL:-https://example.com}" \
             '{SUPABASE_URL: $u, SUPABASE_PUBLISHABLE_KEY: $k, SITE_URL: $s}' > env.json
 

@@ -131,6 +131,7 @@ Isi di Vercel → Settings → Environment Variables (Production). Tanpa variabe
 | `CRON_SECRET` | Tugas terjadwal | String acak; Vercel mengirimkannya otomatis ke route cron. |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Email mingguan orang tua (Minggu 18.00 WIB) | Akun resend.com dengan domain terverifikasi, mis. `EMAIL_FROM="JeniusAcademy <laporan@domain-anda.com>"`. |
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Pengingat push harian (19.00 WIB) | Buat pasangan kunci: `npx web-push generate-vapid-keys`; `VAPID_SUBJECT="mailto:admin@domain-anda.com"`. |
+| `FIREBASE_SERVICE_ACCOUNT` | Pengingat push harian ke **aplikasi mobile** (19.00 WIB) | Isi lengkap file JSON dari Firebase Console → Project settings → Service accounts → *Generate new private key*. **Rahasia.** Butuh juga `CRON_SECRET` & `SUPABASE_SECRET_KEY`. |
 
 Jadwal cron ada di `vercel.json`.
 

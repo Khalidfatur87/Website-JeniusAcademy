@@ -1,23 +1,58 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'core/config.dart';
 import 'core/providers.dart';
+import 'core/push.dart';
 import 'core/router.dart';
 import 'core/theme.dart';
 import 'l10n/app_localizations.dart';
 
-class JeniusApp extends ConsumerWidget {
+class JeniusApp extends ConsumerStatefulWidget {
   const JeniusApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<JeniusApp> createState() => _JeniusAppState();
+}
+
+class _JeniusAppState extends ConsumerState<JeniusApp> {
+  StreamSubscription<String>? _opened;
+
+  @override
+  void initState() {
+    super.initState();
+    final messaging = ref.read(pushMessagingProvider);
+    if (messaging == null || !ref.read(servicesProvider).supabase) return;
+    // Notifikasi diketuk → buka halaman tujuannya (mis. /home).
+    void open(String route) => ref.read(routerProvider).go(route);
+    _opened = messaging.openedRoutes.listen(open);
+    messaging.initialRoute().then((r) => r == null ? null : open(r));
+  }
+
+  @override
+  void dispose() {
+    _opened?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ref = this.ref;
     final services = ref.watch(servicesProvider);
     final locale = ref.watch(localeProvider);
 
     // Delegasi Material/Cupertino dari material_ui (yang di flutter_localizations
     // sudah usang dan tidak lagi memuat terjemahan bahasa Indonesia).
     const delegates = [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates];
+
+    // Login (termasuk sesi tersimpan saat aplikasi dibuka) → daftarkan token push.
+    ref.listen(currentUserProvider, (prev, next) {
+      final was = prev?.value?.id;
+      final now = next.value?.id;
+      if (now != null && now != was) ref.read(pushControllerProvider)?.onSignedIn();
+    });
 
     if (!services.supabase) {
       return MaterialApp(

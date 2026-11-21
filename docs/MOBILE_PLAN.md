@@ -1,6 +1,6 @@
 # Rencana Aplikasi Mobile JeniusAcademy
 
-Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mobile/README.md).
+Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di perangkat. Kerangka aplikasi ada di [`mobile/`](../mobile/README.md).
 
 ## Keputusan
 
@@ -37,7 +37,8 @@ Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mob
       progres kelas & tombol "Lanjutkan belajar" (tabel `lesson_progress`, sama dengan website)
 - [x] Kuis (RPC `submit_quiz`, dinilai server) dan sertifikat (`claim_certificate`;
       cetak/PDF lewat halaman verifikasi website, daftar sertifikat di Profil)
-- [ ] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
+- [x] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
+      (aktif setelah merge ke main dan `FIREBASE_SERVICE_ACCOUNT` diisi di Vercel)
 - [x] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan, tampil di peringkat
 
 ### Fase 2 — Fitur lengkap

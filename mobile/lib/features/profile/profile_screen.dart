@@ -240,7 +240,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 const Divider(height: 32),
                 OutlinedButton.icon(
-                  onPressed: () => ref.read(authRepositoryProvider).signOut(),
+                  onPressed: () => ref.read(signOutProvider)(),
                   icon: const Icon(Icons.logout),
                   label: Text(t.logout),
                 ),

@@ -18,6 +18,7 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Kuis | Soal tanpa kunci; dinilai di server (`submit_quiz`), lalu benar/salah, kunci & pembahasan per soal; skor terbaik di detail kelas |
 | Sertifikat | Syarat (semua pelajaran + kuis ≥ 70%), ambil lewat `claim_certificate`, tampilan sertifikat, cetak/PDF & tautan verifikasi di website, daftar di Profil |
 | Peringkat | Leaderboard mingguan / sepanjang waktu (RPC `xp_leaderboard`) |
+| Notifikasi | Izin saat login, token didaftarkan & dihapus saat keluar, pengingat harian 19.00 WIB, ketuk → Beranda |
 | Profil | Ubah nama & foto (galeri, diperkecil 512 px, bucket `avatars`), target mingguan, tampil/sembunyi di peringkat, daftar sertifikat, bahasa ID/EN (tersimpan di perangkat), keluar |
 | Latihan | "Segera hadir" |
 
@@ -55,13 +56,24 @@ Untuk presentasi atau screenshot portofolio, jalankan dengan data contoh dari
 flutter run -t lib/demo/main_demo.dart
 ```
 
-## Firebase (push notification)
+## Push notification (pengingat belajar harian)
 
-1. Firebase Console → Project settings → **Add app → Android**, package name `com.jeniusacademy.app`.
-2. Unduh **`google-services.json`** → taruh di `mobile/android/app/google-services.json`.
-   File ini **boleh di-commit** (isinya ID project, bukan rahasia).
+Alur: login → aplikasi minta izin notifikasi → token FCM disimpan lewat RPC
+`register_device_token` (tabel `device_tokens`, migration `20261121000000_device_tokens.sql`)
+→ setiap hari 19.00 WIB cron `src/app/api/cron/daily-reminder` mengirim ke siswa yang belum
+belajar hari ini (`device_reminder_targets`). Keluar → token perangkat dihapus dulu.
+Mengetuk notifikasi membuka Beranda.
 
-Tanpa file itu aplikasi tetap bisa di-build dan dipakai; hanya push yang mati.
+Yang perlu disiapkan:
+
+1. `mobile/android/app/google-services.json` — sudah ada (project `jeniusacademymobile`).
+2. **Merge ke `main`** agar migration diterapkan otomatis oleh CI.
+3. Vercel → Settings → Environment Variables: **`FIREBASE_SERVICE_ACCOUNT`** = isi lengkap
+   file JSON dari Firebase Console → Project settings → Service accounts →
+   *Generate new private key*. **Rahasia** — jangan di-commit, jangan dikirim lewat chat.
+   (`CRON_SECRET` dan `SUPABASE_SECRET_KEY` juga harus sudah diisi.)
+
+Tanpa langkah 2–3 aplikasi tetap jalan normal; pengingat saja yang tidak terkirim.
 
 ## Membuat APK
 

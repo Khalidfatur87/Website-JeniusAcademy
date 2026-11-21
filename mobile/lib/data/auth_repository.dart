@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/env.dart';
+import '../core/push.dart';
 import '../core/providers.dart';
 
 /// Jenis kegagalan login/daftar, sama dengan `AuthFailure` di src/lib/auth.ts.
@@ -89,3 +90,9 @@ class AuthRepository {
 }
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(ref.watch(supabaseProvider)));
+
+/// Keluar dari akun: hapus token push perangkat ini dulu (butuh sesi), lalu keluar.
+final signOutProvider = Provider<Future<void> Function()>((ref) => () async {
+      await ref.read(pushControllerProvider)?.beforeSignOut();
+      await ref.read(authRepositoryProvider).signOut();
+    });

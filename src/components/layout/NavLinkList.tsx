@@ -12,7 +12,7 @@ export function NavLinkList({ variant }: { variant: "desktop" | "mobile" }) {
   const mobile = variant === "mobile";
 
   return (
-    <ul className={clsx("flex", mobile ? "flex-col" : "items-center gap-1")}>
+    <ul className={clsx(mobile ? "grid grid-cols-2 gap-1 sm:grid-cols-3" : "flex items-center gap-1")}>
       {navLinks.map(({ href, key }) => {
         const active = isActiveHref(href, pathname);
         return (
@@ -24,7 +24,7 @@ export function NavLinkList({ variant }: { variant: "desktop" | "mobile" }) {
                 "font-medium transition-colors",
                 mobile
                   ? "block rounded-xl px-3 py-3 text-base"
-                  : "rounded-lg px-3.5 py-2 text-[0.95rem]",
+                  : "whitespace-nowrap rounded-lg px-3 py-2 text-[0.95rem] 2xl:px-3.5",
                 active
                   ? "bg-brand/10 text-brand-ink"
                   : mobile

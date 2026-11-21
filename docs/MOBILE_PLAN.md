@@ -1,0 +1,64 @@
+# Rencana Aplikasi Mobile JeniusAcademy
+
+Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mobile/README.md).
+
+## Keputusan
+
+| Hal | Keputusan |
+|---|---|
+| Teknologi | **Flutter** (Dart), Riverpod, go_router, supabase_flutter |
+| Platform | **Android dulu**, dibagikan sebagai APK (belum ke Play Store) |
+| Package name | `com.jeniusacademy.app` |
+| Repo | Satu repo dengan website, folder `mobile/` |
+| Backend | Supabase yang sama dengan website (RLS, RPC, migration di `supabase/migrations/`) |
+| Biaya | **Gratis dulu**: Supabase Free, Firebase Spark, Vercel Hobby, GitHub Actions |
+| Login | Email + kata sandi dulu; Google menyusul |
+| Pembayaran | Tidak ada tombol beli di aplikasi; langganan tetap lewat website/WhatsApp |
+| CMS (`/admin`) | Tetap di website |
+
+## Fase
+
+### Fase 0 — Persiapan
+- [x] Proyek Flutter `mobile/`, package `com.jeniusacademy.app`, ikon brand
+- [x] Tema warna brand (terang/gelap), bahasa ID/EN (ARB)
+- [x] Koneksi Supabase, login/daftar/lupa sandi
+- [x] Firebase opsional (build tetap jalan tanpa `google-services.json`)
+- [x] Signing release dari `key.properties` / GitHub Secrets
+- [x] CI: analyze, test, build APK (`.github/workflows/mobile.yml`)
+- [x] Kasus uji bersama web ↔ aplikasi (`shared/fixtures/`), mulai dari gamifikasi
+- [ ] `google-services.json` dari Firebase
+- [ ] Variabel Supabase & keystore di GitHub Actions
+
+### Fase 1 — MVP
+- [x] Beranda: level, XP, streak, lencana
+- [x] Katalog & detail kelas, leaderboard
+- [ ] Pemutar pelajaran (YouTube + catatan via RPC `lesson_content`), materi, tandai selesai
+- [ ] Kuis (RPC `submit_quiz`) dan sertifikat (lihat, bagikan PDF)
+- [ ] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
+- [ ] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan
+
+### Fase 2 — Fitur lengkap
+- [ ] Try-out UTBK (timer dari server, aman saat aplikasi ke background)
+- [ ] Latihan pintar (`/practice`)
+- [ ] Diskusi pelajaran
+- [ ] Kelas live (jadwal, kalender, pengingat 15 menit sebelum mulai)
+- [ ] Mode sekolah (gabung kode, tugas & tenggat)
+- [ ] Tutor AI (berbayar; `/api/tutor` perlu menerima header `Authorization: Bearer`)
+
+### Fase 3 — Khas mobile
+- [ ] Unduh materi untuk offline
+- [ ] Mode orang tua + push ringkasan mingguan
+- [ ] Widget streak di layar utama
+- [ ] Login Google
+
+### Fase 4 — Play Store (nanti, berbayar $25)
+- Akun Play Console (akun pribadi baru: closed testing 12 penguji × 14 hari)
+- Kebijakan privasi, Data Safety, aturan aplikasi anak, hapus akun dari aplikasi
+
+## Risiko
+
+- **Dua kode (TypeScript & Dart).** Mitigasi: kasus uji bersama di `shared/fixtures/`, aturan penting di database.
+- **Migration harus kompatibel ke belakang.** APK versi lama tetap terpasang di HP pengguna.
+- **Supabase Free dijeda** setelah 7 hari tanpa aktivitas.
+- **Data anak**: perlu kebijakan privasi sebelum dibagikan luas.
+- **Isi PLACEHOLDER** di `src/config/site.ts` (kontak, domain) harus diganti.

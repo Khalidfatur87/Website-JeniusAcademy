@@ -1,0 +1,130 @@
+{
+  "@@locale": "id",
+  "appName": "JeniusAcademy",
+  "tabHome": "Beranda",
+  "tabCourses": "Kelas",
+  "tabPractice": "Latihan",
+  "tabLeaderboard": "Peringkat",
+  "tabProfile": "Profil",
+  "email": "Email",
+  "password": "Kata sandi",
+  "name": "Nama lengkap",
+  "login": "Masuk",
+  "register": "Daftar",
+  "logout": "Keluar",
+  "loginTitle": "Selamat datang kembali",
+  "loginSubtitle": "Masuk untuk melanjutkan belajar.",
+  "registerTitle": "Buat akun",
+  "registerSubtitle": "Gratis, cukup satu menit.",
+  "forgotPassword": "Lupa kata sandi?",
+  "forgotTitle": "Atur ulang kata sandi",
+  "forgotSubtitle": "Kami kirim tautan ke email Anda. Kata sandi baru dibuat di website.",
+  "sendLink": "Kirim tautan",
+  "linkSent": "Tautan sudah dikirim. Periksa email Anda.",
+  "noAccount": "Belum punya akun? Daftar",
+  "haveAccount": "Sudah punya akun? Masuk",
+  "checkEmail": "Akun dibuat. Buka email Anda untuk konfirmasi, lalu masuk.",
+  "errRequired": "Wajib diisi",
+  "errEmail": "Email tidak valid",
+  "errPasswordShort": "Minimal 8 karakter",
+  "errInvalidCredentials": "Email atau kata sandi salah.",
+  "errEmailNotConfirmed": "Email belum dikonfirmasi. Periksa kotak masuk Anda.",
+  "errAlreadyRegistered": "Email ini sudah terdaftar.",
+  "errWeakPassword": "Kata sandi terlalu lemah.",
+  "errRateLimited": "Terlalu banyak percobaan. Coba lagi sebentar lagi.",
+  "errGeneric": "Terjadi kesalahan. Periksa koneksi lalu coba lagi.",
+  "retry": "Coba lagi",
+  "hello": "Halo, {name}!",
+  "@hello": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "levelLabel": "Level {level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "xpToNext": "{current}/{needed} XP ke level berikutnya",
+  "@xpToNext": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "xpWeek": "XP minggu ini",
+  "lessonsDone": "Pelajaran selesai",
+  "bestStreak": "Streak terbaik",
+  "days": "{count} hari",
+  "@days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgesTitle": "Lencana",
+  "coursesTitle": "Kelas",
+  "allLevels": "Semua",
+  "noCourses": "Belum ada kelas.",
+  "teacher": "Pengajar: {name}",
+  "@teacher": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lessonCount": "{count} pelajaran",
+  "@lessonCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutes": "{count} menit",
+  "@minutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "freePreview": "Gratis",
+  "comingSoon": "Segera hadir",
+  "comingSoonBody": "Fitur ini sedang dibuat. Sementara itu, gunakan versi website.",
+  "language": "Bahasa",
+  "notConfiguredTitle": "Aplikasi belum dikonfigurasi",
+  "notConfiguredBody": "Jalankan dengan --dart-define-from-file=env.json (salin dari env.example.json, isi URL dan kunci Supabase).",
+  "badgeFirstLesson": "Langkah pertama",
+  "badgeFirstLessonHow": "Selesaikan 1 pelajaran",
+  "badgeTenLessons": "Rajin belajar",
+  "badgeTenLessonsHow": "Selesaikan 10 pelajaran",
+  "badgeFiftyLessons": "Pembelajar sejati",
+  "badgeFiftyLessonsHow": "Selesaikan 50 pelajaran",
+  "badgePerfectQuiz": "Nilai sempurna",
+  "badgePerfectQuizHow": "Dapat skor 100% di satu kuis",
+  "badgeStreak7": "Seminggu penuh",
+  "badgeStreak7How": "Belajar 7 hari berturut-turut",
+  "badgeStreak30": "Sebulan penuh",
+  "badgeStreak30How": "Belajar 30 hari berturut-turut",
+  "badgeFirstCertificate": "Lulus kelas",
+  "badgeFirstCertificateHow": "Dapatkan sertifikat pertama",
+  "badgeThreeCertificates": "Kolektor sertifikat",
+  "badgeThreeCertificatesHow": "Dapatkan 3 sertifikat",
+  "badgeTryoutTaker": "Pejuang try-out",
+  "badgeTryoutTakerHow": "Serahkan 1 try-out",
+  "badgePractice50": "Tak kenal menyerah",
+  "badgePractice50How": "Jawab benar 50 soal latihan",
+  "allTime": "Sepanjang waktu"
+}

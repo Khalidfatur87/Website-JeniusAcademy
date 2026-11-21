@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import shared from "../../shared/fixtures/gamification.json";
 import { badges, bestStreak, levelFromXp, xpForLevel, type AchievementStats } from "./gamification";
 
 describe("level", () => {
@@ -47,5 +48,34 @@ describe("badges", () => {
       "streak7",
       "tryoutTaker",
     ]);
+  });
+});
+
+// Kasus uji bersama dengan aplikasi mobile (mobile/test/domain/gamification_test.dart).
+
+describe("kasus uji bersama (shared/fixtures/gamification.json)", () => {
+  const empty: AchievementStats = {
+    xpTotal: 0,
+    xpWeek: 0,
+    lessons: 0,
+    perfectQuizzes: 0,
+    certificates: 0,
+    tryouts: 0,
+    practiceCorrect: 0,
+    activeDays: [],
+  };
+
+  it.each(shared.xpForLevel)("xpForLevel($level) = $xp", ({ level, xp }) => {
+    expect(xpForLevel(level)).toBe(xp);
+  });
+  it.each(shared.levelFromXp)("levelFromXp($xp)", ({ xp, expected }) => {
+    expect(levelFromXp(xp)).toEqual(expected);
+  });
+  it.each(shared.bestStreak)("bestStreak #%#", ({ days, expected }) => {
+    expect(bestStreak(days)).toBe(expected);
+  });
+  it.each(shared.badges)("badges #%#", ({ stats, expected }) => {
+    const got = badges({ ...empty, ...stats }).filter((b) => b.earned).map((b) => b.id);
+    expect(got).toEqual(expected);
   });
 });

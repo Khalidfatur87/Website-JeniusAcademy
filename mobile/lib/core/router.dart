@@ -38,8 +38,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   final refresh = _AuthListenable(auth.onAuthStateChange);
   ref.onDispose(refresh.dispose);
 
-  return GoRouter(
-    initialLocation: '/home',
+  return buildRouter(
     refreshListenable: refresh,
     // Belum login → halaman login. Sudah login → tidak perlu lagi melihat halaman login.
     redirect: (context, state) {
@@ -49,6 +48,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (signedIn && public) return '/home';
       return null;
     },
+  );
+});
+
+/// Daftar layar aplikasi. Dipakai juga oleh mode demo (tanpa pemeriksaan login).
+GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}) {
+  return GoRouter(
+    initialLocation: '/home',
+    refreshListenable: refreshListenable,
+    redirect: redirect,
     routes: [
       GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
       GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
@@ -69,7 +77,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
-});
+}
 
 StatefulShellBranch _branch(String path, Widget screen) => StatefulShellBranch(
       routes: [GoRoute(path: path, builder: (_, _) => screen)],

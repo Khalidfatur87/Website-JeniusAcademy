@@ -18,6 +18,10 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Profil | Nama, email, pilih bahasa (ID/EN), keluar |
 | Latihan | "Segera hadir" |
 
+![Tampilan aplikasi](screenshots/jeniusacademy-portofolio.png)
+
+Screenshot per layar ada di [`screenshots/`](screenshots/) (data contoh, bukan data asli).
+
 ## Menjalankan di laptop
 
 1. Pasang **Flutter SDK** (stable) dan **Android Studio** — https://docs.flutter.dev/get-started/install
@@ -38,6 +42,15 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
    ```
 
 Tes & pemeriksaan: `flutter analyze` dan `flutter test`.
+
+### Mode demo (data contoh, tanpa Supabase)
+
+Untuk presentasi atau screenshot portofolio, jalankan dengan data contoh dari
+`lib/demo/demo_data.dart` (tanpa login dan tanpa `env.json`):
+
+```bash
+flutter run -t lib/demo/main_demo.dart
+```
 
 ## Firebase (push notification)
 

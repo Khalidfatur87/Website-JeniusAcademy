@@ -27,16 +27,23 @@ class HomeScreen extends ConsumerWidget {
             children: [
               _LevelCard(stats: s),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(child: _StatTile(label: t.xpWeek, value: '${s.xpWeek}')),
-                  const SizedBox(width: 12),
-                  Expanded(child: _StatTile(label: t.lessonsDone, value: '${s.lessons}')),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _StatTile(label: t.bestStreak, value: t.days(bestStreak(s.activeDays))),
-                  ),
-                ],
+              // Tinggi ketiga kotak disamakan walau labelnya terbungkus dua baris.
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: _StatTile(label: t.xpWeek, value: '${s.xpWeek}')),
+                    const SizedBox(width: 12),
+                    Expanded(child: _StatTile(label: t.lessonsDone, value: '${s.lessons}')),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _StatTile(
+                        label: t.bestStreak,
+                        value: t.days(bestStreak(s.activeDays)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
               Text(t.badgesTitle, style: Theme.of(context).textTheme.titleMedium),
@@ -61,6 +68,7 @@ class _LevelCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final lv = levelFromXp(stats.xpTotal);
     return Card(
+      margin: EdgeInsets.zero,
       color: scheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -97,6 +105,7 @@ class _StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(

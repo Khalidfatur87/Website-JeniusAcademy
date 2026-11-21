@@ -16,19 +16,21 @@ import {
  * - Hanya untuk pengguna login yang berhak atas pelajaran / kelasnya (dicek di database).
  * - Kuota harian per pengguna (siteConfig.ai.dailyLimit, dihitung di tabel ai_usage).
  * - Jawaban dialirkan (streaming) sebagai teks biasa.
- * Butuh env ANTHROPIC_API_KEY (server saja, jangan diberi awalan NEXT_PUBLIC_).
+ * Butuh env ANTHROPIC_API_KEY dan TUTOR_AI_MODEL (server saja, jangan diberi awalan NEXT_PUBLIC_).
  */
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const MODEL = "claude-opus-5-5";
 
 const fail = (error: TutorError, status: number) => Response.json({ error }, { status });
 
 export async function POST(req: Request) {
   const body = parseTutorRequest(await req.json().catch(() => null));
   if (!body) return fail("invalid", 400);
-  if (!siteConfig.features.tutorAi || !process.env.ANTHROPIC_API_KEY) return fail("notConfigured", 503);
+  const model = process.env.TUTOR_AI_MODEL;
+  if (!siteConfig.features.tutorAi || !process.env.ANTHROPIC_API_KEY || !model) {
+    return fail("notConfigured", 503);
+  }
 
   const sb = await createClient();
   const { data: auth } = await sb.auth.getClaims();
@@ -90,7 +92,7 @@ export async function POST(req: Request) {
     async start(controller) {
       try {
         const response = client.beta.messages.stream({
-          model: MODEL,
+          model,
           max_tokens: 4000,
           // Jawaban tutor tidak butuh penalaran panjang: effort rendah = cepat & hemat.
           output_config: { effort: "low" },

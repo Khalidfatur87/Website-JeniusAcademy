@@ -2,7 +2,7 @@ import type { L10n } from "./content";
 
 /**
  * TUTOR AI — bagian murni (dites): validasi permintaan dan penyusunan prompt.
- * Pemanggilan Claude ada di src/app/api/tutor/route.ts.
+ * Pemanggilan model AI ada di src/app/api/tutor/route.ts.
  */
 
 export const TUTOR_QUESTION_MAX = 1000;

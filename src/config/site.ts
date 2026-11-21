@@ -89,7 +89,7 @@ export const siteConfig = {
   certificate: { minQuizPercent: 70 },
 
   /**
-   * Tutor AI ("Tanya AI"). Butuh env ANTHROPIC_API_KEY di server; tanpa itu
+   * Tutor AI ("Tanya AI"). Butuh env ANTHROPIC_API_KEY dan TUTOR_AI_MODEL di server; tanpa itu
    * tombolnya tetap tampil tetapi menjawab "belum diaktifkan".
    * `dailyLimit` = pertanyaan per pengguna per hari (menahan biaya).
    */

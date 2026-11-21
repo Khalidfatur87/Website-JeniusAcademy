@@ -125,7 +125,8 @@ Isi di Vercel → Settings → Environment Variables (Production). Tanpa variabe
 
 | Variabel | Untuk | Catatan |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Tutor AI | Dari console.anthropic.com. Model `claude-opus-5-5`; batas pertanyaan per siswa per hari di `siteConfig.ai.dailyLimit` (bawaan 20). |
+| `ANTHROPIC_API_KEY` | Tutor AI | Dari console.anthropic.com. Batas pertanyaan per siswa per hari di `siteConfig.ai.dailyLimit` (bawaan 20). |
+| `TUTOR_AI_MODEL` | Tutor AI | ID model yang dipakai, lihat daftar model di console.anthropic.com. Kosong = Tutor AI mati. |
 | `SUPABASE_SECRET_KEY` | Tugas terjadwal (email & push) | Kunci **secret** Supabase (Project Settings → API Keys). Hanya dipakai di server; jangan diberi awalan `NEXT_PUBLIC_`. |
 | `CRON_SECRET` | Tugas terjadwal | String acak; Vercel mengirimkannya otomatis ke route cron. |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Email mingguan orang tua (Minggu 18.00 WIB) | Akun resend.com dengan domain terverifikasi, mis. `EMAIL_FROM="JeniusAcademy <laporan@domain-anda.com>"`. |

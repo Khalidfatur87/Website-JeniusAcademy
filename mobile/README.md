@@ -13,7 +13,8 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 |---|---|
 | Masuk / Daftar / Lupa sandi | Login email + kata sandi Supabase. Tautan email (konfirmasi, reset sandi) dibuka di website. |
 | Beranda | Level & XP, XP minggu ini, pelajaran selesai, streak terbaik, 10 lencana (RPC `my_achievements`) |
-| Kelas | Katalog kelas terbit + filter jenjang, detail kelas & daftar pelajaran |
+| Kelas | Katalog kelas terbit + filter jenjang; detail kelas dengan progres, tombol "Lanjutkan belajar", tanda pelajaran selesai |
+| Pelajaran | Video YouTube, catatan, materi (dibuka lewat tautan sementara 1 jam), tandai selesai, pelajaran berikutnya. Tanpa hak akses: layar "khusus pelanggan" — video & catatan tidak dikirim database |
 | Peringkat | Leaderboard mingguan / sepanjang waktu (RPC `xp_leaderboard`) |
 | Profil | Nama, email, pilih bahasa (ID/EN), keluar |
 | Latihan | "Segera hadir" |

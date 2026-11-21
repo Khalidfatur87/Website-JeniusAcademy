@@ -253,4 +253,67 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get allTime => 'Sepanjang waktu';
+
+  @override
+  String get markDone => 'Tandai selesai';
+
+  @override
+  String get markUndone => 'Tandai belum selesai';
+
+  @override
+  String get nextLesson => 'Pelajaran berikutnya';
+
+  @override
+  String get previousLesson => 'Sebelumnya';
+
+  @override
+  String get finishedCourse => 'Kelas selesai';
+
+  @override
+  String get completed => 'Selesai';
+
+  @override
+  String get lessonNotes => 'Catatan pelajaran';
+
+  @override
+  String get lessonMaterials => 'Materi pendukung';
+
+  @override
+  String get downloadFailed => 'File tidak bisa dibuka. Coba lagi.';
+
+  @override
+  String get videoUnavailable => 'Video untuk pelajaran ini belum tersedia.';
+
+  @override
+  String get saveFailed => 'Gagal menyimpan. Periksa koneksi lalu coba lagi.';
+
+  @override
+  String get lockedTitle => 'Pelajaran ini khusus pelanggan';
+
+  @override
+  String get lockedText =>
+      'Video, catatan, dan materi pelajaran ini terbuka untuk pelanggan paket jenjangnya. Pelajaran bertanda Gratis bisa ditonton tanpa berlangganan.';
+
+  @override
+  String get openOnWebsite => 'Lihat di website';
+
+  @override
+  String completedOf(int done, int total) {
+    return '$done dari $total pelajaran selesai';
+  }
+
+  @override
+  String get startCourse => 'Mulai belajar';
+
+  @override
+  String get resumeCourse => 'Lanjutkan belajar';
+
+  @override
+  String get reviewCourse => 'Ulangi kelas';
+
+  @override
+  String get lessonList => 'Daftar pelajaran';
+
+  @override
+  String get next => 'Berikutnya';
 }

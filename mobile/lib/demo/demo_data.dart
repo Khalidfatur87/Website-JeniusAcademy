@@ -1,5 +1,6 @@
 import '../data/course_repository.dart';
 import '../data/engagement_repository.dart';
+import '../data/lesson_repository.dart';
 import '../domain/gamification.dart';
 
 /// Data contoh untuk mode demo (fiktif).
@@ -85,3 +86,39 @@ const demoLessons = [
   LessonSummary(id: 'komposisi', title: {'id': 'Fungsi komposisi', 'en': 'Composite functions'}, minutes: 16, freePreview: false),
   LessonSummary(id: 'invers', title: {'id': 'Fungsi invers', 'en': 'Inverse functions'}, minutes: 13, freePreview: false),
 ];
+
+/// Progres contoh: 3 dari 7 pelajaran kelas matematika sudah selesai.
+class DemoProgressRepository implements ProgressRepository {
+  final _map = <String, Set<String>>{
+    'matematika-sma-fungsi': {'pengenalan', 'domain', 'linear'},
+    'fisika-sma-gerak': {'glb'},
+  };
+
+  @override
+  Future<ProgressMap> load() async => {for (final e in _map.entries) e.key: {...e.value}};
+
+  @override
+  Future<void> setDone(String slug, String lessonId, bool done) async {
+    final set = _map[slug] ??= {};
+    done ? set.add(lessonId) : set.remove(lessonId);
+  }
+}
+
+const demoLessonContent = LessonContent(
+  access: true,
+  youtubeId: 'demo',
+  notes: {
+    'id': 'Fungsi kuadrat berbentuk f(x) = ax² + bx + c dengan a ≠ 0.\n\n'
+        '• Jika a > 0, grafik terbuka ke atas dan punya titik minimum.\n'
+        '• Jika a < 0, grafik terbuka ke bawah dan punya titik maksimum.\n\n'
+        'Titik puncak: x = −b / 2a. Substitusikan nilai x ini ke f(x) untuk mendapatkan nilai y-nya.',
+    'en': 'A quadratic function has the form f(x) = ax² + bx + c with a ≠ 0.\n\n'
+        '• If a > 0 the graph opens upward and has a minimum.\n'
+        '• If a < 0 it opens downward and has a maximum.\n\n'
+        'Vertex: x = −b / 2a. Substitute this x into f(x) to get its y value.',
+  },
+  materials: [
+    LessonMaterial(title: 'Ringkasan fungsi kuadrat.pdf', path: 'demo/1.pdf', size: 482304),
+    LessonMaterial(title: 'Latihan soal + pembahasan.pdf', path: 'demo/2.pdf', size: 1310720),
+  ],
+);

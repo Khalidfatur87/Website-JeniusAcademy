@@ -27,12 +27,14 @@ Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mob
 - [x] CI: analyze, test, build APK (`.github/workflows/mobile.yml`)
 - [x] Kasus uji bersama web ↔ aplikasi (`shared/fixtures/`), mulai dari gamifikasi
 - [x] `google-services.json` dari Firebase (project `jeniusacademymobile`)
-- [ ] Variabel Supabase & keystore di GitHub Actions
+- [x] Variabel Supabase di GitHub Actions
+- [ ] Keystore di GitHub Actions (opsional)
 
 ### Fase 1 — MVP
 - [x] Beranda: level, XP, streak, lencana
 - [x] Katalog & detail kelas, leaderboard
-- [ ] Pemutar pelajaran (YouTube + catatan via RPC `lesson_content`), materi, tandai selesai
+- [x] Pemutar pelajaran (YouTube + catatan via RPC `lesson_content`), materi, tandai selesai,
+      progres kelas & tombol "Lanjutkan belajar" (tabel `lesson_progress`, sama dengan website)
 - [ ] Kuis (RPC `submit_quiz`) dan sertifikat (lihat, bagikan PDF)
 - [ ] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
 - [ ] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan

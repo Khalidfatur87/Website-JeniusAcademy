@@ -547,6 +547,126 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Sepanjang waktu'**
   String get allTime;
+
+  /// No description provided for @markDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Tandai selesai'**
+  String get markDone;
+
+  /// No description provided for @markUndone.
+  ///
+  /// In id, this message translates to:
+  /// **'Tandai belum selesai'**
+  String get markUndone;
+
+  /// No description provided for @nextLesson.
+  ///
+  /// In id, this message translates to:
+  /// **'Pelajaran berikutnya'**
+  String get nextLesson;
+
+  /// No description provided for @previousLesson.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebelumnya'**
+  String get previousLesson;
+
+  /// No description provided for @finishedCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas selesai'**
+  String get finishedCourse;
+
+  /// No description provided for @completed.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get completed;
+
+  /// No description provided for @lessonNotes.
+  ///
+  /// In id, this message translates to:
+  /// **'Catatan pelajaran'**
+  String get lessonNotes;
+
+  /// No description provided for @lessonMaterials.
+  ///
+  /// In id, this message translates to:
+  /// **'Materi pendukung'**
+  String get lessonMaterials;
+
+  /// No description provided for @downloadFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'File tidak bisa dibuka. Coba lagi.'**
+  String get downloadFailed;
+
+  /// No description provided for @videoUnavailable.
+  ///
+  /// In id, this message translates to:
+  /// **'Video untuk pelajaran ini belum tersedia.'**
+  String get videoUnavailable;
+
+  /// No description provided for @saveFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal menyimpan. Periksa koneksi lalu coba lagi.'**
+  String get saveFailed;
+
+  /// No description provided for @lockedTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pelajaran ini khusus pelanggan'**
+  String get lockedTitle;
+
+  /// No description provided for @lockedText.
+  ///
+  /// In id, this message translates to:
+  /// **'Video, catatan, dan materi pelajaran ini terbuka untuk pelanggan paket jenjangnya. Pelajaran bertanda Gratis bisa ditonton tanpa berlangganan.'**
+  String get lockedText;
+
+  /// No description provided for @openOnWebsite.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat di website'**
+  String get openOnWebsite;
+
+  /// No description provided for @completedOf.
+  ///
+  /// In id, this message translates to:
+  /// **'{done} dari {total} pelajaran selesai'**
+  String completedOf(int done, int total);
+
+  /// No description provided for @startCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai belajar'**
+  String get startCourse;
+
+  /// No description provided for @resumeCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjutkan belajar'**
+  String get resumeCourse;
+
+  /// No description provided for @reviewCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Ulangi kelas'**
+  String get reviewCourse;
+
+  /// No description provided for @lessonList.
+  ///
+  /// In id, this message translates to:
+  /// **'Daftar pelajaran'**
+  String get lessonList;
+
+  /// No description provided for @next.
+  ///
+  /// In id, this message translates to:
+  /// **'Berikutnya'**
+  String get next;
 }
 
 class _AppLocalizationsDelegate

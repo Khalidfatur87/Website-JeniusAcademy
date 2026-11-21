@@ -253,4 +253,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allTime => 'All time';
+
+  @override
+  String get markDone => 'Mark as done';
+
+  @override
+  String get markUndone => 'Mark as not done';
+
+  @override
+  String get nextLesson => 'Next lesson';
+
+  @override
+  String get previousLesson => 'Previous';
+
+  @override
+  String get finishedCourse => 'Course complete';
+
+  @override
+  String get completed => 'Done';
+
+  @override
+  String get lessonNotes => 'Lesson notes';
+
+  @override
+  String get lessonMaterials => 'Supporting materials';
+
+  @override
+  String get downloadFailed =>
+      'The file couldn\'t be opened. Please try again.';
+
+  @override
+  String get videoUnavailable =>
+      'The video for this lesson is not available yet.';
+
+  @override
+  String get saveFailed =>
+      'Couldn\'t save. Check your connection and try again.';
+
+  @override
+  String get lockedTitle => 'This lesson is for subscribers';
+
+  @override
+  String get lockedText =>
+      'This lesson\'s video, notes and materials are open to subscribers of its level. Lessons marked Free can be watched without a subscription.';
+
+  @override
+  String get openOnWebsite => 'View on website';
+
+  @override
+  String completedOf(int done, int total) {
+    return '$done of $total lessons done';
+  }
+
+  @override
+  String get startCourse => 'Start learning';
+
+  @override
+  String get resumeCourse => 'Continue learning';
+
+  @override
+  String get reviewCourse => 'Review course';
+
+  @override
+  String get lessonList => 'Lessons';
+
+  @override
+  String get next => 'Next';
 }

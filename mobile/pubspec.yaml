@@ -43,6 +43,8 @@ dependencies:
   intl: ^0.20.3
   flutter_localizations:
     sdk: flutter
+  youtube_player_iframe: ^6.0.3
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

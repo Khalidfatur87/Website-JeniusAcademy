@@ -10,6 +10,7 @@ import '../features/auth/register_screen.dart';
 import '../features/courses/course_detail_screen.dart';
 import '../features/courses/courses_screen.dart';
 import '../features/home/home_screen.dart';
+import '../features/lesson/lesson_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
 import '../features/practice/practice_screen.dart';
 import '../features/profile/profile_screen.dart';
@@ -64,6 +65,13 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       GoRoute(
         path: '/courses/:slug',
         builder: (_, s) => CourseDetailScreen(slug: s.pathParameters['slug']!),
+      ),
+      GoRoute(
+        path: '/courses/:slug/:lessonId',
+        builder: (_, s) => LessonScreen(
+          slug: s.pathParameters['slug']!,
+          lessonId: s.pathParameters['lessonId']!,
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => MainShell(shell: shell),

@@ -126,5 +126,35 @@
   "badgeTryoutTakerHow": "Serahkan 1 try-out",
   "badgePractice50": "Tak kenal menyerah",
   "badgePractice50How": "Jawab benar 50 soal latihan",
-  "allTime": "Sepanjang waktu"
+  "allTime": "Sepanjang waktu",
+  "markDone": "Tandai selesai",
+  "markUndone": "Tandai belum selesai",
+  "nextLesson": "Pelajaran berikutnya",
+  "previousLesson": "Sebelumnya",
+  "finishedCourse": "Kelas selesai",
+  "completed": "Selesai",
+  "lessonNotes": "Catatan pelajaran",
+  "lessonMaterials": "Materi pendukung",
+  "downloadFailed": "File tidak bisa dibuka. Coba lagi.",
+  "videoUnavailable": "Video untuk pelajaran ini belum tersedia.",
+  "saveFailed": "Gagal menyimpan. Periksa koneksi lalu coba lagi.",
+  "lockedTitle": "Pelajaran ini khusus pelanggan",
+  "lockedText": "Video, catatan, dan materi pelajaran ini terbuka untuk pelanggan paket jenjangnya. Pelajaran bertanda Gratis bisa ditonton tanpa berlangganan.",
+  "openOnWebsite": "Lihat di website",
+  "completedOf": "{done} dari {total} pelajaran selesai",
+  "startCourse": "Mulai belajar",
+  "resumeCourse": "Lanjutkan belajar",
+  "reviewCourse": "Ulangi kelas",
+  "lessonList": "Daftar pelajaran",
+  "@completedOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "next": "Berikutnya"
 }

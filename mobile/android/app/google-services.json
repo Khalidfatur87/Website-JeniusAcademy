@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382458585710",
+    "project_id": "jeniusacademymobile",
+    "storage_bucket": "jeniusacademymobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382458585710:android:a690d425105c6cba32fc7f",
+        "android_client_info": {
+          "package_name": "com.jeniusacademy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClg9h1pJRtjF2NI1dIy2oWTiuwdbfYkIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,7 +26,7 @@ Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mob
 - [x] Signing release dari `key.properties` / GitHub Secrets
 - [x] CI: analyze, test, build APK (`.github/workflows/mobile.yml`)
 - [x] Kasus uji bersama web ↔ aplikasi (`shared/fixtures/`), mulai dari gamifikasi
-- [ ] `google-services.json` dari Firebase
+- [x] `google-services.json` dari Firebase (project `jeniusacademymobile`)
 - [ ] Variabel Supabase & keystore di GitHub Actions
 
 ### Fase 1 — MVP

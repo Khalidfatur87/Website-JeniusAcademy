@@ -35,7 +35,8 @@ Status: **Fase 0 selesai sebagian**. Kerangka aplikasi ada di [`mobile/`](../mob
 - [x] Katalog & detail kelas, leaderboard
 - [x] Pemutar pelajaran (YouTube + catatan via RPC `lesson_content`), materi, tandai selesai,
       progres kelas & tombol "Lanjutkan belajar" (tabel `lesson_progress`, sama dengan website)
-- [ ] Kuis (RPC `submit_quiz`) dan sertifikat (lihat, bagikan PDF)
+- [x] Kuis (RPC `submit_quiz`, dinilai server) dan sertifikat (`claim_certificate`;
+      cetak/PDF lewat halaman verifikasi website, daftar sertifikat di Profil)
 - [ ] Push pengingat harian: migration `device_tokens` + kirim FCM dari cron `daily-reminder`
 - [ ] Simpan pilihan bahasa, ubah nama/foto profil, target mingguan
 

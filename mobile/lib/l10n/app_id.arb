@@ -156,5 +156,125 @@
       }
     }
   },
-  "next": "Berikutnya"
+  "next": "Berikutnya",
+  "quizTitle": "Kuis",
+  "takeQuiz": "Kerjakan kuis",
+  "retakeQuiz": "Ulangi kuis",
+  "quizBest": "Skor terbaik: {score}/{total}",
+  "quizCount": "{count} soal latihan",
+  "questionNumber": "Soal {number}",
+  "quizProgress": "{answered} dari {total} soal terjawab",
+  "checkAnswers": "Periksa jawaban",
+  "correct": "Benar",
+  "wrong": "Salah",
+  "explanation": "Pembahasan",
+  "yourScore": "Skor kamu",
+  "scoreLine": "{score} dari {total} benar",
+  "verdictGreat": "Sempurna! Kamu menguasai materi ini.",
+  "verdictGood": "Bagus! Tinggal sedikit lagi.",
+  "verdictReview": "Yuk tinjau lagi materinya, lalu coba lagi.",
+  "backToCourse": "Kembali ke kelas",
+  "submitFailed": "Jawaban gagal dikirim. Periksa koneksi lalu coba lagi.",
+  "quizNoAccess": "Kuis ini khusus pelanggan paket jenjangnya.",
+  "certificateTitle": "Sertifikat",
+  "viewCertificate": "Lihat sertifikat",
+  "claimCertificate": "Ambil sertifikat",
+  "reqLessons": "Selesaikan semua pelajaran ({done}/{total})",
+  "reqQuiz": "Raih skor kuis minimal {percent}%",
+  "certNotComplete": "Selesaikan semua pelajaran terlebih dahulu.",
+  "certQuizRequired": "Skor kuis terbaikmu belum mencapai {percent}%.",
+  "certNoAccess": "Kamu belum punya akses ke kelas ini.",
+  "certGeneric": "Sertifikat gagal dibuat. Coba lagi.",
+  "certHeading": "Sertifikat Penyelesaian",
+  "presentedTo": "Diberikan kepada",
+  "forCompleting": "atas keberhasilan menyelesaikan kelas",
+  "certQuizScore": "Skor kuis: {score}/{total} ({percent}%)",
+  "issuedOn": "Tanggal terbit",
+  "certCode": "Kode sertifikat",
+  "printOnWebsite": "Cetak / simpan PDF di website",
+  "copyVerifyLink": "Salin tautan verifikasi",
+  "linkCopied": "Tautan disalin",
+  "myCertificates": "Sertifikat saya",
+  "noCertificates": "Belum ada sertifikat. Selesaikan kelas untuk mendapatkannya.",
+  "@quizBest": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@quizCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@questionNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@quizProgress": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@scoreLine": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@reqLessons": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@reqQuiz": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@certQuizRequired": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@certQuizScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  }
 }

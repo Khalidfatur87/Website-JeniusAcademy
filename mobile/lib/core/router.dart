@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../features/auth/forgot_password_screen.dart';
+import '../features/certificate/certificate_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
 import '../features/courses/course_detail_screen.dart';
@@ -14,6 +15,7 @@ import '../features/lesson/lesson_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
 import '../features/practice/practice_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/quiz/quiz_screen.dart';
 import '../features/shell/main_shell.dart';
 import 'providers.dart';
 
@@ -65,6 +67,15 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       GoRoute(
         path: '/courses/:slug',
         builder: (_, s) => CourseDetailScreen(slug: s.pathParameters['slug']!),
+      ),
+      // Sebelum rute pelajaran, supaya "quiz" tidak dianggap id pelajaran.
+      GoRoute(
+        path: '/courses/:slug/quiz',
+        builder: (_, s) => QuizScreen(slug: s.pathParameters['slug']!),
+      ),
+      GoRoute(
+        path: '/certificates/:code',
+        builder: (_, s) => CertificateScreen(code: s.pathParameters['code']!),
       ),
       GoRoute(
         path: '/courses/:slug/:lessonId',

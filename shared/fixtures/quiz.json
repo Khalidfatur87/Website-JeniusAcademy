@@ -1,0 +1,51 @@
+{
+  "_note": "Kasus uji bersama website (src/lib/quiz.test.ts) dan aplikasi (mobile/test/domain/quiz_test.dart).",
+  "attemptPercent": [
+    { "score": 1, "total": 3, "expected": 33 },
+    { "score": 4, "total": 4, "expected": 100 },
+    { "score": 0, "total": 0, "expected": 0 },
+    { "score": 7, "total": 10, "expected": 70 }
+  ],
+  "bestAttempt": [
+    {
+      "attempts": [
+        { "courseSlug": "x", "score": 2, "total": 4, "at": "2026-01-01" },
+        { "courseSlug": "x", "score": 4, "total": 4, "at": "2026-01-02" },
+        { "courseSlug": "x", "score": 3, "total": 4, "at": "2026-01-03" },
+        { "courseSlug": "y", "score": 4, "total": 4, "at": "2026-01-04" }
+      ],
+      "slug": "x",
+      "expectedIndex": 1
+    },
+    {
+      "attempts": [{ "courseSlug": "y", "score": 4, "total": 4, "at": "2026-01-04" }],
+      "slug": "z",
+      "expectedIndex": null
+    },
+    {
+      "attempts": [
+        { "courseSlug": "x", "score": 3, "total": 4, "at": "2026-01-01" },
+        { "courseSlug": "x", "score": 3, "total": 4, "at": "2026-02-01" }
+      ],
+      "slug": "x",
+      "expectedIndex": 1
+    },
+    {
+      "attempts": [
+        { "courseSlug": "x", "score": 3, "total": 3, "at": "2026-01-01" },
+        { "courseSlug": "x", "score": 4, "total": 5, "at": "2026-01-02" }
+      ],
+      "slug": "x",
+      "expectedIndex": 0
+    }
+  ],
+  "certificateStatus": [
+    { "input": { "doneLessons": 3, "totalLessons": 4, "quizCount": 4, "best": { "score": 4, "total": 4 }, "minPercent": 70 }, "expected": "lessons" },
+    { "input": { "doneLessons": 0, "totalLessons": 0, "quizCount": 4, "minPercent": 70 }, "expected": "lessons" },
+    { "input": { "doneLessons": 4, "totalLessons": 4, "quizCount": 4, "minPercent": 70 }, "expected": "quiz" },
+    { "input": { "doneLessons": 4, "totalLessons": 4, "quizCount": 4, "best": { "score": 2, "total": 4 }, "minPercent": 70 }, "expected": "quiz" },
+    { "input": { "doneLessons": 4, "totalLessons": 4, "quizCount": 4, "best": { "score": 7, "total": 10 }, "minPercent": 70 }, "expected": "ready" },
+    { "input": { "doneLessons": 4, "totalLessons": 4, "quizCount": 4, "best": { "score": 3, "total": 4 }, "minPercent": 70 }, "expected": "ready" },
+    { "input": { "doneLessons": 4, "totalLessons": 4, "quizCount": 0, "minPercent": 70 }, "expected": "ready" }
+  ]
+}

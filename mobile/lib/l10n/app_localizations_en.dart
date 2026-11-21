@@ -319,4 +319,142 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get next => 'Next';
+
+  @override
+  String get quizTitle => 'Quiz';
+
+  @override
+  String get takeQuiz => 'Take the quiz';
+
+  @override
+  String get retakeQuiz => 'Retake quiz';
+
+  @override
+  String quizBest(int score, int total) {
+    return 'Best score: $score/$total';
+  }
+
+  @override
+  String quizCount(int count) {
+    return '$count practice questions';
+  }
+
+  @override
+  String questionNumber(int number) {
+    return 'Question $number';
+  }
+
+  @override
+  String quizProgress(int answered, int total) {
+    return '$answered of $total answered';
+  }
+
+  @override
+  String get checkAnswers => 'Check answers';
+
+  @override
+  String get correct => 'Correct';
+
+  @override
+  String get wrong => 'Wrong';
+
+  @override
+  String get explanation => 'Explanation';
+
+  @override
+  String get yourScore => 'Your score';
+
+  @override
+  String scoreLine(int score, int total) {
+    return '$score of $total correct';
+  }
+
+  @override
+  String get verdictGreat => 'Perfect! You have mastered this material.';
+
+  @override
+  String get verdictGood => 'Nice! Almost there.';
+
+  @override
+  String get verdictReview => 'Review the material, then try again.';
+
+  @override
+  String get backToCourse => 'Back to course';
+
+  @override
+  String get submitFailed =>
+      'Couldn\'t send your answers. Check your connection and try again.';
+
+  @override
+  String get quizNoAccess => 'This quiz is for subscribers of its level.';
+
+  @override
+  String get certificateTitle => 'Certificate';
+
+  @override
+  String get viewCertificate => 'View certificate';
+
+  @override
+  String get claimCertificate => 'Get certificate';
+
+  @override
+  String reqLessons(int done, int total) {
+    return 'Finish all lessons ($done/$total)';
+  }
+
+  @override
+  String reqQuiz(int percent) {
+    return 'Score at least $percent% on the quiz';
+  }
+
+  @override
+  String get certNotComplete => 'Finish all lessons first.';
+
+  @override
+  String certQuizRequired(int percent) {
+    return 'Your best quiz score hasn\'t reached $percent% yet.';
+  }
+
+  @override
+  String get certNoAccess => 'You don\'t have access to this course yet.';
+
+  @override
+  String get certGeneric =>
+      'Couldn\'t create the certificate. Please try again.';
+
+  @override
+  String get certHeading => 'Certificate of Completion';
+
+  @override
+  String get presentedTo => 'Presented to';
+
+  @override
+  String get forCompleting => 'for successfully completing the course';
+
+  @override
+  String certQuizScore(int score, int total, int percent) {
+    return 'Quiz score: $score/$total ($percent%)';
+  }
+
+  @override
+  String get issuedOn => 'Issued on';
+
+  @override
+  String get certCode => 'Certificate code';
+
+  @override
+  String get printOnWebsite => 'Print / save PDF on website';
+
+  @override
+  String get copyVerifyLink => 'Copy verification link';
+
+  @override
+  String get linkCopied => 'Link copied';
+
+  @override
+  String get myCertificates => 'My certificates';
+
+  @override
+  String get noCertificates =>
+      'No certificates yet. Finish a course to earn one.';
 }

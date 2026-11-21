@@ -15,6 +15,8 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Beranda | Level & XP, XP minggu ini, pelajaran selesai, streak terbaik, 10 lencana (RPC `my_achievements`) |
 | Kelas | Katalog kelas terbit + filter jenjang; detail kelas dengan progres, tombol "Lanjutkan belajar", tanda pelajaran selesai |
 | Pelajaran | Video YouTube, catatan, materi (dibuka lewat tautan sementara 1 jam), tandai selesai, pelajaran berikutnya. Tanpa hak akses: layar "khusus pelanggan" — video & catatan tidak dikirim database |
+| Kuis | Soal tanpa kunci; dinilai di server (`submit_quiz`), lalu benar/salah, kunci & pembahasan per soal; skor terbaik di detail kelas |
+| Sertifikat | Syarat (semua pelajaran + kuis ≥ 70%), ambil lewat `claim_certificate`, tampilan sertifikat, cetak/PDF & tautan verifikasi di website, daftar di Profil |
 | Peringkat | Leaderboard mingguan / sepanjang waktu (RPC `xp_leaderboard`) |
 | Profil | Nama, email, pilih bahasa (ID/EN), keluar |
 | Latihan | "Segera hadir" |

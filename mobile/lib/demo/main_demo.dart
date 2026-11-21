@@ -15,6 +15,7 @@ import '../core/services.dart';
 import '../data/course_repository.dart';
 import '../data/engagement_repository.dart';
 import '../data/lesson_repository.dart';
+import '../data/quiz_repository.dart';
 import '../features/lesson/lesson_screen.dart';
 import 'demo_data.dart';
 
@@ -38,6 +39,7 @@ void main() {
         progressRepositoryProvider.overrideWithValue(DemoProgressRepository()),
         lessonContentProvider.overrideWith((ref, key) async => demoLessonContent),
         videoViewProvider.overrideWithValue((_) => const _DemoVideo()),
+        quizRepositoryProvider.overrideWithValue(DemoQuizRepository()),
       ],
       child: const JeniusApp(),
     ),

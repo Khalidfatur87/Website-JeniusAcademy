@@ -1,6 +1,8 @@
 import '../data/course_repository.dart';
 import '../data/engagement_repository.dart';
 import '../data/lesson_repository.dart';
+import '../data/quiz_repository.dart';
+import '../domain/quiz.dart';
 import '../domain/gamification.dart';
 
 /// Data contoh untuk mode demo (fiktif).
@@ -122,3 +124,70 @@ const demoLessonContent = LessonContent(
     LessonMaterial(title: 'Latihan soal + pembahasan.pdf', path: 'demo/2.pdf', size: 1310720),
   ],
 );
+
+/// Kuis contoh, dinilai "di perangkat" (di aplikasi asli dinilai server).
+class DemoQuizRepository implements QuizRepository {
+  static const _questions = [
+    QuizQuestion(
+      id: 'q1',
+      prompt: {'id': 'Titik puncak f(x) = x² − 4x + 3 berada di x = …', 'en': 'The vertex of f(x) = x² − 4x + 3 is at x = …'},
+      options: ['−2', '1', '2', '4'],
+    ),
+    QuizQuestion(
+      id: 'q2',
+      prompt: {'id': 'Grafik f(x) = −2x² + 5 terbuka ke arah …', 'en': 'The graph of f(x) = −2x² + 5 opens …'},
+      options: [
+        {'id': 'Atas', 'en': 'Upward'},
+        {'id': 'Bawah', 'en': 'Downward'},
+        {'id': 'Kanan', 'en': 'Right'},
+      ],
+    ),
+    QuizQuestion(
+      id: 'q3',
+      prompt: {'id': 'Jika f(x) = 2x + 1, maka f(3) = …', 'en': 'If f(x) = 2x + 1, then f(3) = …'},
+      options: ['5', '6', '7', '9'],
+    ),
+  ];
+  static const _key = {'q1': 2, 'q2': 1, 'q3': 2};
+  static const _explanations = {
+    'q1': {'id': 'x = −b / 2a = −(−4) / (2·1) = 2.', 'en': 'x = −b / 2a = −(−4) / (2·1) = 2.'},
+    'q2': {'id': 'a = −2 < 0, jadi grafik terbuka ke bawah.', 'en': 'a = −2 < 0, so it opens downward.'},
+    'q3': {'id': 'f(3) = 2·3 + 1 = 7.', 'en': 'f(3) = 2·3 + 1 = 7.'},
+  };
+
+  @override
+  Future<List<QuizQuestion>> questions(String slug) async => _questions;
+
+  @override
+  Future<QuizResult> submit(String slug, Map<String, int> answers) async => QuizResult(
+        score: _key.entries.where((e) => answers[e.key] == e.value).length,
+        total: _key.length,
+        recorded: true,
+        results: {
+          for (final e in _key.entries)
+            e.key: QuestionResult(id: e.key, answer: e.value, explanation: _explanations[e.key]),
+        },
+      );
+
+  @override
+  Future<List<Attempt>> attempts() async => const [
+        Attempt(courseSlug: 'matematika-sma-fungsi', score: 2, total: 3, at: '2026-11-18T10:00:00Z'),
+        Attempt(courseSlug: 'ipa-smp-sel', score: 3, total: 3, at: '2026-11-10T10:00:00Z'),
+      ];
+
+  @override
+  Future<List<Certificate>> certificates() async => [
+        Certificate(
+          code: 'A7K29QX4M1PZ',
+          courseSlug: 'ipa-smp-sel',
+          courseTitle: const {'id': 'IPA SMP: Sel & Jaringan', 'en': 'Junior Science: Cells & Tissues'},
+          recipientName: demoName,
+          score: 3,
+          total: 3,
+          issuedAt: DateTime.utc(2026, 11, 10),
+        ),
+      ];
+
+  @override
+  Future<String> claimCertificate(String slug) async => 'A7K29QX4M1PZ';
+}

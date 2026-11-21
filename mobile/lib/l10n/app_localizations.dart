@@ -667,6 +667,240 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Berikutnya'**
   String get next;
+
+  /// No description provided for @quizTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuis'**
+  String get quizTitle;
+
+  /// No description provided for @takeQuiz.
+  ///
+  /// In id, this message translates to:
+  /// **'Kerjakan kuis'**
+  String get takeQuiz;
+
+  /// No description provided for @retakeQuiz.
+  ///
+  /// In id, this message translates to:
+  /// **'Ulangi kuis'**
+  String get retakeQuiz;
+
+  /// No description provided for @quizBest.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor terbaik: {score}/{total}'**
+  String quizBest(int score, int total);
+
+  /// No description provided for @quizCount.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} soal latihan'**
+  String quizCount(int count);
+
+  /// No description provided for @questionNumber.
+  ///
+  /// In id, this message translates to:
+  /// **'Soal {number}'**
+  String questionNumber(int number);
+
+  /// No description provided for @quizProgress.
+  ///
+  /// In id, this message translates to:
+  /// **'{answered} dari {total} soal terjawab'**
+  String quizProgress(int answered, int total);
+
+  /// No description provided for @checkAnswers.
+  ///
+  /// In id, this message translates to:
+  /// **'Periksa jawaban'**
+  String get checkAnswers;
+
+  /// No description provided for @correct.
+  ///
+  /// In id, this message translates to:
+  /// **'Benar'**
+  String get correct;
+
+  /// No description provided for @wrong.
+  ///
+  /// In id, this message translates to:
+  /// **'Salah'**
+  String get wrong;
+
+  /// No description provided for @explanation.
+  ///
+  /// In id, this message translates to:
+  /// **'Pembahasan'**
+  String get explanation;
+
+  /// No description provided for @yourScore.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor kamu'**
+  String get yourScore;
+
+  /// No description provided for @scoreLine.
+  ///
+  /// In id, this message translates to:
+  /// **'{score} dari {total} benar'**
+  String scoreLine(int score, int total);
+
+  /// No description provided for @verdictGreat.
+  ///
+  /// In id, this message translates to:
+  /// **'Sempurna! Kamu menguasai materi ini.'**
+  String get verdictGreat;
+
+  /// No description provided for @verdictGood.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagus! Tinggal sedikit lagi.'**
+  String get verdictGood;
+
+  /// No description provided for @verdictReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Yuk tinjau lagi materinya, lalu coba lagi.'**
+  String get verdictReview;
+
+  /// No description provided for @backToCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali ke kelas'**
+  String get backToCourse;
+
+  /// No description provided for @submitFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban gagal dikirim. Periksa koneksi lalu coba lagi.'**
+  String get submitFailed;
+
+  /// No description provided for @quizNoAccess.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuis ini khusus pelanggan paket jenjangnya.'**
+  String get quizNoAccess;
+
+  /// No description provided for @certificateTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Sertifikat'**
+  String get certificateTitle;
+
+  /// No description provided for @viewCertificate.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat sertifikat'**
+  String get viewCertificate;
+
+  /// No description provided for @claimCertificate.
+  ///
+  /// In id, this message translates to:
+  /// **'Ambil sertifikat'**
+  String get claimCertificate;
+
+  /// No description provided for @reqLessons.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesaikan semua pelajaran ({done}/{total})'**
+  String reqLessons(int done, int total);
+
+  /// No description provided for @reqQuiz.
+  ///
+  /// In id, this message translates to:
+  /// **'Raih skor kuis minimal {percent}%'**
+  String reqQuiz(int percent);
+
+  /// No description provided for @certNotComplete.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesaikan semua pelajaran terlebih dahulu.'**
+  String get certNotComplete;
+
+  /// No description provided for @certQuizRequired.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor kuis terbaikmu belum mencapai {percent}%.'**
+  String certQuizRequired(int percent);
+
+  /// No description provided for @certNoAccess.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu belum punya akses ke kelas ini.'**
+  String get certNoAccess;
+
+  /// No description provided for @certGeneric.
+  ///
+  /// In id, this message translates to:
+  /// **'Sertifikat gagal dibuat. Coba lagi.'**
+  String get certGeneric;
+
+  /// No description provided for @certHeading.
+  ///
+  /// In id, this message translates to:
+  /// **'Sertifikat Penyelesaian'**
+  String get certHeading;
+
+  /// No description provided for @presentedTo.
+  ///
+  /// In id, this message translates to:
+  /// **'Diberikan kepada'**
+  String get presentedTo;
+
+  /// No description provided for @forCompleting.
+  ///
+  /// In id, this message translates to:
+  /// **'atas keberhasilan menyelesaikan kelas'**
+  String get forCompleting;
+
+  /// No description provided for @certQuizScore.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor kuis: {score}/{total} ({percent}%)'**
+  String certQuizScore(int score, int total, int percent);
+
+  /// No description provided for @issuedOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanggal terbit'**
+  String get issuedOn;
+
+  /// No description provided for @certCode.
+  ///
+  /// In id, this message translates to:
+  /// **'Kode sertifikat'**
+  String get certCode;
+
+  /// No description provided for @printOnWebsite.
+  ///
+  /// In id, this message translates to:
+  /// **'Cetak / simpan PDF di website'**
+  String get printOnWebsite;
+
+  /// No description provided for @copyVerifyLink.
+  ///
+  /// In id, this message translates to:
+  /// **'Salin tautan verifikasi'**
+  String get copyVerifyLink;
+
+  /// No description provided for @linkCopied.
+  ///
+  /// In id, this message translates to:
+  /// **'Tautan disalin'**
+  String get linkCopied;
+
+  /// No description provided for @myCertificates.
+  ///
+  /// In id, this message translates to:
+  /// **'Sertifikat saya'**
+  String get myCertificates;
+
+  /// No description provided for @noCertificates.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada sertifikat. Selesaikan kelas untuk mendapatkannya.'**
+  String get noCertificates;
 }
 
 class _AppLocalizationsDelegate

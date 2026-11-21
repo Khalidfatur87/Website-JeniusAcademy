@@ -870,18 +870,18 @@ packages:
     dependency: "direct main"
     description:
       name: youtube_player_iframe
-      sha256: "53336f4e5464f77add7ca6dd433bc82b519332814159b1e22a27849c22bfc087"
+      sha256: e0657a27599f2b78546fbe0de71ff095e09660bb103400e4caed703b076aba8c
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.3"
+    version: "6.0.4"
   youtube_player_iframe_web:
     dependency: transitive
     description:
       name: youtube_player_iframe_web
-      sha256: d0c2b6b0a24fb27bc229b9e7886a55c93d102cb2516062b08570f1a4922f9568
+      sha256: "49ae8cb0d447e69b5af049846588a2d98f3d117660e1cab6f6d9b9bcc4419cbc"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
 sdks:
   dart: ">=3.14.0 <4.0.0"
   flutter: ">=3.47.0"

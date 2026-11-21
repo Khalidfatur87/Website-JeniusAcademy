@@ -316,4 +316,141 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get next => 'Berikutnya';
+
+  @override
+  String get quizTitle => 'Kuis';
+
+  @override
+  String get takeQuiz => 'Kerjakan kuis';
+
+  @override
+  String get retakeQuiz => 'Ulangi kuis';
+
+  @override
+  String quizBest(int score, int total) {
+    return 'Skor terbaik: $score/$total';
+  }
+
+  @override
+  String quizCount(int count) {
+    return '$count soal latihan';
+  }
+
+  @override
+  String questionNumber(int number) {
+    return 'Soal $number';
+  }
+
+  @override
+  String quizProgress(int answered, int total) {
+    return '$answered dari $total soal terjawab';
+  }
+
+  @override
+  String get checkAnswers => 'Periksa jawaban';
+
+  @override
+  String get correct => 'Benar';
+
+  @override
+  String get wrong => 'Salah';
+
+  @override
+  String get explanation => 'Pembahasan';
+
+  @override
+  String get yourScore => 'Skor kamu';
+
+  @override
+  String scoreLine(int score, int total) {
+    return '$score dari $total benar';
+  }
+
+  @override
+  String get verdictGreat => 'Sempurna! Kamu menguasai materi ini.';
+
+  @override
+  String get verdictGood => 'Bagus! Tinggal sedikit lagi.';
+
+  @override
+  String get verdictReview => 'Yuk tinjau lagi materinya, lalu coba lagi.';
+
+  @override
+  String get backToCourse => 'Kembali ke kelas';
+
+  @override
+  String get submitFailed =>
+      'Jawaban gagal dikirim. Periksa koneksi lalu coba lagi.';
+
+  @override
+  String get quizNoAccess => 'Kuis ini khusus pelanggan paket jenjangnya.';
+
+  @override
+  String get certificateTitle => 'Sertifikat';
+
+  @override
+  String get viewCertificate => 'Lihat sertifikat';
+
+  @override
+  String get claimCertificate => 'Ambil sertifikat';
+
+  @override
+  String reqLessons(int done, int total) {
+    return 'Selesaikan semua pelajaran ($done/$total)';
+  }
+
+  @override
+  String reqQuiz(int percent) {
+    return 'Raih skor kuis minimal $percent%';
+  }
+
+  @override
+  String get certNotComplete => 'Selesaikan semua pelajaran terlebih dahulu.';
+
+  @override
+  String certQuizRequired(int percent) {
+    return 'Skor kuis terbaikmu belum mencapai $percent%.';
+  }
+
+  @override
+  String get certNoAccess => 'Kamu belum punya akses ke kelas ini.';
+
+  @override
+  String get certGeneric => 'Sertifikat gagal dibuat. Coba lagi.';
+
+  @override
+  String get certHeading => 'Sertifikat Penyelesaian';
+
+  @override
+  String get presentedTo => 'Diberikan kepada';
+
+  @override
+  String get forCompleting => 'atas keberhasilan menyelesaikan kelas';
+
+  @override
+  String certQuizScore(int score, int total, int percent) {
+    return 'Skor kuis: $score/$total ($percent%)';
+  }
+
+  @override
+  String get issuedOn => 'Tanggal terbit';
+
+  @override
+  String get certCode => 'Kode sertifikat';
+
+  @override
+  String get printOnWebsite => 'Cetak / simpan PDF di website';
+
+  @override
+  String get copyVerifyLink => 'Salin tautan verifikasi';
+
+  @override
+  String get linkCopied => 'Tautan disalin';
+
+  @override
+  String get myCertificates => 'Sertifikat saya';
+
+  @override
+  String get noCertificates =>
+      'Belum ada sertifikat. Selesaikan kelas untuk mendapatkannya.';
 }

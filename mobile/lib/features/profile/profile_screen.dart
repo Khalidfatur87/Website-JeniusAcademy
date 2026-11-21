@@ -1,10 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/config.dart';
 import '../../core/providers.dart';
 import '../../data/auth_repository.dart';
 import '../../data/engagement_repository.dart';
+import '../../data/quiz_repository.dart';
+import '../../domain/l10n_text.dart';
 import '../../l10n/app_localizations.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -31,6 +34,29 @@ class ProfileScreen extends ConsumerWidget {
             title: Text(name ?? '-'),
             subtitle: Text(user?.email ?? ''),
           ),
+          const Divider(height: 32),
+          Text(t.myCertificates, style: Theme.of(context).textTheme.titleSmall),
+          const SizedBox(height: 4),
+          ...switch (ref.watch(certificatesProvider).value) {
+            null => const <Widget>[],
+            final list when list.isEmpty => [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(t.noCertificates, style: Theme.of(context).textTheme.bodySmall),
+                ),
+              ],
+            final list => [
+                for (final c in list)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.workspace_premium_outlined),
+                    title: Text(pickText(c.courseTitle, locale.languageCode)),
+                    subtitle: Text(c.code),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/certificates/${c.code}'),
+                  ),
+              ],
+          },
           const Divider(height: 32),
           Text(t.language, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),

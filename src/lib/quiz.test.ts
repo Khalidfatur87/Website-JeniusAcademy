@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import shared from "../../shared/fixtures/quiz.json";
 import { attemptPercent, bestAttempt, certificateStatus, type Attempt } from "./quiz";
 
 describe("certificateStatus", () => {
@@ -54,5 +55,19 @@ describe("attemptPercent & bestAttempt", () => {
   it("membandingkan rasio, bukan skor mentah", () => {
     const list = [at("x", 3, 3, "2026-01-01"), at("x", 4, 5, "2026-01-02")];
     expect(bestAttempt(list, "x")).toEqual(list[0]);
+  });
+});
+
+// Kasus uji bersama dengan aplikasi mobile (mobile/test/domain/quiz_test.dart).
+describe("kasus uji bersama (shared/fixtures/quiz.json)", () => {
+  it.each(shared.attemptPercent)("attemptPercent($score/$total)", ({ score, total, expected }) => {
+    expect(attemptPercent({ score, total })).toBe(expected);
+  });
+  it.each(shared.bestAttempt)("bestAttempt #%#", ({ attempts, slug, expectedIndex }) => {
+    const got = bestAttempt(attempts, slug);
+    expect(got).toEqual(expectedIndex === null ? undefined : attempts[expectedIndex]);
+  });
+  it.each(shared.certificateStatus)("certificateStatus #%#", ({ input, expected }) => {
+    expect(certificateStatus(input)).toBe(expected);
   });
 });

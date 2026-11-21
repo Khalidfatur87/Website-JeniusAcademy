@@ -48,19 +48,19 @@ export function Navbar({ darkModeEnabled }: { darkModeEnabled: boolean }) {
           <Logo />
         </Link>
 
-        <nav aria-label={t("main")} className="hidden lg:block">
+        <nav aria-label={t("main")} className="hidden xl:block">
           <NavLinkList variant="desktop" />
         </nav>
 
         <div className="flex items-center gap-2">
           <div className="hidden items-center gap-2 sm:flex">{toolbar}</div>
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2 xl:flex">
             <AuthActions variant="desktop" />
           </div>
 
           <button
             type="button"
-            className="grid size-10 place-items-center rounded-xl border border-line bg-surface lg:hidden"
+            className="grid size-10 place-items-center rounded-xl border border-line bg-surface xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t("closeMenu") : t("openMenu")}
@@ -74,7 +74,9 @@ export function Navbar({ darkModeEnabled }: { darkModeEnabled: boolean }) {
       {open && (
         <div
           id="mobile-menu"
-          className="container-page border-t border-line pb-6 pt-3 lg:hidden"
+          // Menu bisa lebih tinggi dari layar (banyak item akun): gulir di dalam menu,
+          // karena header sticky tidak ikut tergulir bersama halaman.
+          className="container-page max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-line pb-6 pt-3 xl:hidden"
         >
           <NavLinkList variant="mobile" />
           <div className="mt-4 flex items-center gap-2 sm:hidden">{toolbar}</div>

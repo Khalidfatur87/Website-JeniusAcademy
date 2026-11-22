@@ -7,10 +7,12 @@ import '../../core/env.dart';
 import '../../core/providers.dart';
 import '../../data/course_repository.dart';
 import '../../data/lesson_repository.dart';
+import '../../data/tutor_repository.dart';
 import '../../domain/course_progress.dart';
 import '../../domain/l10n_text.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/async_view.dart';
+import '../tutor/tutor_sheet.dart';
 import 'youtube_view.dart';
 
 /// Tampilan video; diganti di mode demo dan tes (tanpa WebView).
@@ -75,6 +77,16 @@ class LessonScreen extends ConsumerWidget {
                 ),
               ],
               const SizedBox(height: 16),
+              if (ref.watch(tutorEnabledProvider))
+                Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: const Icon(Icons.auto_awesome),
+                    title: Text(t.tutorTitle),
+                    subtitle: Text(t.tutorSubtitle),
+                    onTap: () => TutorSheet.show(context, slug: slug, lessonId: lessonId),
+                  ),
+                ),
               Card(
                 margin: EdgeInsets.zero,
                 child: ListTile(

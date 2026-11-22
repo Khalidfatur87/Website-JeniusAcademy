@@ -912,4 +912,54 @@ class AppLocalizationsId extends AppLocalizations {
   String classesConfirmLeave(String name) {
     return 'Keluar dari kelas $name?';
   }
+
+  @override
+  String get tutorTitle => 'Tanya AI';
+
+  @override
+  String get tutorSubtitle =>
+      'Tutor AI menjawab pertanyaanmu tentang pelajaran ini.';
+
+  @override
+  String get tutorName => 'Tutor Jenius';
+
+  @override
+  String get tutorYou => 'Kamu';
+
+  @override
+  String get tutorEmpty =>
+      'Contoh: \"Kenapa hasilnya dibagi dua?\" atau \"Beri satu contoh soal lagi.\"';
+
+  @override
+  String get tutorPlaceholder => 'Tulis pertanyaanmu…';
+
+  @override
+  String get tutorThinking => 'Sedang berpikir…';
+
+  @override
+  String get tutorDisclaimer =>
+      'Jawaban AI bisa keliru. Cek kembali dengan materi atau tanyakan ke guru di Diskusi.';
+
+  @override
+  String get tutorExplain => 'Jelaskan dengan AI';
+
+  @override
+  String get tutorErrInvalid => 'Pertanyaan tidak valid.';
+
+  @override
+  String get tutorErrNotSignedIn => 'Masuk dulu untuk memakai tutor AI.';
+
+  @override
+  String get tutorErrNoAccess => 'Kamu belum punya akses ke materi ini.';
+
+  @override
+  String get tutorErrQuota =>
+      'Kuota tutor AI hari ini sudah habis. Coba lagi besok.';
+
+  @override
+  String get tutorErrNotConfigured => 'Tutor AI belum diaktifkan.';
+
+  @override
+  String get tutorErrGeneric =>
+      'Tutor AI sedang tidak bisa dihubungi. Coba lagi.';
 }

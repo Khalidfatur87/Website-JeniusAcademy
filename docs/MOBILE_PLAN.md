@@ -47,7 +47,8 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
 - [x] Diskusi pelajaran (tanya jawab, balasan satu tingkat, label pengajar, hapus)
 - [x] Kelas live (jadwal, tambah ke Google Calendar, tombol masuk dari server 15 menit sebelum mulai, rekaman)
 - [x] Mode sekolah (gabung kode, tugas & tenggat, status dari server, keluar kelas)
-- [ ] Tutor AI (berbayar; `/api/tutor` perlu menerima header `Authorization: Bearer`)
+- [x] Tutor AI: panel Tanya AI & "Jelaskan dengan AI"; `/api/tutor` menerima `Authorization: Bearer`
+      (tetap mati: `AppConfig.tutorAi = false`; aktifkan bersama `ANTHROPIC_API_KEY` & `TUTOR_AI_MODEL` di Vercel)
 
 ### Fase 3 — Khas mobile
 - [ ] Unduh materi untuk offline

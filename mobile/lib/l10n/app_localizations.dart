@@ -1693,6 +1693,96 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Keluar dari kelas {name}?'**
   String classesConfirmLeave(String name);
+
+  /// No description provided for @tutorTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanya AI'**
+  String get tutorTitle;
+
+  /// No description provided for @tutorSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tutor AI menjawab pertanyaanmu tentang pelajaran ini.'**
+  String get tutorSubtitle;
+
+  /// No description provided for @tutorName.
+  ///
+  /// In id, this message translates to:
+  /// **'Tutor Jenius'**
+  String get tutorName;
+
+  /// No description provided for @tutorYou.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu'**
+  String get tutorYou;
+
+  /// No description provided for @tutorEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh: \"Kenapa hasilnya dibagi dua?\" atau \"Beri satu contoh soal lagi.\"'**
+  String get tutorEmpty;
+
+  /// No description provided for @tutorPlaceholder.
+  ///
+  /// In id, this message translates to:
+  /// **'Tulis pertanyaanmu…'**
+  String get tutorPlaceholder;
+
+  /// No description provided for @tutorThinking.
+  ///
+  /// In id, this message translates to:
+  /// **'Sedang berpikir…'**
+  String get tutorThinking;
+
+  /// No description provided for @tutorDisclaimer.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban AI bisa keliru. Cek kembali dengan materi atau tanyakan ke guru di Diskusi.'**
+  String get tutorDisclaimer;
+
+  /// No description provided for @tutorExplain.
+  ///
+  /// In id, this message translates to:
+  /// **'Jelaskan dengan AI'**
+  String get tutorExplain;
+
+  /// No description provided for @tutorErrInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Pertanyaan tidak valid.'**
+  String get tutorErrInvalid;
+
+  /// No description provided for @tutorErrNotSignedIn.
+  ///
+  /// In id, this message translates to:
+  /// **'Masuk dulu untuk memakai tutor AI.'**
+  String get tutorErrNotSignedIn;
+
+  /// No description provided for @tutorErrNoAccess.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu belum punya akses ke materi ini.'**
+  String get tutorErrNoAccess;
+
+  /// No description provided for @tutorErrQuota.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuota tutor AI hari ini sudah habis. Coba lagi besok.'**
+  String get tutorErrQuota;
+
+  /// No description provided for @tutorErrNotConfigured.
+  ///
+  /// In id, this message translates to:
+  /// **'Tutor AI belum diaktifkan.'**
+  String get tutorErrNotConfigured;
+
+  /// No description provided for @tutorErrGeneric.
+  ///
+  /// In id, this message translates to:
+  /// **'Tutor AI sedang tidak bisa dihubungi. Coba lagi.'**
+  String get tutorErrGeneric;
 }
 
 class _AppLocalizationsDelegate

@@ -914,4 +914,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String classesConfirmLeave(String name) {
     return 'Leave $name?';
   }
+
+  @override
+  String get tutorTitle => 'Ask AI';
+
+  @override
+  String get tutorSubtitle =>
+      'An AI tutor answers your questions about this lesson.';
+
+  @override
+  String get tutorName => 'Tutor Jenius';
+
+  @override
+  String get tutorYou => 'You';
+
+  @override
+  String get tutorEmpty =>
+      'For example: \"Why do we divide by two?\" or \"Give me one more practice question.\"';
+
+  @override
+  String get tutorPlaceholder => 'Type your question…';
+
+  @override
+  String get tutorThinking => 'Thinking…';
+
+  @override
+  String get tutorDisclaimer =>
+      'AI answers can be wrong. Double-check with the material or ask a teacher in the Discussion.';
+
+  @override
+  String get tutorExplain => 'Explain with AI';
+
+  @override
+  String get tutorErrInvalid => 'That question isn\'t valid.';
+
+  @override
+  String get tutorErrNotSignedIn => 'Log in first to use the AI tutor.';
+
+  @override
+  String get tutorErrNoAccess => 'You don\'t have access to this material yet.';
+
+  @override
+  String get tutorErrQuota =>
+      'You\'ve used today\'s AI tutor limit. Try again tomorrow.';
+
+  @override
+  String get tutorErrNotConfigured => 'The AI tutor isn\'t enabled yet.';
+
+  @override
+  String get tutorErrGeneric =>
+      'The AI tutor can\'t be reached right now. Please try again.';
 }

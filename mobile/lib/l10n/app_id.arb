@@ -591,5 +591,20 @@
         "type": "String"
       }
     }
-  }
+  },
+  "tutorTitle": "Tanya AI",
+  "tutorSubtitle": "Tutor AI menjawab pertanyaanmu tentang pelajaran ini.",
+  "tutorName": "Tutor Jenius",
+  "tutorYou": "Kamu",
+  "tutorEmpty": "Contoh: \"Kenapa hasilnya dibagi dua?\" atau \"Beri satu contoh soal lagi.\"",
+  "tutorPlaceholder": "Tulis pertanyaanmu…",
+  "tutorThinking": "Sedang berpikir…",
+  "tutorDisclaimer": "Jawaban AI bisa keliru. Cek kembali dengan materi atau tanyakan ke guru di Diskusi.",
+  "tutorExplain": "Jelaskan dengan AI",
+  "tutorErrInvalid": "Pertanyaan tidak valid.",
+  "tutorErrNotSignedIn": "Masuk dulu untuk memakai tutor AI.",
+  "tutorErrNoAccess": "Kamu belum punya akses ke materi ini.",
+  "tutorErrQuota": "Kuota tutor AI hari ini sudah habis. Coba lagi besok.",
+  "tutorErrNotConfigured": "Tutor AI belum diaktifkan.",
+  "tutorErrGeneric": "Tutor AI sedang tidak bisa dihubungi. Coba lagi."
 }

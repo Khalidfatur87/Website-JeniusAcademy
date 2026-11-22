@@ -5,11 +5,13 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/providers.dart';
 import '../../data/course_repository.dart';
 import '../../data/quiz_repository.dart';
+import '../../data/tutor_repository.dart';
 import '../../domain/l10n_text.dart';
 import '../../domain/quiz.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/answer_option.dart';
 import '../../widgets/async_view.dart';
+import '../tutor/tutor_sheet.dart';
 
 /// Kuis pilihan ganda. Kunci jawaban baru diterima dari server setelah
 /// jawaban diserahkan, lalu benar/salah & pembahasan ditampilkan per soal.
@@ -183,7 +185,7 @@ class _ScoreCard extends StatelessWidget {
   }
 }
 
-class _QuestionCard extends StatelessWidget {
+class _QuestionCard extends ConsumerWidget {
   const _QuestionCard({
     required this.number,
     required this.question,
@@ -201,7 +203,7 @@ class _QuestionCard extends StatelessWidget {
   final ValueChanged<int>? onSelect;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
@@ -252,6 +254,8 @@ class _QuestionCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(explanation),
             ],
+            if (r != null && selected != r.answer && ref.watch(tutorEnabledProvider))
+              ExplainWithAi(questionId: question.id, chosen: selected),
           ],
         ),
       ),

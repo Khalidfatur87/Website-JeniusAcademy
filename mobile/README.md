@@ -18,6 +18,12 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Kuis | Soal tanpa kunci; dinilai di server (`submit_quiz`), lalu benar/salah, kunci & pembahasan per soal; skor terbaik di detail kelas |
 | Sertifikat | Syarat (semua pelajaran + kuis ≥ 70%), ambil lewat `claim_certificate`, tampilan sertifikat, cetak/PDF & tautan verifikasi di website, daftar di Profil |
 | Peringkat | Leaderboard mingguan / sepanjang waktu (RPC `xp_leaderboard`) |
+| Latihan | Latihan pintar: soal kuis yang salah diulang terjadwal (1-2-4-7-14 hari), dinilai server |
+| Try-out UTBK | Katalog, subtes bertimer (waktu dari server), simpan otomatis, serahkan otomatis, hasil, pembahasan, peringkat |
+| Diskusi | Tanya jawab per pelajaran, balasan, label pengajar, hapus |
+| Kelas live | Jadwal, tombol masuk dari server (15 menit sebelum), Google Calendar, rekaman |
+| Kelas sekolah | Gabung dengan kode, tugas & tenggat, status dari server |
+| Tutor AI | Tanya AI per pelajaran & "Jelaskan dengan AI" di kuis — **mati** (`AppConfig.tutorAi`) karena berbayar |
 | Notifikasi | Izin saat login, token didaftarkan & dihapus saat keluar, pengingat harian 19.00 WIB, ketuk → Beranda |
 | Profil | Ubah nama & foto (galeri, diperkecil 512 px, bucket `avatars`), target mingguan, tampil/sembunyi di peringkat, daftar sertifikat, bahasa ID/EN (tersimpan di perangkat), keluar |
 | Latihan | "Segera hadir" |

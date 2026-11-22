@@ -265,5 +265,20 @@
   "classesOpen": "Open",
   "classesMine": "My classes",
   "classesLeave": "Leave",
-  "classesConfirmLeave": "Leave {name}?"
+  "classesConfirmLeave": "Leave {name}?",
+  "tutorTitle": "Ask AI",
+  "tutorSubtitle": "An AI tutor answers your questions about this lesson.",
+  "tutorName": "Tutor Jenius",
+  "tutorYou": "You",
+  "tutorEmpty": "For example: \"Why do we divide by two?\" or \"Give me one more practice question.\"",
+  "tutorPlaceholder": "Type your question…",
+  "tutorThinking": "Thinking…",
+  "tutorDisclaimer": "AI answers can be wrong. Double-check with the material or ask a teacher in the Discussion.",
+  "tutorExplain": "Explain with AI",
+  "tutorErrInvalid": "That question isn't valid.",
+  "tutorErrNotSignedIn": "Log in first to use the AI tutor.",
+  "tutorErrNoAccess": "You don't have access to this material yet.",
+  "tutorErrQuota": "You've used today's AI tutor limit. Try again tomorrow.",
+  "tutorErrNotConfigured": "The AI tutor isn't enabled yet.",
+  "tutorErrGeneric": "The AI tutor can't be reached right now. Please try again."
 }

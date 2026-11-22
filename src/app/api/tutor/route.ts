@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { siteConfig } from "@/config/site";
 import type { L10n } from "@/lib/content";
 import { getCourse } from "@/lib/content-server";
-import { createClient } from "@/lib/supabase/server";
+import { createClientForRequest } from "@/lib/supabase/server";
 import {
   lessonContext,
   parseTutorRequest,
@@ -14,6 +14,7 @@ import {
 /**
  * TUTOR AI ("Tanya AI").
  * - Hanya untuk pengguna login yang berhak atas pelajaran / kelasnya (dicek di database).
+ * - Website memakai cookie sesi; aplikasi mobile mengirim `Authorization: Bearer <token>`.
  * - Kuota harian per pengguna (siteConfig.ai.dailyLimit, dihitung di tabel ai_usage).
  * - Jawaban dialirkan (streaming) sebagai teks biasa.
  * Butuh env ANTHROPIC_API_KEY dan TUTOR_AI_MODEL (server saja, jangan diberi awalan NEXT_PUBLIC_).
@@ -32,8 +33,8 @@ export async function POST(req: Request) {
     return fail("notConfigured", 503);
   }
 
-  const sb = await createClient();
-  const { data: auth } = await sb.auth.getClaims();
+  const { sb, token } = await createClientForRequest(req);
+  const { data: auth } = await sb.auth.getClaims(token);
   if (!auth?.claims?.sub) return fail("notSignedIn", 401);
 
   // Konteks + pemeriksaan hak akses (RLS / fungsi database memakai sesi siswa).

@@ -505,4 +505,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saved => 'Saved';
+
+  @override
+  String get practiceTitle => 'Smart practice';
+
+  @override
+  String get practiceSubtitle =>
+      'Quiz questions you got wrong come back at the right time until you master them.';
+
+  @override
+  String practiceDue(int count) {
+    return '$count questions ready to review';
+  }
+
+  @override
+  String get practiceIntro =>
+      'Each session has up to 10 questions. Right → it returns in a few days; wrong → tomorrow.';
+
+  @override
+  String get practiceNothingDue => 'Nothing to review right now';
+
+  @override
+  String get practiceNothingTracked =>
+      'Take a quiz in any course. Questions you miss show up here automatically.';
+
+  @override
+  String practiceNextDue(String date) {
+    return 'The next question is due $date.';
+  }
+
+  @override
+  String get practiceBrowse => 'Browse courses';
+
+  @override
+  String get practiceStart => 'Start practice';
+
+  @override
+  String get practiceAgain => 'Practice again';
+
+  @override
+  String practiceProgress(int current, int total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get practiceCheck => 'Check';
+
+  @override
+  String get practiceCorrect => 'Correct!';
+
+  @override
+  String get practiceWrong => 'Not quite.';
+
+  @override
+  String get practiceMastered => 'Mastered! This question leaves your queue.';
+
+  @override
+  String get practiceDone => 'Session complete';
+
+  @override
+  String practiceScore(int correct, int total) {
+    return '$correct of $total correct.';
+  }
+
+  @override
+  String practiceMasteredCount(int count) {
+    return '$count questions mastered.';
+  }
 }

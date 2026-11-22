@@ -501,4 +501,71 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get saved => 'Tersimpan';
+
+  @override
+  String get practiceTitle => 'Latihan pintar';
+
+  @override
+  String get practiceSubtitle =>
+      'Soal kuis yang pernah salah muncul lagi di waktu yang tepat sampai kamu menguasainya.';
+
+  @override
+  String practiceDue(int count) {
+    return '$count soal siap diulang';
+  }
+
+  @override
+  String get practiceIntro =>
+      'Satu sesi berisi sampai 10 soal. Benar → muncul lagi beberapa hari kemudian; salah → besok.';
+
+  @override
+  String get practiceNothingDue => 'Tidak ada soal untuk diulang sekarang';
+
+  @override
+  String get practiceNothingTracked =>
+      'Kerjakan kuis di kelas mana pun. Soal yang salah otomatis masuk ke sini.';
+
+  @override
+  String practiceNextDue(String date) {
+    return 'Soal berikutnya muncul $date.';
+  }
+
+  @override
+  String get practiceBrowse => 'Jelajahi kelas';
+
+  @override
+  String get practiceStart => 'Mulai latihan';
+
+  @override
+  String get practiceAgain => 'Latihan lagi';
+
+  @override
+  String practiceProgress(int current, int total) {
+    return 'Soal $current dari $total';
+  }
+
+  @override
+  String get practiceCheck => 'Periksa';
+
+  @override
+  String get practiceCorrect => 'Benar!';
+
+  @override
+  String get practiceWrong => 'Belum tepat.';
+
+  @override
+  String get practiceMastered => 'Dikuasai! Soal ini keluar dari antrean.';
+
+  @override
+  String get practiceDone => 'Sesi selesai';
+
+  @override
+  String practiceScore(int correct, int total) {
+    return '$correct dari $total benar.';
+  }
+
+  @override
+  String practiceMasteredCount(int count) {
+    return '$count soal dikuasai.';
+  }
 }

@@ -991,6 +991,114 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Tersimpan'**
   String get saved;
+
+  /// No description provided for @practiceTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan pintar'**
+  String get practiceTitle;
+
+  /// No description provided for @practiceSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Soal kuis yang pernah salah muncul lagi di waktu yang tepat sampai kamu menguasainya.'**
+  String get practiceSubtitle;
+
+  /// No description provided for @practiceDue.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} soal siap diulang'**
+  String practiceDue(int count);
+
+  /// No description provided for @practiceIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Satu sesi berisi sampai 10 soal. Benar → muncul lagi beberapa hari kemudian; salah → besok.'**
+  String get practiceIntro;
+
+  /// No description provided for @practiceNothingDue.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada soal untuk diulang sekarang'**
+  String get practiceNothingDue;
+
+  /// No description provided for @practiceNothingTracked.
+  ///
+  /// In id, this message translates to:
+  /// **'Kerjakan kuis di kelas mana pun. Soal yang salah otomatis masuk ke sini.'**
+  String get practiceNothingTracked;
+
+  /// No description provided for @practiceNextDue.
+  ///
+  /// In id, this message translates to:
+  /// **'Soal berikutnya muncul {date}.'**
+  String practiceNextDue(String date);
+
+  /// No description provided for @practiceBrowse.
+  ///
+  /// In id, this message translates to:
+  /// **'Jelajahi kelas'**
+  String get practiceBrowse;
+
+  /// No description provided for @practiceStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai latihan'**
+  String get practiceStart;
+
+  /// No description provided for @practiceAgain.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan lagi'**
+  String get practiceAgain;
+
+  /// No description provided for @practiceProgress.
+  ///
+  /// In id, this message translates to:
+  /// **'Soal {current} dari {total}'**
+  String practiceProgress(int current, int total);
+
+  /// No description provided for @practiceCheck.
+  ///
+  /// In id, this message translates to:
+  /// **'Periksa'**
+  String get practiceCheck;
+
+  /// No description provided for @practiceCorrect.
+  ///
+  /// In id, this message translates to:
+  /// **'Benar!'**
+  String get practiceCorrect;
+
+  /// No description provided for @practiceWrong.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum tepat.'**
+  String get practiceWrong;
+
+  /// No description provided for @practiceMastered.
+  ///
+  /// In id, this message translates to:
+  /// **'Dikuasai! Soal ini keluar dari antrean.'**
+  String get practiceMastered;
+
+  /// No description provided for @practiceDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi selesai'**
+  String get practiceDone;
+
+  /// No description provided for @practiceScore.
+  ///
+  /// In id, this message translates to:
+  /// **'{correct} dari {total} benar.'**
+  String practiceScore(int correct, int total);
+
+  /// No description provided for @practiceMasteredCount.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} soal dikuasai.'**
+  String practiceMasteredCount(int count);
 }
 
 class _AppLocalizationsDelegate

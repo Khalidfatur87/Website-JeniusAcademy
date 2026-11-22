@@ -298,5 +298,64 @@
         "type": "int"
       }
     }
+  },
+  "practiceTitle": "Latihan pintar",
+  "practiceSubtitle": "Soal kuis yang pernah salah muncul lagi di waktu yang tepat sampai kamu menguasainya.",
+  "practiceDue": "{count} soal siap diulang",
+  "practiceIntro": "Satu sesi berisi sampai 10 soal. Benar → muncul lagi beberapa hari kemudian; salah → besok.",
+  "practiceNothingDue": "Tidak ada soal untuk diulang sekarang",
+  "practiceNothingTracked": "Kerjakan kuis di kelas mana pun. Soal yang salah otomatis masuk ke sini.",
+  "practiceNextDue": "Soal berikutnya muncul {date}.",
+  "practiceBrowse": "Jelajahi kelas",
+  "practiceStart": "Mulai latihan",
+  "practiceAgain": "Latihan lagi",
+  "practiceProgress": "Soal {current} dari {total}",
+  "practiceCheck": "Periksa",
+  "practiceCorrect": "Benar!",
+  "practiceWrong": "Belum tepat.",
+  "practiceMastered": "Dikuasai! Soal ini keluar dari antrean.",
+  "practiceDone": "Sesi selesai",
+  "practiceScore": "{correct} dari {total} benar.",
+  "practiceMasteredCount": "{count} soal dikuasai.",
+  "@practiceDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@practiceNextDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@practiceProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@practiceScore": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@practiceMasteredCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

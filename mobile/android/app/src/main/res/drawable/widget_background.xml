@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Warna brand: toska → ungu (sama dengan logo). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="20dp" />
+    <gradient
+        android:angle="315"
+        android:endColor="#6A6BBD"
+        android:startColor="#2B93A8" />
+</shape>

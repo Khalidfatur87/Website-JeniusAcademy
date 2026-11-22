@@ -55,7 +55,7 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
       unduh materi (folder pribadi aplikasi); semua data offline dihapus saat keluar akun
 - [x] Mode orang tua (tautkan dengan kode, ringkasan anak, salin ringkasan, lepas tautan dari dua sisi)
 - [ ] Push ringkasan mingguan untuk orang tua (saat ini lewat email)
-- [ ] Widget streak di layar utama
+- [x] Widget streak di layar utama Android (streak, level, XP minggu ini; ketuk → buka aplikasi)
 - [x] Login Google (signInWithIdToken; tombol muncul setelah `GOOGLE_WEB_CLIENT_ID` diisi)
 
 ### Fase 4 — Play Store (nanti, berbayar $25)

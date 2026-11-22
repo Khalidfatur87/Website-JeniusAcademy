@@ -5,9 +5,12 @@ import 'package:material_ui/material_ui.dart';
 
 import 'core/config.dart';
 import 'core/providers.dart';
+import 'core/home_widget_sync.dart';
 import 'core/push.dart';
+import 'data/engagement_repository.dart';
 import 'core/router.dart';
 import 'core/theme.dart';
+import 'domain/gamification.dart';
 import 'l10n/app_localizations.dart';
 
 class JeniusApp extends ConsumerStatefulWidget {
@@ -37,6 +40,12 @@ class _JeniusAppState extends ConsumerState<JeniusApp> {
     super.dispose();
   }
 
+  void _syncWidget(AchievementStats? stats) {
+    final locale = ref.read(localeProvider);
+    final t = lookupAppLocalizations(locale);
+    ref.read(homeWidgetWriterProvider).write(streakWidgetData(stats, ref.read(clockProvider)(), t));
+  }
+
   @override
   Widget build(BuildContext context) {
     final ref = this.ref;
@@ -53,6 +62,15 @@ class _JeniusAppState extends ConsumerState<JeniusApp> {
       final now = next.value?.id;
       if (now != null && now != was) ref.read(pushControllerProvider)?.onSignedIn();
     });
+
+    // Widget layar utama ikut diperbarui setiap kali XP/streak dimuat ulang;
+    // dikosongkan saat keluar akun.
+    if (services.supabase) {
+      ref.listen(achievementsProvider, (_, next) => _syncWidget(next.value));
+      ref.listen(currentUserProvider, (_, next) {
+        if (next.hasValue && next.value == null) _syncWidget(null);
+      });
+    }
 
     if (!services.supabase) {
       return MaterialApp(

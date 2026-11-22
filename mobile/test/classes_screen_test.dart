@@ -11,8 +11,9 @@ class _FakeClasses implements ClassesRepository {
 
   @override
   Future<String> join(String code) async {
-    if (code.trim().toUpperCase() != 'ABC123')
+    if (code.trim().toUpperCase() != 'ABC123') {
       throw const JoinException(JoinError.invalidCode);
+    }
     joined = true;
     return 'XII IPA 1';
   }

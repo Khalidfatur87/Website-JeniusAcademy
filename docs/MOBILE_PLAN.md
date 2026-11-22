@@ -44,7 +44,7 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
 ### Fase 2 — Fitur lengkap
 - [x] Try-out UTBK (timer dari server, simpan otomatis, aman saat aplikasi ke background, hasil, pembahasan, peringkat)
 - [x] Latihan pintar (Leitner 1-2-4-7-14 hari, RPC practice_queue/answer_practice)
-- [ ] Diskusi pelajaran
+- [x] Diskusi pelajaran (tanya jawab, balasan satu tingkat, label pengajar, hapus)
 - [ ] Kelas live (jadwal, kalender, pengingat 15 menit sebelum mulai)
 - [ ] Mode sekolah (gabung kode, tugas & tenggat)
 - [ ] Tutor AI (berbayar; `/api/tutor` perlu menerima header `Authorization: Bearer`)

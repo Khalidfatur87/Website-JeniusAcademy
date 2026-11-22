@@ -492,5 +492,24 @@
         "type": "String"
       }
     }
+  },
+  "discussionTitle": "Diskusi",
+  "discussionAsk": "Tulis pertanyaanmu tentang pelajaran ini…",
+  "discussionReplyHint": "Tulis jawaban…",
+  "discussionReply": "Balas",
+  "discussionEmpty": "Belum ada pertanyaan. Jadilah yang pertama bertanya.",
+  "discussionFailed": "Gagal mengirim. Coba lagi.",
+  "discussionDelete": "Hapus",
+  "discussionConfirmDelete": "Hapus tulisan ini?",
+  "discussionTeacher": "Pengajar",
+  "discussionReplyingTo": "Membalas {name}",
+  "discussionOpen": "Diskusi pelajaran",
+  "send": "Kirim",
+  "@discussionReplyingTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -10,6 +10,7 @@ import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
 import '../features/courses/course_detail_screen.dart';
 import '../features/courses/courses_screen.dart';
+import '../features/discussion/discussion_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/lesson/lesson_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
@@ -88,6 +89,13 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       GoRoute(
         path: '/certificates/:code',
         builder: (_, s) => CertificateScreen(code: s.pathParameters['code']!),
+      ),
+      GoRoute(
+        path: '/courses/:slug/:lessonId/discussion',
+        builder: (_, s) => DiscussionScreen(
+          slug: s.pathParameters['slug']!,
+          lessonId: s.pathParameters['lessonId']!,
+        ),
       ),
       GoRoute(
         path: '/courses/:slug/:lessonId',

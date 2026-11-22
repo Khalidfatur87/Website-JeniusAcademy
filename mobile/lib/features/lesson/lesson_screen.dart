@@ -74,6 +74,16 @@ class LessonScreen extends ConsumerWidget {
                   ),
                 ),
               ],
+              const SizedBox(height: 16),
+              Card(
+                margin: EdgeInsets.zero,
+                child: ListTile(
+                  leading: const Icon(Icons.forum_outlined),
+                  title: Text(t.discussionOpen),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/courses/$slug/$lessonId/discussion'),
+                ),
+              ),
               if (c.materials.isNotEmpty) ...[
                 const SizedBox(height: 24),
                 Text(t.lessonMaterials, style: theme.textTheme.titleMedium),

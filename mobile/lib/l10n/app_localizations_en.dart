@@ -747,4 +747,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get classesTitle => 'School classes';
+
+  @override
+  String get discussionTitle => 'Discussion';
+
+  @override
+  String get discussionAsk => 'Write your question about this lesson…';
+
+  @override
+  String get discussionReplyHint => 'Write an answer…';
+
+  @override
+  String get discussionReply => 'Reply';
+
+  @override
+  String get discussionEmpty => 'No questions yet. Be the first to ask.';
+
+  @override
+  String get discussionFailed => 'Couldn\'t send. Please try again.';
+
+  @override
+  String get discussionDelete => 'Delete';
+
+  @override
+  String get discussionConfirmDelete => 'Delete this post?';
+
+  @override
+  String get discussionTeacher => 'Teacher';
+
+  @override
+  String discussionReplyingTo(String name) {
+    return 'Replying to $name';
+  }
+
+  @override
+  String get discussionOpen => 'Lesson discussion';
+
+  @override
+  String get send => 'Send';
 }

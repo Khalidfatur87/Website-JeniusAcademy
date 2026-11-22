@@ -1393,6 +1393,78 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Kelas sekolah'**
   String get classesTitle;
+
+  /// No description provided for @discussionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Diskusi'**
+  String get discussionTitle;
+
+  /// No description provided for @discussionAsk.
+  ///
+  /// In id, this message translates to:
+  /// **'Tulis pertanyaanmu tentang pelajaran ini…'**
+  String get discussionAsk;
+
+  /// No description provided for @discussionReplyHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Tulis jawaban…'**
+  String get discussionReplyHint;
+
+  /// No description provided for @discussionReply.
+  ///
+  /// In id, this message translates to:
+  /// **'Balas'**
+  String get discussionReply;
+
+  /// No description provided for @discussionEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada pertanyaan. Jadilah yang pertama bertanya.'**
+  String get discussionEmpty;
+
+  /// No description provided for @discussionFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal mengirim. Coba lagi.'**
+  String get discussionFailed;
+
+  /// No description provided for @discussionDelete.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus'**
+  String get discussionDelete;
+
+  /// No description provided for @discussionConfirmDelete.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus tulisan ini?'**
+  String get discussionConfirmDelete;
+
+  /// No description provided for @discussionTeacher.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengajar'**
+  String get discussionTeacher;
+
+  /// No description provided for @discussionReplyingTo.
+  ///
+  /// In id, this message translates to:
+  /// **'Membalas {name}'**
+  String discussionReplyingTo(String name);
+
+  /// No description provided for @discussionOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Diskusi pelajaran'**
+  String get discussionOpen;
+
+  /// No description provided for @send.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim'**
+  String get send;
 }
 
 class _AppLocalizationsDelegate

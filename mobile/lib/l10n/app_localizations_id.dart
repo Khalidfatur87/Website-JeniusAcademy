@@ -744,4 +744,43 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get classesTitle => 'Kelas sekolah';
+
+  @override
+  String get discussionTitle => 'Diskusi';
+
+  @override
+  String get discussionAsk => 'Tulis pertanyaanmu tentang pelajaran ini…';
+
+  @override
+  String get discussionReplyHint => 'Tulis jawaban…';
+
+  @override
+  String get discussionReply => 'Balas';
+
+  @override
+  String get discussionEmpty =>
+      'Belum ada pertanyaan. Jadilah yang pertama bertanya.';
+
+  @override
+  String get discussionFailed => 'Gagal mengirim. Coba lagi.';
+
+  @override
+  String get discussionDelete => 'Hapus';
+
+  @override
+  String get discussionConfirmDelete => 'Hapus tulisan ini?';
+
+  @override
+  String get discussionTeacher => 'Pengajar';
+
+  @override
+  String discussionReplyingTo(String name) {
+    return 'Membalas $name';
+  }
+
+  @override
+  String get discussionOpen => 'Diskusi pelajaran';
+
+  @override
+  String get send => 'Kirim';
 }

@@ -215,5 +215,17 @@
   "continueAction": "Continue",
   "quickLinks": "More features",
   "liveTitle": "Live classes",
-  "classesTitle": "School classes"
+  "classesTitle": "School classes",
+  "discussionTitle": "Discussion",
+  "discussionAsk": "Write your question about this lesson…",
+  "discussionReplyHint": "Write an answer…",
+  "discussionReply": "Reply",
+  "discussionEmpty": "No questions yet. Be the first to ask.",
+  "discussionFailed": "Couldn't send. Please try again.",
+  "discussionDelete": "Delete",
+  "discussionConfirmDelete": "Delete this post?",
+  "discussionTeacher": "Teacher",
+  "discussionReplyingTo": "Replying to {name}",
+  "discussionOpen": "Lesson discussion",
+  "send": "Send"
 }

@@ -14,11 +14,11 @@ class LeaderboardRow {
   });
 
   factory LeaderboardRow.fromJson(Map<String, dynamic> j) => LeaderboardRow(
-        rank: (j['rank'] as num).toInt(),
-        name: j['name'] as String? ?? '-',
-        xp: (j['xp'] as num).toInt(),
-        isMe: j['is_me'] as bool? ?? false,
-      );
+    rank: (j['rank'] as num).toInt(),
+    name: j['name'] as String? ?? '-',
+    xp: (j['xp'] as num).toInt(),
+    isMe: j['is_me'] as bool? ?? false,
+  );
 
   final int rank;
   final String name;
@@ -40,13 +40,20 @@ class EngagementRepository {
   }
 
   Future<List<LeaderboardRow>> leaderboard(LeaderboardPeriod period) async {
-    final rows = await _client.rpc('xp_leaderboard', params: {'p_period': period.name}) as List;
-    return [for (final r in rows) LeaderboardRow.fromJson(Map<String, dynamic>.from(r as Map))];
+    final rows = await _client.rpc(
+      'xp_leaderboard',
+      params: {'p_period': period.name},
+    ) as List;
+    return [
+      for (final r in rows)
+        LeaderboardRow.fromJson(Map<String, dynamic>.from(r as Map)),
+    ];
   }
 }
 
-final engagementRepositoryProvider =
-    Provider((ref) => EngagementRepository(ref.watch(supabaseProvider)));
+final engagementRepositoryProvider = Provider(
+  (ref) => EngagementRepository(ref.watch(supabaseProvider)),
+);
 
 /// Nama dari tabel profiles (diisi saat daftar, bisa diubah di Profil).
 final myNameProvider = FutureProvider<String?>(
@@ -58,6 +65,8 @@ final achievementsProvider = FutureProvider((ref) {
   return ref.watch(engagementRepositoryProvider).achievements();
 });
 
-final leaderboardProvider = FutureProvider.family<List<LeaderboardRow>, LeaderboardPeriod>(
-  (ref, period) => ref.watch(engagementRepositoryProvider).leaderboard(period),
-);
+final leaderboardProvider =
+    FutureProvider.family<List<LeaderboardRow>, LeaderboardPeriod>(
+      (ref, period) =>
+          ref.watch(engagementRepositoryProvider).leaderboard(period),
+    );

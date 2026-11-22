@@ -5,7 +5,11 @@ import '../core/providers.dart';
 import 'engagement_repository.dart';
 
 class TryoutSectionInfo {
-  const TryoutSectionInfo({required this.id, required this.title, required this.minutes});
+  const TryoutSectionInfo({
+    required this.id,
+    required this.title,
+    required this.minutes,
+  });
 
   final String id;
   final Object? title;
@@ -26,7 +30,11 @@ class TryoutInfo {
 
   factory TryoutInfo.fromJson(Map<String, dynamic> j) {
     final sections = [...(j['tryout_sections'] as List? ?? const [])]
-      ..sort((a, b) => ((a as Map)['position'] as num).compareTo((b as Map)['position'] as num));
+      ..sort(
+        (a, b) => ((a as Map)['position'] as num).compareTo(
+          (b as Map)['position'] as num,
+        ),
+      );
     DateTime? date(Object? v) => v == null ? null : DateTime.parse(v as String);
     return TryoutInfo(
       slug: j['slug'] as String,
@@ -56,7 +64,11 @@ class TryoutInfo {
 }
 
 class TryoutQuestion {
-  const TryoutQuestion({required this.id, required this.prompt, required this.options});
+  const TryoutQuestion({
+    required this.id,
+    required this.prompt,
+    required this.options,
+  });
 
   final String id;
   final Object? prompt;
@@ -88,27 +100,27 @@ class TryoutSession {
   });
 
   factory TryoutSession.fromJson(Map<String, dynamic> j) => TryoutSession(
-        startedAt: DateTime.parse(j['started_at'] as String),
-        deadline: DateTime.parse(j['deadline'] as String),
-        submitted: j['submitted'] as bool? ?? false,
-        answers: _answers(j['answers']),
-        sections: [
-          for (final s in (j['sections'] as List? ?? const []))
-            TryoutPaperSection(
-              id: (s as Map)['id'] as String,
-              title: s['title'],
-              minutes: (s['minutes'] as num).toInt(),
-              questions: [
-                for (final q in (s['questions'] as List? ?? const []))
-                  TryoutQuestion(
-                    id: (q as Map)['id'] as String,
-                    prompt: q['prompt'],
-                    options: List<Object?>.from(q['options'] as List),
-                  ),
-              ],
-            ),
-        ],
-      );
+    startedAt: DateTime.parse(j['started_at'] as String),
+    deadline: DateTime.parse(j['deadline'] as String),
+    submitted: j['submitted'] as bool? ?? false,
+    answers: _answers(j['answers']),
+    sections: [
+      for (final s in (j['sections'] as List? ?? const []))
+        TryoutPaperSection(
+          id: (s as Map)['id'] as String,
+          title: s['title'],
+          minutes: (s['minutes'] as num).toInt(),
+          questions: [
+            for (final q in (s['questions'] as List? ?? const []))
+              TryoutQuestion(
+                id: (q as Map)['id'] as String,
+                prompt: q['prompt'],
+                options: List<Object?>.from(q['options'] as List),
+              ),
+          ],
+        ),
+    ],
+  );
 
   final DateTime startedAt;
   final DateTime deadline;
@@ -118,9 +130,9 @@ class TryoutSession {
 }
 
 Map<String, int> _answers(Object? raw) => {
-      for (final e in ((raw as Map?) ?? const {}).entries)
-        if (e.value is num) '${e.key}': (e.value as num).toInt(),
-    };
+  for (final e in ((raw as Map?) ?? const {}).entries)
+    if (e.value is num) '${e.key}': (e.value as num).toInt(),
+};
 
 class TryoutKeyItem {
   const TryoutKeyItem({
@@ -154,36 +166,36 @@ class TryoutResult {
   });
 
   factory TryoutResult.fromJson(Map<String, dynamic> j) => TryoutResult(
-        score: (j['score'] as num).toInt(),
-        total: (j['total'] as num).toInt(),
-        submittedAt: DateTime.parse(j['submitted_at'] as String),
-        answers: _answers(j['answers']),
-        sectionScores: [
-          for (final s in (j['section_scores'] as List? ?? const []))
-            (
-              id: (s as Map)['id'] as String,
-              score: (s['score'] as num).toInt(),
-              total: (s['total'] as num).toInt(),
-            ),
-        ],
-        rank: (j['rank'] as num).toInt(),
-        participants: (j['participants'] as num).toInt(),
-        key: [
-          for (final k in (j['key'] as List? ?? const []))
-            TryoutKeyItem(
-              id: (k as Map)['id'] as String,
-              sectionId: k['section_id'] as String,
-              prompt: k['prompt'],
-              options: List<Object?>.from(k['options'] as List),
-              answer: (k['answer'] as num).toInt(),
-              explanation: k['explanation'],
-            ),
-        ],
-        sectionAvg: {
-          for (final e in ((j['section_avg'] as Map?) ?? const {}).entries)
-            '${e.key}': (e.value as num?)?.toInt() ?? 0,
-        },
-      );
+    score: (j['score'] as num).toInt(),
+    total: (j['total'] as num).toInt(),
+    submittedAt: DateTime.parse(j['submitted_at'] as String),
+    answers: _answers(j['answers']),
+    sectionScores: [
+      for (final s in (j['section_scores'] as List? ?? const []))
+        (
+          id: (s as Map)['id'] as String,
+          score: (s['score'] as num).toInt(),
+          total: (s['total'] as num).toInt(),
+        ),
+    ],
+    rank: (j['rank'] as num).toInt(),
+    participants: (j['participants'] as num).toInt(),
+    key: [
+      for (final k in (j['key'] as List? ?? const []))
+        TryoutKeyItem(
+          id: (k as Map)['id'] as String,
+          sectionId: k['section_id'] as String,
+          prompt: k['prompt'],
+          options: List<Object?>.from(k['options'] as List),
+          answer: (k['answer'] as num).toInt(),
+          explanation: k['explanation'],
+        ),
+    ],
+    sectionAvg: {
+      for (final e in ((j['section_avg'] as Map?) ?? const {}).entries)
+        '${e.key}': (e.value as num?)?.toInt() ?? 0,
+    },
+  );
 
   final int score;
   final int total;
@@ -246,8 +258,10 @@ class TryoutRepository {
   Future<List<TryoutInfo>> list() async {
     final rows = await _client
         .from('tryouts')
-        .select('slug, level_id, title, description, opens_at, closes_at, '
-            'tryout_sections(id, title, minutes, position)')
+        .select(
+          'slug, level_id, title, description, opens_at, closes_at, '
+          'tryout_sections(id, title, minutes, position)',
+        )
         .eq('published', true)
         .order('position');
     return [for (final r in rows) TryoutInfo.fromJson(r)];
@@ -256,7 +270,9 @@ class TryoutRepository {
   /// Percobaan milik sendiri (RLS), untuk label Lanjutkan/Selesai di katalog.
   Future<Map<String, TryoutAttemptState>> myAttempts() async {
     if (_client.auth.currentUser == null) return const {};
-    final rows = await _client.from('tryout_attempts').select('tryout_slug, submitted_at');
+    final rows = await _client
+        .from('tryout_attempts')
+        .select('tryout_slug, submitted_at');
     return {
       for (final r in rows)
         r['tryout_slug'] as String: TryoutAttemptState(
@@ -278,13 +294,19 @@ class TryoutRepository {
 
   /// Simpan otomatis. false = waktu sudah habis / sudah diserahkan.
   Future<bool> save(String slug, Map<String, int> answers) async {
-    final ok = await _client.rpc('save_tryout_answers', params: {'p_slug': slug, 'p_answers': answers});
+    final ok = await _client.rpc(
+      'save_tryout_answers',
+      params: {'p_slug': slug, 'p_answers': answers},
+    );
     return ok == true;
   }
 
   Future<TryoutResult> submit(String slug, Map<String, int> answers) async {
     try {
-      final data = await _client.rpc('submit_tryout', params: {'p_slug': slug, 'p_answers': answers});
+      final data = await _client.rpc(
+        'submit_tryout',
+        params: {'p_slug': slug, 'p_answers': answers},
+      );
       return TryoutResult.fromJson(Map<String, dynamic>.from(data as Map));
     } on PostgrestException catch (e) {
       throw TryoutException(_mapError(e));
@@ -293,11 +315,16 @@ class TryoutRepository {
 
   Future<TryoutResult?> result(String slug) async {
     final data = await _client.rpc('tryout_result', params: {'p_slug': slug});
-    return data == null ? null : TryoutResult.fromJson(Map<String, dynamic>.from(data as Map));
+    return data == null
+        ? null
+        : TryoutResult.fromJson(Map<String, dynamic>.from(data as Map));
   }
 
   Future<List<TryoutLeaderRow>> leaderboard(String slug) async {
-    final rows = await _client.rpc('tryout_leaderboard', params: {'p_slug': slug}) as List;
+    final rows = await _client.rpc(
+      'tryout_leaderboard',
+      params: {'p_slug': slug},
+    ) as List;
     return [
       for (final r in rows)
         TryoutLeaderRow(
@@ -311,11 +338,17 @@ class TryoutRepository {
   }
 }
 
-final tryoutRepositoryProvider = Provider((ref) => TryoutRepository(ref.watch(supabaseProvider)));
+final tryoutRepositoryProvider = Provider(
+  (ref) => TryoutRepository(ref.watch(supabaseProvider)),
+);
 
-final tryoutsProvider = FutureProvider((ref) => ref.watch(tryoutRepositoryProvider).list());
+final tryoutsProvider = FutureProvider(
+  (ref) => ref.watch(tryoutRepositoryProvider).list(),
+);
 
-final tryoutAttemptsProvider = FutureProvider<Map<String, TryoutAttemptState>>((ref) {
+final tryoutAttemptsProvider = FutureProvider<Map<String, TryoutAttemptState>>((
+  ref,
+) {
   ref.watch(currentUserProvider);
   return ref.watch(tryoutRepositoryProvider).myAttempts();
 });
@@ -324,9 +357,10 @@ final tryoutResultProvider = FutureProvider.family<TryoutResult?, String>(
   (ref, slug) => ref.watch(tryoutRepositoryProvider).result(slug),
 );
 
-final tryoutLeaderboardProvider = FutureProvider.family<List<TryoutLeaderRow>, String>(
-  (ref, slug) => ref.watch(tryoutRepositoryProvider).leaderboard(slug),
-);
+final tryoutLeaderboardProvider =
+    FutureProvider.family<List<TryoutLeaderRow>, String>(
+      (ref, slug) => ref.watch(tryoutRepositoryProvider).leaderboard(slug),
+    );
 
 /// Setelah diserahkan: status, hasil, peringkat, dan XP ikut diperbarui.
 void refreshAfterTryout(WidgetRef ref, String slug) {

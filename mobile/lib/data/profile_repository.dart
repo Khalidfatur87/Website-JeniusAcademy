@@ -98,9 +98,14 @@ class SupabaseProfileRepository implements ProfileRepository {
     final error = validateAvatar(mimeType, bytes.length);
     if (error != null) throw ProfileException(error);
     final uid = _uid;
-    final path = '$uid/${DateTime.now().millisecondsSinceEpoch}.${avatarTypes[mimeType]}';
+    final path =
+        '$uid/${DateTime.now().millisecondsSinceEpoch}.${avatarTypes[mimeType]}';
     final old = await _oldPath(uid);
-    await _avatars.uploadBinary(path, bytes, fileOptions: FileOptions(contentType: mimeType));
+    await _avatars.uploadBinary(
+      path,
+      bytes,
+      fileOptions: FileOptions(contentType: mimeType),
+    );
     try {
       await _profiles.update({'avatar_path': path}).eq('id', uid);
     } catch (_) {

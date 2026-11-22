@@ -2,8 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/env.dart';
-import '../core/push.dart';
 import '../core/providers.dart';
+import '../core/push.dart';
+import 'downloads.dart';
 
 /// Jenis kegagalan login/daftar, sama dengan `AuthFailure` di src/lib/auth.ts.
 enum AuthFailure {
@@ -23,13 +24,14 @@ class AuthResult {
 }
 
 AuthFailure mapAuthError(AuthException e) => switch (e.code) {
-      'invalid_credentials' => AuthFailure.invalidCredentials,
-      'email_not_confirmed' => AuthFailure.emailNotConfirmed,
-      'user_already_exists' || 'email_exists' => AuthFailure.alreadyRegistered,
-      'weak_password' => AuthFailure.weakPassword,
-      'over_request_rate_limit' || 'over_email_send_rate_limit' => AuthFailure.rateLimited,
-      _ => AuthFailure.generic,
-    };
+  'invalid_credentials' => AuthFailure.invalidCredentials,
+  'email_not_confirmed' => AuthFailure.emailNotConfirmed,
+  'user_already_exists' || 'email_exists' => AuthFailure.alreadyRegistered,
+  'weak_password' => AuthFailure.weakPassword,
+  'over_request_rate_limit' ||
+  'over_email_send_rate_limit' => AuthFailure.rateLimited,
+  _ => AuthFailure.generic,
+};
 
 class AuthRepository {
   AuthRepository(this._client);
@@ -54,31 +56,31 @@ class AuthRepository {
   }
 
   Future<AuthResult> signIn(String email, String password) => _guard(() async {
-        await _auth.signInWithPassword(email: email, password: password);
-        return const AuthResult();
-      });
+    await _auth.signInWithPassword(email: email, password: password);
+    return const AuthResult();
+  });
 
   Future<AuthResult> signUp({
     required String name,
     required String email,
     required String password,
     required String locale,
-  }) =>
-      _guard(() async {
-        final res = await _auth.signUp(
-          email: email,
-          password: password,
-          data: {'name': name},
-          emailRedirectTo: _callback(locale, '/$locale/courses'),
-        );
-        // Email sudah terdaftar: Supabase tidak mengembalikan galat, identities kosong.
-        if (res.user != null && (res.user!.identities?.isEmpty ?? false)) {
-          return const AuthResult(error: AuthFailure.alreadyRegistered);
-        }
-        return AuthResult(needsConfirmation: res.session == null);
-      });
+  }) => _guard(() async {
+    final res = await _auth.signUp(
+      email: email,
+      password: password,
+      data: {'name': name},
+      emailRedirectTo: _callback(locale, '/$locale/courses'),
+    );
+    // Email sudah terdaftar: Supabase tidak mengembalikan galat, identities kosong.
+    if (res.user != null && (res.user!.identities?.isEmpty ?? false)) {
+      return const AuthResult(error: AuthFailure.alreadyRegistered);
+    }
+    return AuthResult(needsConfirmation: res.session == null);
+  });
 
-  Future<AuthResult> sendPasswordReset(String email, String locale) => _guard(() async {
+  Future<AuthResult> sendPasswordReset(String email, String locale) =>
+      _guard(() async {
         await _auth.resetPasswordForEmail(
           email,
           redirectTo: _callback(locale, '/$locale/reset-password'),
@@ -89,10 +91,27 @@ class AuthRepository {
   Future<void> signOut() => _auth.signOut();
 }
 
-final authRepositoryProvider = Provider((ref) => AuthRepository(ref.watch(supabaseProvider)));
+final authRepositoryProvider = Provider(
+  (ref) => AuthRepository(ref.watch(supabaseProvider)),
+);
 
-/// Keluar dari akun: hapus token push perangkat ini dulu (butuh sesi), lalu keluar.
-final signOutProvider = Provider<Future<void> Function()>((ref) => () async {
-      await ref.read(pushControllerProvider)?.beforeSignOut();
-      await ref.read(authRepositoryProvider).signOut();
-    });
+/// Keluar dari akun: hapus token push perangkat ini dulu (butuh sesi), keluar,
+/// lalu hapus data offline (catatan pelajaran, progres, antrean, unduhan) agar
+/// akun lain di perangkat yang sama tidak bisa membacanya.
+final signOutProvider = Provider<Future<void> Function()>(
+  (ref) => () async {
+    await ref.read(pushControllerProvider)?.beforeSignOut();
+    await ref.read(authRepositoryProvider).signOut();
+    final prefs = ref.read(preferencesProvider);
+    if (prefs != null) {
+      for (final k in prefs.getKeys().toList()) {
+        if (k.startsWith('cache.') ||
+            k.startsWith('progress.') ||
+            k.startsWith('download.')) {
+          await prefs.remove(k);
+        }
+      }
+    }
+    await ref.read(downloadsProvider).clearAll();
+  },
+);

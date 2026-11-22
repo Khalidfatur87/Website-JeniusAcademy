@@ -1945,6 +1945,24 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Disalin'**
   String get copied;
+
+  /// No description provided for @availableOffline.
+  ///
+  /// In id, this message translates to:
+  /// **'Tersedia offline'**
+  String get availableOffline;
+
+  /// No description provided for @removeDownload.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus unduhan'**
+  String get removeDownload;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu sedang offline. Menampilkan data yang tersimpan.'**
+  String get offlineBanner;
 }
 
 class _AppLocalizationsDelegate

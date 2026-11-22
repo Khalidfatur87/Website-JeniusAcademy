@@ -37,7 +37,9 @@ class LessonComment {
 }
 
 /// Pertanyaan + balasannya, urut waktu (sama dengan `threads()` di website).
-List<({LessonComment question, List<LessonComment> replies})> threads(List<LessonComment> list) {
+List<({LessonComment question, List<LessonComment> replies})> threads(
+  List<LessonComment> list,
+) {
   final replies = <String, List<LessonComment>>{};
   for (final c in list) {
     if (c.parentId != null) (replies[c.parentId!] ??= []).add(c);
@@ -68,7 +70,9 @@ class DiscussionRepository {
           authorName: r['author_name'] as String? ?? '-',
           authorAvatar: r['author_avatar'] == null
               ? null
-              : _client.storage.from('avatars').getPublicUrl(r['author_avatar'] as String),
+              : _client.storage
+                    .from('avatars')
+                    .getPublicUrl(r['author_avatar'] as String),
           authorRole: r['author_role'] as String? ?? 'student',
           isMine: r['is_mine'] as bool? ?? false,
           canDelete: r['can_delete'] as bool? ?? false,
@@ -77,7 +81,12 @@ class DiscussionRepository {
   }
 
   /// false = teks kosong/terlalu panjang (tidak dikirim).
-  Future<bool> post(String slug, String lessonId, String body, {String? parentId}) async {
+  Future<bool> post(
+    String slug,
+    String lessonId,
+    String body, {
+    String? parentId,
+  }) async {
     final text = body.trim();
     if (text.isEmpty || text.length > commentMax) return false;
     final uid = _client.auth.currentUser?.id;
@@ -92,11 +101,13 @@ class DiscussionRepository {
     return true;
   }
 
-  Future<void> delete(String id) => _client.from('lesson_comments').delete().eq('id', id);
+  Future<void> delete(String id) =>
+      _client.from('lesson_comments').delete().eq('id', id);
 }
 
-final discussionRepositoryProvider =
-    Provider((ref) => DiscussionRepository(ref.watch(supabaseProvider)));
+final discussionRepositoryProvider = Provider(
+  (ref) => DiscussionRepository(ref.watch(supabaseProvider)),
+);
 
 final commentsProvider = FutureProvider.family<List<LessonComment>, LessonKey>(
   (ref, k) => ref.watch(discussionRepositoryProvider).list(k.slug, k.lessonId),

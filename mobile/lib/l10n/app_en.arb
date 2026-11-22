@@ -307,5 +307,8 @@
   "parentProfileHint": "Create a code and give it to your parent. They enter it in Parent view to see a summary of your learning (not your answers or messages).",
   "parentCreateCode": "Create code for parent",
   "parentCodeExpires": "Valid until {date}",
-  "copied": "Copied"
+  "copied": "Copied",
+  "availableOffline": "Available offline",
+  "removeDownload": "Remove download",
+  "offlineBanner": "You're offline. Showing saved data."
 }

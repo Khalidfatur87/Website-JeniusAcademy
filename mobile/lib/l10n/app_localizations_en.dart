@@ -1061,4 +1061,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copied => 'Copied';
+
+  @override
+  String get availableOffline => 'Available offline';
+
+  @override
+  String get removeDownload => 'Remove download';
+
+  @override
+  String get offlineBanner => 'You\'re offline. Showing saved data.';
 }

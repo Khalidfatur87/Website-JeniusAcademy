@@ -51,7 +51,8 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
       (tetap mati: `AppConfig.tutorAi = false`; aktifkan bersama `ANTHROPIC_API_KEY` & `TUTOR_AI_MODEL` di Vercel)
 
 ### Fase 3 — Khas mobile
-- [ ] Unduh materi untuk offline
+- [x] Mode offline: katalog, daftar & catatan pelajaran tersimpan; progres antre saat offline lalu dikirim;
+      unduh materi (folder pribadi aplikasi); semua data offline dihapus saat keluar akun
 - [x] Mode orang tua (tautkan dengan kode, ringkasan anak, salin ringkasan, lepas tautan dari dua sisi)
 - [ ] Push ringkasan mingguan untuk orang tua (saat ini lewat email)
 - [ ] Widget streak di layar utama

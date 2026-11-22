@@ -1058,4 +1058,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get copied => 'Disalin';
+
+  @override
+  String get availableOffline => 'Tersedia offline';
+
+  @override
+  String get removeDownload => 'Hapus unduhan';
+
+  @override
+  String get offlineBanner =>
+      'Kamu sedang offline. Menampilkan data yang tersimpan.';
 }

@@ -17,14 +17,14 @@ class LiveSession {
   });
 
   factory LiveSession.fromJson(Map<String, dynamic> j) => LiveSession(
-        id: j['id'] as String,
-        levelId: j['level_id'] as String,
-        title: j['title'],
-        description: j['description'],
-        startsAt: DateTime.parse(j['starts_at'] as String),
-        minutes: (j['minutes'] as num).toInt(),
-        hostName: j['host_name'] as String? ?? '',
-      );
+    id: j['id'] as String,
+    levelId: j['level_id'] as String,
+    title: j['title'],
+    description: j['description'],
+    startsAt: DateTime.parse(j['starts_at'] as String),
+    minutes: (j['minutes'] as num).toInt(),
+    hostName: j['host_name'] as String? ?? '',
+  );
 
   final String id;
   final String levelId;
@@ -36,7 +36,11 @@ class LiveSession {
 }
 
 class LiveAccess {
-  const LiveAccess({required this.access, this.joinUrl, this.recordingYoutubeId});
+  const LiveAccess({
+    required this.access,
+    this.joinUrl,
+    this.recordingYoutubeId,
+  });
 
   final bool access;
 
@@ -53,7 +57,9 @@ class LiveRepository {
   Future<List<LiveSession>> list() async {
     final rows = await _client
         .from('live_sessions')
-        .select('id, level_id, title, description, starts_at, minutes, host_name')
+        .select(
+          'id, level_id, title, description, starts_at, minutes, host_name',
+        )
         .order('starts_at');
     return [for (final r in rows) LiveSession.fromJson(r)];
   }
@@ -70,9 +76,16 @@ class LiveRepository {
   }
 }
 
-final liveRepositoryProvider = Provider((ref) => LiveRepository(ref.watch(supabaseProvider)));
-final liveSessionsProvider = FutureProvider((ref) => ref.watch(liveRepositoryProvider).list());
-final liveAccessProvider = FutureProvider.family<LiveAccess?, String>((ref, id) {
+final liveRepositoryProvider = Provider(
+  (ref) => LiveRepository(ref.watch(supabaseProvider)),
+);
+final liveSessionsProvider = FutureProvider(
+  (ref) => ref.watch(liveRepositoryProvider).list(),
+);
+final liveAccessProvider = FutureProvider.family<LiveAccess?, String>((
+  ref,
+  id,
+) {
   ref.watch(currentUserProvider);
   return ref.watch(liveRepositoryProvider).access(id);
 });

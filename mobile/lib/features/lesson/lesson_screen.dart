@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/env.dart';
 import '../../core/providers.dart';
 import '../../data/course_repository.dart';
+import '../../data/downloads.dart';
 import '../../data/lesson_repository.dart';
 import '../../data/tutor_repository.dart';
 import '../../domain/course_progress.dart';
@@ -206,35 +208,61 @@ class _MaterialTile extends ConsumerStatefulWidget {
 class _MaterialTileState extends ConsumerState<_MaterialTile> {
   bool _busy = false;
 
-  Future<void> _open() async {
-    setState(() => _busy = true);
-    var ok = false;
-    try {
-      final url = await ref.read(lessonRepositoryProvider).materialUrl(widget.material.path);
-      ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    } catch (_) {
-      ok = false;
-    }
+  void _fail() {
     if (!mounted) return;
-    setState(() => _busy = false);
-    if (!ok) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).downloadFailed)));
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).downloadFailed)));
+  }
+
+  /// Sudah diunduh → buka file lokal (offline). Belum → unduh (bila didukung)
+  /// lalu buka; di web dibuka langsung di browser.
+  Future<void> _open() async {
+    final m = widget.material;
+    final downloads = ref.read(downloadsProvider);
+    setState(() => _busy = true);
+    try {
+      final local = await downloads.local(m.path);
+      if (local != null) {
+        if ((await OpenFilex.open(local)).type != ResultType.done) _fail();
+        return;
+      }
+      final url = Uri.parse(await ref.read(lessonRepositoryProvider).materialUrl(m.path));
+      if (!downloads.supported) {
+        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) _fail();
+        return;
+      }
+      final path = await downloads.download(m.path, url);
+      ref.invalidate(downloadedFileProvider(m.path));
+      if ((await OpenFilex.open(path)).type != ResultType.done) _fail();
+    } catch (_) {
+      _fail();
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
+  }
+
+  Future<void> _delete() async {
+    await ref.read(downloadsProvider).delete(widget.material.path);
+    ref.invalidate(downloadedFileProvider(widget.material.path));
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final m = widget.material;
+    final downloaded = ref.watch(downloadedFileProvider(m.path)).value != null;
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: const Icon(Icons.description_outlined),
+        leading: Icon(downloaded ? Icons.offline_pin : Icons.description_outlined),
         title: Text(m.title),
-        subtitle: m.size > 0 ? Text(formatBytes(m.size)) : null,
+        subtitle: Text([if (m.size > 0) formatBytes(m.size), if (downloaded) t.availableOffline].join(' · ')),
         trailing: _busy
             ? const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2))
-            : const Icon(Icons.open_in_new),
+            : downloaded
+                ? IconButton(tooltip: t.removeDownload, onPressed: _delete, icon: const Icon(Icons.delete_outline))
+                : Icon(ref.watch(downloadsProvider).supported ? Icons.download : Icons.open_in_new),
         onTap: _busy ? null : _open,
       ),
     );

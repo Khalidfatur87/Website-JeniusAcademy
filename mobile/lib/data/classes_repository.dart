@@ -37,7 +37,10 @@ class Assignment {
       classroomName: j['classroom_name'] as String? ?? '',
       title: j['title'] as String? ?? '',
       instructions: j['instructions'] as String? ?? '',
-      kind: AssignmentKind.values.firstWhere((k) => k.name == j['kind'], orElse: () => AssignmentKind.course),
+      kind: AssignmentKind.values.firstWhere(
+        (k) => k.name == j['kind'],
+        orElse: () => AssignmentKind.course,
+      ),
       courseSlug: j['course_slug'] as String,
       courseTitle: j['course_title'],
       lessonId: j['lesson_id'] as String?,
@@ -71,10 +74,10 @@ class Assignment {
 
   /// Halaman aplikasi untuk mengerjakan tugas ini.
   String get route => switch (kind) {
-        AssignmentKind.lesson => '/courses/$courseSlug/$lessonId',
-        AssignmentKind.quiz => '/courses/$courseSlug/quiz',
-        AssignmentKind.course => '/courses/$courseSlug',
-      };
+    AssignmentKind.lesson => '/courses/$courseSlug/$lessonId',
+    AssignmentKind.quiz => '/courses/$courseSlug/quiz',
+    AssignmentKind.course => '/courses/$courseSlug',
+  };
 }
 
 enum JoinError { invalidCode, ownClass, generic }
@@ -92,15 +95,18 @@ class ClassesRepository {
   /// Mengembalikan nama kelas yang diikuti.
   Future<String> join(String code) async {
     try {
-      final data = await _client.rpc('join_classroom', params: {'p_code': code.trim().toUpperCase()});
+      final data = await _client.rpc(
+        'join_classroom',
+        params: {'p_code': code.trim().toUpperCase()},
+      );
       return (data as Map)['name'] as String;
     } on PostgrestException catch (e) {
       throw JoinException(
         e.message.contains('invalid_code')
             ? JoinError.invalidCode
             : e.message.contains('own_class')
-                ? JoinError.ownClass
-                : JoinError.generic,
+            ? JoinError.ownClass
+            : JoinError.generic,
       );
     }
   }
@@ -125,16 +131,25 @@ class ClassesRepository {
   Future<void> leave(String classroomId) async {
     final uid = _client.auth.currentUser?.id;
     if (uid == null) return;
-    await _client.from('classroom_members').delete().eq('classroom_id', classroomId).eq('student_id', uid);
+    await _client
+        .from('classroom_members')
+        .delete()
+        .eq('classroom_id', classroomId)
+        .eq('student_id', uid);
   }
 
   Future<List<Assignment>> myAssignments() async {
     final rows = await _client.rpc('my_assignments') as List;
-    return [for (final r in rows) Assignment.fromJson(Map<String, dynamic>.from(r as Map))];
+    return [
+      for (final r in rows)
+        Assignment.fromJson(Map<String, dynamic>.from(r as Map)),
+    ];
   }
 }
 
-final classesRepositoryProvider = Provider((ref) => ClassesRepository(ref.watch(supabaseProvider)));
+final classesRepositoryProvider = Provider(
+  (ref) => ClassesRepository(ref.watch(supabaseProvider)),
+);
 
 final myClassroomsProvider = FutureProvider((ref) {
   ref.watch(currentUserProvider);

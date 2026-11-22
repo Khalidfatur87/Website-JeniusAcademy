@@ -684,5 +684,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "availableOffline": "Tersedia offline",
+  "removeDownload": "Hapus unduhan",
+  "offlineBanner": "Kamu sedang offline. Menampilkan data yang tersimpan."
 }

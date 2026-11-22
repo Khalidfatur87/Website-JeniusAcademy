@@ -24,6 +24,7 @@ progres, XP, dan aturan akses (RLS) sama persis. Rencana lengkap: [`docs/MOBILE_
 | Kelas live | Jadwal, tombol masuk dari server (15 menit sebelum), Google Calendar, rekaman |
 | Kelas sekolah | Gabung dengan kode, tugas & tenggat, status dari server |
 | Tutor AI | Tanya AI per pelajaran & "Jelaskan dengan AI" di kuis — **mati** (`AppConfig.tutorAi`) karena berbayar |
+| Offline | Katalog & catatan pelajaran tersimpan, progres antre lalu terkirim, unduh materi PDF, pita "offline"; dihapus saat keluar |
 | Notifikasi | Izin saat login, token didaftarkan & dihapus saat keluar, pengingat harian 19.00 WIB, ketuk → Beranda |
 | Profil | Ubah nama & foto (galeri, diperkecil 512 px, bucket `avatars`), target mingguan, tampil/sembunyi di peringkat, daftar sertifikat, bahasa ID/EN (tersimpan di perangkat), keluar |
 | Latihan | "Segera hadir" |

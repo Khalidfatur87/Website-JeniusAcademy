@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/offline.dart';
 import '../core/providers.dart';
 
 class Level {
@@ -29,7 +30,9 @@ class CourseSummary {
       title: j['title'],
       summary: j['summary'],
       teacherName: j['teacher_name'] as String? ?? '',
-      lessonCount: lessons.isEmpty ? 0 : (lessons.first['count'] as num).toInt(),
+      lessonCount: lessons.isEmpty
+          ? 0
+          : (lessons.first['count'] as num).toInt(),
     );
   }
 
@@ -50,11 +53,11 @@ class LessonSummary {
   });
 
   factory LessonSummary.fromJson(Map<String, dynamic> j) => LessonSummary(
-        id: j['id'] as String,
-        title: j['title'],
-        minutes: (j['minutes'] as num?)?.toInt() ?? 0,
-        freePreview: j['free_preview'] as bool? ?? false,
-      );
+    id: j['id'] as String,
+    title: j['title'],
+    minutes: (j['minutes'] as num?)?.toInt() ?? 0,
+    freePreview: j['free_preview'] as bool? ?? false,
+  );
 
   final String id;
   final Object? title;
@@ -65,53 +68,94 @@ class LessonSummary {
 /// Membaca konten publik. RLS di database hanya mengembalikan kelas terbit;
 /// video & catatan pelajaran tidak bisa dibaca langsung (lewat RPC lesson_content).
 class CourseRepository {
-  CourseRepository(this._client);
+  CourseRepository(this._client, [this._cache]);
 
   final SupabaseClient _client;
+  final OfflineCache? _cache;
+
+  /// Baris mentah dari server; disimpan untuk dibaca saat offline.
+  Future<List<Map<String, dynamic>>> _rows(
+    String key,
+    Future<List<Map<String, dynamic>>> Function() fetch,
+  ) async {
+    final cache = _cache;
+    if (cache == null) return fetch();
+    final raw = await cache.read<List<dynamic>>(key, fetch);
+    return [for (final r in raw) Map<String, dynamic>.from(r as Map)];
+  }
 
   Future<List<Level>> levels() async {
-    final rows = await _client.from('levels').select('id, name, position').order('position');
+    final rows = await _rows(
+      'levels',
+      () =>
+          _client.from('levels').select('id, name, position').order('position'),
+    );
     return [
       for (final r in rows)
-        Level(id: r['id'] as String, name: r['name'], position: (r['position'] as num).toInt()),
+        Level(
+          id: r['id'] as String,
+          name: r['name'],
+          position: (r['position'] as num).toInt(),
+        ),
     ];
   }
 
   /// Kelas terbit yang punya pelajaran (sama dengan katalog website).
   Future<List<CourseSummary>> courses() async {
-    final rows = await _client
-        .from('courses')
-        .select('slug, level_id, title, summary, teacher_name, lessons(count)')
-        .eq('published', true)
-        .order('position');
-    return [
-      for (final r in rows) CourseSummary.fromJson(r),
-    ].where((c) => c.lessonCount > 0).toList();
+    final rows = await _rows(
+      'courses',
+      () => _client
+          .from('courses')
+          .select(
+            'slug, level_id, title, summary, teacher_name, lessons(count)',
+          )
+          .eq('published', true)
+          .order('position'),
+    );
+    return [for (final r in rows) CourseSummary.fromJson(r)]
+        .where((c) => c.lessonCount > 0)
+        .toList();
   }
 
   Future<CourseSummary?> course(String slug) async {
-    final row = await _client
-        .from('courses')
-        .select('slug, level_id, title, summary, teacher_name, lessons(count)')
-        .eq('slug', slug)
-        .maybeSingle();
-    return row == null ? null : CourseSummary.fromJson(row);
+    final rows = await _rows(
+      'course.$slug',
+      () => _client
+          .from('courses')
+          .select(
+            'slug, level_id, title, summary, teacher_name, lessons(count)',
+          )
+          .eq('slug', slug),
+    );
+    return rows.isEmpty ? null : CourseSummary.fromJson(rows.first);
   }
 
   Future<List<LessonSummary>> lessons(String slug) async {
-    final rows = await _client
-        .from('lessons')
-        .select('id, title, minutes, free_preview')
-        .eq('course_slug', slug)
-        .order('position');
+    final rows = await _rows(
+      'lessons.$slug',
+      () => _client
+          .from('lessons')
+          .select('id, title, minutes, free_preview')
+          .eq('course_slug', slug)
+          .order('position'),
+    );
     return [for (final r in rows) LessonSummary.fromJson(r)];
   }
 }
 
-final courseRepositoryProvider = Provider((ref) => CourseRepository(ref.watch(supabaseProvider)));
+final courseRepositoryProvider = Provider(
+  (ref) => CourseRepository(
+    ref.watch(supabaseProvider),
+    ref.watch(offlineCacheProvider),
+  ),
+);
 
-final levelsProvider = FutureProvider((ref) => ref.watch(courseRepositoryProvider).levels());
-final coursesProvider = FutureProvider((ref) => ref.watch(courseRepositoryProvider).courses());
+final levelsProvider = FutureProvider(
+  (ref) => ref.watch(courseRepositoryProvider).levels(),
+);
+final coursesProvider = FutureProvider(
+  (ref) => ref.watch(courseRepositoryProvider).courses(),
+);
 final courseProvider = FutureProvider.family<CourseSummary?, String>(
   (ref, slug) => ref.watch(courseRepositoryProvider).course(slug),
 );

@@ -834,4 +834,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get liveNoRecording => 'No recording yet.';
+
+  @override
+  String get classesSubtitle =>
+      'Join your teacher\'s class and complete its assignments here.';
+
+  @override
+  String get classesCode => 'Class code from your teacher';
+
+  @override
+  String get classesJoin => 'Join';
+
+  @override
+  String classesJoined(String name) {
+    return 'Joined $name.';
+  }
+
+  @override
+  String get classesErrInvalid => 'Class code not found.';
+
+  @override
+  String get classesErrOwn => 'You are the teacher of this class.';
+
+  @override
+  String get classesErrGeneric => 'Couldn\'t join. Please try again.';
+
+  @override
+  String get classesTodo => 'Assignments';
+
+  @override
+  String get classesDone => 'Done';
+
+  @override
+  String get classesNoTasks => 'No assignments yet.';
+
+  @override
+  String get classesAllDone => 'All assignments done. Great job!';
+
+  @override
+  String get classesKindLesson => 'Watch a lesson';
+
+  @override
+  String get classesKindQuiz => 'Take a quiz';
+
+  @override
+  String get classesKindCourse => 'Finish a course';
+
+  @override
+  String classesDue(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String classesOverdue(String date) {
+    return 'Overdue since $date';
+  }
+
+  @override
+  String get classesNoDue => 'No due date';
+
+  @override
+  String classesScore(int percent) {
+    return 'score $percent%';
+  }
+
+  @override
+  String get classesStart => 'Start';
+
+  @override
+  String get classesOpen => 'Open';
+
+  @override
+  String get classesMine => 'My classes';
+
+  @override
+  String get classesLeave => 'Leave';
+
+  @override
+  String classesConfirmLeave(String name) {
+    return 'Leave $name?';
+  }
 }

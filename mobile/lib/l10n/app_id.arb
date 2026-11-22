@@ -533,5 +533,63 @@
         "type": "String"
       }
     }
+  },
+  "classesSubtitle": "Gabung kelas dari gurumu dan kerjakan tugasnya di sini.",
+  "classesCode": "Kode kelas dari guru",
+  "classesJoin": "Gabung",
+  "classesJoined": "Berhasil bergabung ke {name}.",
+  "classesErrInvalid": "Kode kelas tidak ditemukan.",
+  "classesErrOwn": "Kamu guru di kelas ini.",
+  "classesErrGeneric": "Gagal bergabung. Coba lagi.",
+  "classesTodo": "Tugas",
+  "classesDone": "Selesai",
+  "classesNoTasks": "Belum ada tugas.",
+  "classesAllDone": "Semua tugas sudah selesai. Mantap!",
+  "classesKindLesson": "Tonton pelajaran",
+  "classesKindQuiz": "Kerjakan kuis",
+  "classesKindCourse": "Selesaikan kelas",
+  "classesDue": "Tenggat {date}",
+  "classesOverdue": "Lewat tenggat {date}",
+  "classesNoDue": "Tanpa tenggat",
+  "classesScore": "nilai {percent}%",
+  "classesStart": "Kerjakan",
+  "classesOpen": "Buka",
+  "classesMine": "Kelas yang diikuti",
+  "classesLeave": "Keluar",
+  "classesConfirmLeave": "Keluar dari kelas {name}?",
+  "@classesJoined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@classesDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@classesOverdue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@classesScore": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@classesConfirmLeave": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

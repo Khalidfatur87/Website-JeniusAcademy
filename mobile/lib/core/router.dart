@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../features/auth/forgot_password_screen.dart';
 import '../features/certificate/certificate_screen.dart';
+import '../features/classes/classes_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
 import '../features/courses/course_detail_screen.dart';
@@ -80,6 +81,7 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       ),
       GoRoute(path: '/tryouts', builder: (_, _) => const TryoutsScreen()),
       GoRoute(path: '/live', builder: (_, _) => const LiveScreen()),
+      GoRoute(path: '/classes', builder: (_, _) => const ClassesScreen()),
       GoRoute(path: '/live/:id', builder: (_, s) => LiveDetailScreen(id: s.pathParameters['id']!)),
       GoRoute(
         path: '/tryouts/:slug',

@@ -1555,6 +1555,144 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Rekaman belum tersedia.'**
   String get liveNoRecording;
+
+  /// No description provided for @classesSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Gabung kelas dari gurumu dan kerjakan tugasnya di sini.'**
+  String get classesSubtitle;
+
+  /// No description provided for @classesCode.
+  ///
+  /// In id, this message translates to:
+  /// **'Kode kelas dari guru'**
+  String get classesCode;
+
+  /// No description provided for @classesJoin.
+  ///
+  /// In id, this message translates to:
+  /// **'Gabung'**
+  String get classesJoin;
+
+  /// No description provided for @classesJoined.
+  ///
+  /// In id, this message translates to:
+  /// **'Berhasil bergabung ke {name}.'**
+  String classesJoined(String name);
+
+  /// No description provided for @classesErrInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Kode kelas tidak ditemukan.'**
+  String get classesErrInvalid;
+
+  /// No description provided for @classesErrOwn.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu guru di kelas ini.'**
+  String get classesErrOwn;
+
+  /// No description provided for @classesErrGeneric.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal bergabung. Coba lagi.'**
+  String get classesErrGeneric;
+
+  /// No description provided for @classesTodo.
+  ///
+  /// In id, this message translates to:
+  /// **'Tugas'**
+  String get classesTodo;
+
+  /// No description provided for @classesDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get classesDone;
+
+  /// No description provided for @classesNoTasks.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada tugas.'**
+  String get classesNoTasks;
+
+  /// No description provided for @classesAllDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua tugas sudah selesai. Mantap!'**
+  String get classesAllDone;
+
+  /// No description provided for @classesKindLesson.
+  ///
+  /// In id, this message translates to:
+  /// **'Tonton pelajaran'**
+  String get classesKindLesson;
+
+  /// No description provided for @classesKindQuiz.
+  ///
+  /// In id, this message translates to:
+  /// **'Kerjakan kuis'**
+  String get classesKindQuiz;
+
+  /// No description provided for @classesKindCourse.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesaikan kelas'**
+  String get classesKindCourse;
+
+  /// No description provided for @classesDue.
+  ///
+  /// In id, this message translates to:
+  /// **'Tenggat {date}'**
+  String classesDue(String date);
+
+  /// No description provided for @classesOverdue.
+  ///
+  /// In id, this message translates to:
+  /// **'Lewat tenggat {date}'**
+  String classesOverdue(String date);
+
+  /// No description provided for @classesNoDue.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa tenggat'**
+  String get classesNoDue;
+
+  /// No description provided for @classesScore.
+  ///
+  /// In id, this message translates to:
+  /// **'nilai {percent}%'**
+  String classesScore(int percent);
+
+  /// No description provided for @classesStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Kerjakan'**
+  String get classesStart;
+
+  /// No description provided for @classesOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka'**
+  String get classesOpen;
+
+  /// No description provided for @classesMine.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas yang diikuti'**
+  String get classesMine;
+
+  /// No description provided for @classesLeave.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluar'**
+  String get classesLeave;
+
+  /// No description provided for @classesConfirmLeave.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluar dari kelas {name}?'**
+  String classesConfirmLeave(String name);
 }
 
 class _AppLocalizationsDelegate

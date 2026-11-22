@@ -46,7 +46,7 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
 - [x] Latihan pintar (Leitner 1-2-4-7-14 hari, RPC practice_queue/answer_practice)
 - [x] Diskusi pelajaran (tanya jawab, balasan satu tingkat, label pengajar, hapus)
 - [x] Kelas live (jadwal, tambah ke Google Calendar, tombol masuk dari server 15 menit sebelum mulai, rekaman)
-- [ ] Mode sekolah (gabung kode, tugas & tenggat)
+- [x] Mode sekolah (gabung kode, tugas & tenggat, status dari server, keluar kelas)
 - [ ] Tutor AI (berbayar; `/api/tutor` perlu menerima header `Authorization: Bearer`)
 
 ### Fase 3 — Khas mobile

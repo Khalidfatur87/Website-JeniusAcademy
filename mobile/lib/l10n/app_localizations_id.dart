@@ -832,4 +832,84 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get liveNoRecording => 'Rekaman belum tersedia.';
+
+  @override
+  String get classesSubtitle =>
+      'Gabung kelas dari gurumu dan kerjakan tugasnya di sini.';
+
+  @override
+  String get classesCode => 'Kode kelas dari guru';
+
+  @override
+  String get classesJoin => 'Gabung';
+
+  @override
+  String classesJoined(String name) {
+    return 'Berhasil bergabung ke $name.';
+  }
+
+  @override
+  String get classesErrInvalid => 'Kode kelas tidak ditemukan.';
+
+  @override
+  String get classesErrOwn => 'Kamu guru di kelas ini.';
+
+  @override
+  String get classesErrGeneric => 'Gagal bergabung. Coba lagi.';
+
+  @override
+  String get classesTodo => 'Tugas';
+
+  @override
+  String get classesDone => 'Selesai';
+
+  @override
+  String get classesNoTasks => 'Belum ada tugas.';
+
+  @override
+  String get classesAllDone => 'Semua tugas sudah selesai. Mantap!';
+
+  @override
+  String get classesKindLesson => 'Tonton pelajaran';
+
+  @override
+  String get classesKindQuiz => 'Kerjakan kuis';
+
+  @override
+  String get classesKindCourse => 'Selesaikan kelas';
+
+  @override
+  String classesDue(String date) {
+    return 'Tenggat $date';
+  }
+
+  @override
+  String classesOverdue(String date) {
+    return 'Lewat tenggat $date';
+  }
+
+  @override
+  String get classesNoDue => 'Tanpa tenggat';
+
+  @override
+  String classesScore(int percent) {
+    return 'nilai $percent%';
+  }
+
+  @override
+  String get classesStart => 'Kerjakan';
+
+  @override
+  String get classesOpen => 'Buka';
+
+  @override
+  String get classesMine => 'Kelas yang diikuti';
+
+  @override
+  String get classesLeave => 'Keluar';
+
+  @override
+  String classesConfirmLeave(String name) {
+    return 'Keluar dari kelas $name?';
+  }
 }

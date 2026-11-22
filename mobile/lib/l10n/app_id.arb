@@ -687,5 +687,7 @@
   },
   "availableOffline": "Tersedia offline",
   "removeDownload": "Hapus unduhan",
-  "offlineBanner": "Kamu sedang offline. Menampilkan data yang tersimpan."
+  "offlineBanner": "Kamu sedang offline. Menampilkan data yang tersimpan.",
+  "continueWithGoogle": "Lanjutkan dengan Google",
+  "or": "atau"
 }

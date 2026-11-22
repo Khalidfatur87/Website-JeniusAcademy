@@ -44,6 +44,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  Future<void> _google(Future<String?> Function() idToken) async {
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    final res = await ref.read(authRepositoryProvider).signInWithGoogle(idToken);
+    if (mounted) {
+      setState(() {
+        _busy = false;
+        _error = res?.error;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -94,6 +108,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         const SizedBox(height: 8),
         if (_error != null) FormMessage(authErrorText(t, _error!)),
         SubmitButton(label: t.login, busy: _busy, onPressed: _submit),
+        if (ref.watch(googleIdTokenProvider) case final idToken?) ...[
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Expanded(child: Divider()),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: Text(t.or)),
+              const Expanded(child: Divider()),
+            ],
+          ),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+            onPressed: _busy ? null : () => _google(idToken),
+            icon: const Icon(Icons.g_mobiledata, size: 28),
+            label: Text(t.continueWithGoogle),
+          ),
+        ],
         const SizedBox(height: 12),
         TextButton(onPressed: () => context.go('/register'), child: Text(t.noAccount)),
       ],

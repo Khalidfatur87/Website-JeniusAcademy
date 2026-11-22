@@ -56,7 +56,7 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
 - [x] Mode orang tua (tautkan dengan kode, ringkasan anak, salin ringkasan, lepas tautan dari dua sisi)
 - [ ] Push ringkasan mingguan untuk orang tua (saat ini lewat email)
 - [ ] Widget streak di layar utama
-- [ ] Login Google
+- [x] Login Google (signInWithIdToken; tombol muncul setelah `GOOGLE_WEB_CLIENT_ID` diisi)
 
 ### Fase 4 — Play Store (nanti, berbayar $25)
 - Akun Play Console (akun pribadi baru: closed testing 12 penguji × 14 hari)

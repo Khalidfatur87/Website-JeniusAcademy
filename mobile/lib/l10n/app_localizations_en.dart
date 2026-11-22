@@ -1070,4 +1070,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offlineBanner => 'You\'re offline. Showing saved data.';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get or => 'or';
 }

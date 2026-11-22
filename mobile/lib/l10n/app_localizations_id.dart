@@ -1068,4 +1068,10 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get offlineBanner =>
       'Kamu sedang offline. Menampilkan data yang tersimpan.';
+
+  @override
+  String get continueWithGoogle => 'Lanjutkan dengan Google';
+
+  @override
+  String get or => 'atau';
 }

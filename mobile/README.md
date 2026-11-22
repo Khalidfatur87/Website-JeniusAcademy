@@ -63,6 +63,19 @@ Untuk presentasi atau screenshot portofolio, jalankan dengan data contoh dari
 flutter run -t lib/demo/main_demo.dart
 ```
 
+## Login Google (opsional)
+
+Tombol "Lanjutkan dengan Google" baru muncul setelah dikonfigurasi:
+
+1. Google Cloud Console (project yang sama dengan Firebase) → APIs & Services → Credentials:
+   - **OAuth client ID tipe Web** → salin Client ID & secret ke Supabase → Authentication →
+     Providers → Google (aktifkan).
+   - **OAuth client ID tipe Android**: package `com.jeniusacademy.app` + SHA-1 kunci tanda
+     tangan APK (`keytool -list -v -keystore <keystore>`; untuk build GitHub tanpa keystore,
+     SHA-1-nya berubah tiap runner, jadi siapkan keystore dulu).
+2. Isi `GOOGLE_WEB_CLIENT_ID` (Client ID **Web**, bukan Android) di `env.json` dan di GitHub →
+   Actions → Variables.
+
 ## Push notification (pengingat belajar harian)
 
 Alur: login → aplikasi minta izin notifikasi → token FCM disimpan lewat RPC

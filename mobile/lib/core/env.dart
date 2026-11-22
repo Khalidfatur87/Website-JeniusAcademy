@@ -14,5 +14,9 @@ abstract final class Env {
     defaultValue: 'https://example.com',
   );
 
+  /// OAuth Client ID tipe **Web** dari Google Cloud (sama dengan yang diisi di
+  /// Supabase → Auth → Providers → Google). Kosong = tombol login Google disembunyikan.
+  static const googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
+
   static bool get hasSupabase => supabaseUrl.isNotEmpty && supabaseKey.isNotEmpty;
 }

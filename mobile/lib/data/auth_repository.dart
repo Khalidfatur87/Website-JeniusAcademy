@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/env.dart';
@@ -88,8 +89,40 @@ class AuthRepository {
         return const AuthResult();
       });
 
+  /// Login Google: ID token dari akun Google di perangkat ditukar ke Supabase,
+  /// jadi akunnya sama dengan login Google di website. null = dibatalkan pengguna.
+  Future<AuthResult?> signInWithGoogle(Future<String?> Function() idToken) async {
+    try {
+      final token = await idToken();
+      if (token == null) return null;
+      await _auth.signInWithIdToken(provider: OAuthProvider.google, idToken: token);
+      return const AuthResult();
+    } on AuthException catch (e) {
+      return AuthResult(error: mapAuthError(e));
+    } catch (_) {
+      return const AuthResult(error: AuthFailure.generic);
+    }
+  }
+
   Future<void> signOut() => _auth.signOut();
 }
+
+/// Ambil ID token Google (null = dibatalkan). Diganti di tes.
+final googleIdTokenProvider = Provider<Future<String?> Function()?>((ref) {
+  if (Env.googleWebClientId.isEmpty) return null; // belum dikonfigurasi → tombol disembunyikan
+  return () async {
+    final google = GoogleSignIn.instance;
+    await google.initialize(serverClientId: Env.googleWebClientId);
+    if (!google.supportsAuthenticate()) return null;
+    try {
+      final account = await google.authenticate();
+      return account.authentication.idToken;
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) return null;
+      rethrow;
+    }
+  };
+});
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(ref.watch(supabaseProvider)),

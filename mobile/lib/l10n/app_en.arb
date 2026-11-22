@@ -310,5 +310,7 @@
   "copied": "Copied",
   "availableOffline": "Available offline",
   "removeDownload": "Remove download",
-  "offlineBanner": "You're offline. Showing saved data."
+  "offlineBanner": "You're offline. Showing saved data.",
+  "continueWithGoogle": "Continue with Google",
+  "or": "or"
 }

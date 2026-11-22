@@ -54,6 +54,7 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL || secrets.SITE_URL }}
+          GOOGLE_WEB_CLIENT_ID: ${{ vars.GOOGLE_WEB_CLIENT_ID }}
         run: |
           missing=""
           [ -n "$SUPABASE_URL" ] || missing="$missing SUPABASE_URL"
@@ -64,7 +65,8 @@ jobs:
             echo "::notice title=Supabase terkonfigurasi::SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY terisi."
           fi
           jq -n --arg u "$SUPABASE_URL" --arg k "$SUPABASE_PUBLISHABLE_KEY" --arg s "${SITE_URL:-https://example.com}" \
-            '{SUPABASE_URL: $u, SUPABASE_PUBLISHABLE_KEY: $k, SITE_URL: $s}' > env.json
+            --arg g "$GOOGLE_WEB_CLIENT_ID" \
+            '{SUPABASE_URL: $u, SUPABASE_PUBLISHABLE_KEY: $k, SITE_URL: $s, GOOGLE_WEB_CLIENT_ID: $g}' > env.json
 
       # Kunci tanda tangan release (opsional) dari Secrets. Tanpa ini APK ditandatangani
       # kunci debug runner, sehingga tidak bisa dipasang menimpa APK dari build lain.

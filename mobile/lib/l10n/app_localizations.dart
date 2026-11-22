@@ -1963,6 +1963,18 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Kamu sedang offline. Menampilkan data yang tersimpan.'**
   String get offlineBanner;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjutkan dengan Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @or.
+  ///
+  /// In id, this message translates to:
+  /// **'atau'**
+  String get or;
 }
 
 class _AppLocalizationsDelegate

@@ -1465,6 +1465,96 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Kirim'**
   String get send;
+
+  /// No description provided for @liveSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Belajar langsung bersama pengajar. Rekamannya bisa ditonton lagi.'**
+  String get liveSubtitle;
+
+  /// No description provided for @liveUpcoming.
+  ///
+  /// In id, this message translates to:
+  /// **'Jadwal mendatang'**
+  String get liveUpcoming;
+
+  /// No description provided for @liveNoUpcoming.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada jadwal kelas live.'**
+  String get liveNoUpcoming;
+
+  /// No description provided for @livePast.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekaman sebelumnya'**
+  String get livePast;
+
+  /// No description provided for @liveHost.
+  ///
+  /// In id, this message translates to:
+  /// **'Bersama {name}'**
+  String liveHost(String name);
+
+  /// No description provided for @livePhaseUpcoming.
+  ///
+  /// In id, this message translates to:
+  /// **'Akan datang'**
+  String get livePhaseUpcoming;
+
+  /// No description provided for @livePhaseSoon.
+  ///
+  /// In id, this message translates to:
+  /// **'Segera dimulai'**
+  String get livePhaseSoon;
+
+  /// No description provided for @livePhaseLive.
+  ///
+  /// In id, this message translates to:
+  /// **'Sedang berlangsung'**
+  String get livePhaseLive;
+
+  /// No description provided for @livePhaseEnded.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get livePhaseEnded;
+
+  /// No description provided for @liveAddToCalendar.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah ke kalender'**
+  String get liveAddToCalendar;
+
+  /// No description provided for @liveJoin.
+  ///
+  /// In id, this message translates to:
+  /// **'Masuk kelas live'**
+  String get liveJoin;
+
+  /// No description provided for @liveLinkLater.
+  ///
+  /// In id, this message translates to:
+  /// **'Tombol masuk muncul 15 menit sebelum kelas dimulai.'**
+  String get liveLinkLater;
+
+  /// No description provided for @liveLocked.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas live ini khusus pelanggan paket jenjangnya.'**
+  String get liveLocked;
+
+  /// No description provided for @liveRecording.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekaman'**
+  String get liveRecording;
+
+  /// No description provided for @liveNoRecording.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekaman belum tersedia.'**
+  String get liveNoRecording;
 }
 
 class _AppLocalizationsDelegate

@@ -785,4 +785,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get send => 'Send';
+
+  @override
+  String get liveSubtitle =>
+      'Learn live with a teacher. Recordings can be watched again.';
+
+  @override
+  String get liveUpcoming => 'Upcoming';
+
+  @override
+  String get liveNoUpcoming => 'No live classes scheduled yet.';
+
+  @override
+  String get livePast => 'Past recordings';
+
+  @override
+  String liveHost(String name) {
+    return 'With $name';
+  }
+
+  @override
+  String get livePhaseUpcoming => 'Upcoming';
+
+  @override
+  String get livePhaseSoon => 'Starting soon';
+
+  @override
+  String get livePhaseLive => 'Live now';
+
+  @override
+  String get livePhaseEnded => 'Ended';
+
+  @override
+  String get liveAddToCalendar => 'Add to calendar';
+
+  @override
+  String get liveJoin => 'Join live class';
+
+  @override
+  String get liveLinkLater =>
+      'The join button appears 15 minutes before the class starts.';
+
+  @override
+  String get liveLocked => 'This live class is for subscribers of its level.';
+
+  @override
+  String get liveRecording => 'Recording';
+
+  @override
+  String get liveNoRecording => 'No recording yet.';
 }

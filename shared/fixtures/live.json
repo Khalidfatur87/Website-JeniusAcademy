@@ -1,0 +1,13 @@
+{
+  "_note": "Kasus uji bersama website (src/lib/live.test.ts) dan aplikasi (mobile/test/domain/live_test.dart).",
+  "startsAt": "2026-11-22T12:00:00Z",
+  "minutes": 60,
+  "livePhase": [
+    { "now": "2026-11-22T11:00:00Z", "expected": "upcoming" },
+    { "now": "2026-11-22T11:44:59Z", "expected": "upcoming" },
+    { "now": "2026-11-22T11:45:00Z", "expected": "soon" },
+    { "now": "2026-11-22T12:00:00Z", "expected": "live" },
+    { "now": "2026-11-22T12:59:59Z", "expected": "live" },
+    { "now": "2026-11-22T13:00:00Z", "expected": "ended" }
+  ]
+}

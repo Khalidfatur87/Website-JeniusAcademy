@@ -783,4 +783,53 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get send => 'Kirim';
+
+  @override
+  String get liveSubtitle =>
+      'Belajar langsung bersama pengajar. Rekamannya bisa ditonton lagi.';
+
+  @override
+  String get liveUpcoming => 'Jadwal mendatang';
+
+  @override
+  String get liveNoUpcoming => 'Belum ada jadwal kelas live.';
+
+  @override
+  String get livePast => 'Rekaman sebelumnya';
+
+  @override
+  String liveHost(String name) {
+    return 'Bersama $name';
+  }
+
+  @override
+  String get livePhaseUpcoming => 'Akan datang';
+
+  @override
+  String get livePhaseSoon => 'Segera dimulai';
+
+  @override
+  String get livePhaseLive => 'Sedang berlangsung';
+
+  @override
+  String get livePhaseEnded => 'Selesai';
+
+  @override
+  String get liveAddToCalendar => 'Tambah ke kalender';
+
+  @override
+  String get liveJoin => 'Masuk kelas live';
+
+  @override
+  String get liveLinkLater =>
+      'Tombol masuk muncul 15 menit sebelum kelas dimulai.';
+
+  @override
+  String get liveLocked => 'Kelas live ini khusus pelanggan paket jenjangnya.';
+
+  @override
+  String get liveRecording => 'Rekaman';
+
+  @override
+  String get liveNoRecording => 'Rekaman belum tersedia.';
 }

@@ -181,6 +181,7 @@ class QuickLinks extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final links = [
       (Icons.timer_outlined, t.tryoutTitle, '/tryouts'),
+      (Icons.videocam_outlined, t.liveTitle, '/live'),
     ];
     return Wrap(
       spacing: 8,

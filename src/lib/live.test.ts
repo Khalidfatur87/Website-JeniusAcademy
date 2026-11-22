@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import shared from "../../shared/fixtures/live.json";
 import { buildIcs, livePhase } from "./live";
 
 describe("livePhase", () => {
@@ -29,5 +30,12 @@ describe("buildIcs", () => {
     expect(ics).toContain("DESCRIPTION:Baris 1\\nBaris 2\\n\\nhttps://jenius.id/id/live/abc");
     expect(ics).toContain("TRIGGER:-PT15M");
     expect(ics.split("\r\n")[0]).toBe("BEGIN:VCALENDAR");
+  });
+});
+
+// Kasus uji bersama dengan aplikasi mobile (mobile/test/domain/live_test.dart).
+describe("kasus uji bersama (shared/fixtures/live.json)", () => {
+  it.each(shared.livePhase)("livePhase pada $now", ({ now, expected }) => {
+    expect(livePhase(shared.startsAt, shared.minutes, new Date(now))).toBe(expected);
   });
 });

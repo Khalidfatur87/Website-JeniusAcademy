@@ -227,5 +227,20 @@
   "discussionTeacher": "Teacher",
   "discussionReplyingTo": "Replying to {name}",
   "discussionOpen": "Lesson discussion",
-  "send": "Send"
+  "send": "Send",
+  "liveSubtitle": "Learn live with a teacher. Recordings can be watched again.",
+  "liveUpcoming": "Upcoming",
+  "liveNoUpcoming": "No live classes scheduled yet.",
+  "livePast": "Past recordings",
+  "liveHost": "With {name}",
+  "livePhaseUpcoming": "Upcoming",
+  "livePhaseSoon": "Starting soon",
+  "livePhaseLive": "Live now",
+  "livePhaseEnded": "Ended",
+  "liveAddToCalendar": "Add to calendar",
+  "liveJoin": "Join live class",
+  "liveLinkLater": "The join button appears 15 minutes before the class starts.",
+  "liveLocked": "This live class is for subscribers of its level.",
+  "liveRecording": "Recording",
+  "liveNoRecording": "No recording yet."
 }

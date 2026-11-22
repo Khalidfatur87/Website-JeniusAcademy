@@ -511,5 +511,27 @@
         "type": "String"
       }
     }
+  },
+  "liveSubtitle": "Belajar langsung bersama pengajar. Rekamannya bisa ditonton lagi.",
+  "liveUpcoming": "Jadwal mendatang",
+  "liveNoUpcoming": "Belum ada jadwal kelas live.",
+  "livePast": "Rekaman sebelumnya",
+  "liveHost": "Bersama {name}",
+  "livePhaseUpcoming": "Akan datang",
+  "livePhaseSoon": "Segera dimulai",
+  "livePhaseLive": "Sedang berlangsung",
+  "livePhaseEnded": "Selesai",
+  "liveAddToCalendar": "Tambah ke kalender",
+  "liveJoin": "Masuk kelas live",
+  "liveLinkLater": "Tombol masuk muncul 15 menit sebelum kelas dimulai.",
+  "liveLocked": "Kelas live ini khusus pelanggan paket jenjangnya.",
+  "liveRecording": "Rekaman",
+  "liveNoRecording": "Rekaman belum tersedia.",
+  "@liveHost": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

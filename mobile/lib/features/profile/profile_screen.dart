@@ -14,6 +14,7 @@ import '../../domain/l10n_text.dart';
 import '../../domain/profile.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/async_view.dart';
+import '../parent/parent_screen.dart';
 
 /// Memilih foto dari galeri; diperkecil ke 512 px agar jauh di bawah batas 2 MB.
 /// Diganti di tes.
@@ -227,6 +228,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                     ],
                 },
+                const Divider(height: 32),
+                const ParentLinkSection(),
                 const Divider(height: 32),
                 Text(t.language, style: theme.textTheme.titleSmall),
                 const SizedBox(height: 8),

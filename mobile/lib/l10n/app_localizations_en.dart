@@ -964,4 +964,101 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tutorErrGeneric =>
       'The AI tutor can\'t be reached right now. Please try again.';
+
+  @override
+  String get parentTitle => 'Parent view';
+
+  @override
+  String get parentSubtitle =>
+      'See your child\'s learning progress every week.';
+
+  @override
+  String get parentCode => 'Code from your child';
+
+  @override
+  String get parentCodeHint =>
+      'Your child creates an 8-character code on their Profile page (valid for 7 days).';
+
+  @override
+  String get parentLink => 'Link';
+
+  @override
+  String parentLinked(String name) {
+    return 'Linked with $name.';
+  }
+
+  @override
+  String get parentEmpty =>
+      'No child linked yet. Enter your child\'s code above.';
+
+  @override
+  String get parentErrInvalid => 'Code not found or expired.';
+
+  @override
+  String get parentErrOwn => 'That\'s your own account\'s code.';
+
+  @override
+  String get parentErrGeneric => 'Couldn\'t link. Please try again.';
+
+  @override
+  String parentLastActive(String date) {
+    return 'Last studied $date';
+  }
+
+  @override
+  String get parentNeverActive => 'Has not studied yet';
+
+  @override
+  String get parentStreak => 'Streak';
+
+  @override
+  String get parentLessonsWeek => 'Lessons (7 days)';
+
+  @override
+  String get parentQuizzesWeek => 'Quizzes (7 days)';
+
+  @override
+  String get parentAvgQuiz => 'Average quiz';
+
+  @override
+  String get parentCourses => 'Courses';
+
+  @override
+  String get parentCopySummary => 'Copy summary';
+
+  @override
+  String parentShareText(String name, int lessons, int quizzes, int streak) {
+    return '$name\'s learning this week on JeniusAcademy: $lessons lessons done, $quizzes quizzes, $streak-day streak.';
+  }
+
+  @override
+  String get parentUnlink => 'Unlink';
+
+  @override
+  String parentConfirmUnlink(String name) {
+    return 'Stop following $name?';
+  }
+
+  @override
+  String parentConfirmUnlinkParent(String name) {
+    return 'Remove $name as a parent following your account?';
+  }
+
+  @override
+  String get parentProfileTitle => 'Parents';
+
+  @override
+  String get parentProfileHint =>
+      'Create a code and give it to your parent. They enter it in Parent view to see a summary of your learning (not your answers or messages).';
+
+  @override
+  String get parentCreateCode => 'Create code for parent';
+
+  @override
+  String parentCodeExpires(String date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String get copied => 'Copied';
 }

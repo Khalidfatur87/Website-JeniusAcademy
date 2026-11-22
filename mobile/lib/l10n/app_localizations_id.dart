@@ -962,4 +962,100 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get tutorErrGeneric =>
       'Tutor AI sedang tidak bisa dihubungi. Coba lagi.';
+
+  @override
+  String get parentTitle => 'Pantauan orang tua';
+
+  @override
+  String get parentSubtitle => 'Lihat perkembangan belajar anak setiap minggu.';
+
+  @override
+  String get parentCode => 'Kode dari anak';
+
+  @override
+  String get parentCodeHint =>
+      'Anak membuat kode 8 karakter di halaman Profil miliknya (berlaku 7 hari).';
+
+  @override
+  String get parentLink => 'Tautkan';
+
+  @override
+  String parentLinked(String name) {
+    return 'Berhasil tertaut dengan $name.';
+  }
+
+  @override
+  String get parentEmpty =>
+      'Belum ada anak yang tertaut. Masukkan kode dari akun anak di atas.';
+
+  @override
+  String get parentErrInvalid => 'Kode tidak ditemukan atau sudah kedaluwarsa.';
+
+  @override
+  String get parentErrOwn => 'Itu kode milik akunmu sendiri.';
+
+  @override
+  String get parentErrGeneric => 'Gagal menautkan. Coba lagi.';
+
+  @override
+  String parentLastActive(String date) {
+    return 'Terakhir belajar $date';
+  }
+
+  @override
+  String get parentNeverActive => 'Belum pernah belajar';
+
+  @override
+  String get parentStreak => 'Streak';
+
+  @override
+  String get parentLessonsWeek => 'Pelajaran (7 hari)';
+
+  @override
+  String get parentQuizzesWeek => 'Kuis (7 hari)';
+
+  @override
+  String get parentAvgQuiz => 'Rata-rata kuis';
+
+  @override
+  String get parentCourses => 'Kelas yang diikuti';
+
+  @override
+  String get parentCopySummary => 'Salin ringkasan';
+
+  @override
+  String parentShareText(String name, int lessons, int quizzes, int streak) {
+    return 'Ringkasan belajar $name minggu ini di JeniusAcademy: $lessons pelajaran selesai, $quizzes kuis, streak $streak hari.';
+  }
+
+  @override
+  String get parentUnlink => 'Lepaskan tautan';
+
+  @override
+  String parentConfirmUnlink(String name) {
+    return 'Berhenti memantau $name?';
+  }
+
+  @override
+  String parentConfirmUnlinkParent(String name) {
+    return 'Lepaskan $name sebagai orang tua yang memantau akunmu?';
+  }
+
+  @override
+  String get parentProfileTitle => 'Orang tua';
+
+  @override
+  String get parentProfileHint =>
+      'Buat kode, lalu berikan ke orang tua. Mereka memasukkannya di menu Pantauan orang tua untuk melihat ringkasan belajarmu (bukan jawaban atau pesanmu).';
+
+  @override
+  String get parentCreateCode => 'Buat kode untuk orang tua';
+
+  @override
+  String parentCodeExpires(String date) {
+    return 'Berlaku sampai $date';
+  }
+
+  @override
+  String get copied => 'Disalin';
 }

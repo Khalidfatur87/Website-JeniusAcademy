@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jeniusacademy/core/providers.dart';
+import 'package:jeniusacademy/data/parent_repository.dart';
 import 'package:jeniusacademy/data/profile_repository.dart';
 import 'package:jeniusacademy/data/quiz_repository.dart';
 import 'package:jeniusacademy/domain/profile.dart';
@@ -49,6 +50,7 @@ Future<_MemoryProfile> _pump(WidgetTester tester, {SharedPreferences? prefs}) as
       currentUserProvider.overrideWith((ref) => Stream.value(null)),
       profileRepositoryProvider.overrideWithValue(repo),
       certificatesProvider.overrideWith((ref) async => const []),
+      myParentsProvider.overrideWith((ref) async => const <LinkedParent>[]),
       avatarPickerProvider.overrideWithValue(() async => (Uint8List(1000), 'image/jpeg')),
       preferencesProvider.overrideWithValue(prefs),
     ],
@@ -111,10 +113,10 @@ void main() {
     final prefs = await SharedPreferences.getInstance();
     await _pump(tester, prefs: prefs);
 
-    await tester.ensureVisible(find.text('English'));
+    await tester.scrollUntilVisible(find.text('English'), 200);
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
     expect(prefs.getString('locale'), 'en');
-    expect(find.text('Weekly goal'), findsOneWidget);
+    expect(find.text('Language'), findsOneWidget, reason: 'tampilan langsung berganti bahasa');
   });
 }

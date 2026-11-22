@@ -16,6 +16,7 @@ import '../features/home/home_screen.dart';
 import '../features/lesson/lesson_screen.dart';
 import '../features/live/live_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
+import '../features/parent/parent_screen.dart';
 import '../features/practice/practice_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/quiz/quiz_screen.dart';
@@ -82,6 +83,7 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       GoRoute(path: '/tryouts', builder: (_, _) => const TryoutsScreen()),
       GoRoute(path: '/live', builder: (_, _) => const LiveScreen()),
       GoRoute(path: '/classes', builder: (_, _) => const ClassesScreen()),
+      GoRoute(path: '/parent', builder: (_, _) => const ParentScreen()),
       GoRoute(path: '/live/:id', builder: (_, s) => LiveDetailScreen(id: s.pathParameters['id']!)),
       GoRoute(
         path: '/tryouts/:slug',

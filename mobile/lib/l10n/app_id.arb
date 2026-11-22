@@ -606,5 +606,83 @@
   "tutorErrNoAccess": "Kamu belum punya akses ke materi ini.",
   "tutorErrQuota": "Kuota tutor AI hari ini sudah habis. Coba lagi besok.",
   "tutorErrNotConfigured": "Tutor AI belum diaktifkan.",
-  "tutorErrGeneric": "Tutor AI sedang tidak bisa dihubungi. Coba lagi."
+  "tutorErrGeneric": "Tutor AI sedang tidak bisa dihubungi. Coba lagi.",
+  "parentTitle": "Pantauan orang tua",
+  "parentSubtitle": "Lihat perkembangan belajar anak setiap minggu.",
+  "parentCode": "Kode dari anak",
+  "parentCodeHint": "Anak membuat kode 8 karakter di halaman Profil miliknya (berlaku 7 hari).",
+  "parentLink": "Tautkan",
+  "parentLinked": "Berhasil tertaut dengan {name}.",
+  "parentEmpty": "Belum ada anak yang tertaut. Masukkan kode dari akun anak di atas.",
+  "parentErrInvalid": "Kode tidak ditemukan atau sudah kedaluwarsa.",
+  "parentErrOwn": "Itu kode milik akunmu sendiri.",
+  "parentErrGeneric": "Gagal menautkan. Coba lagi.",
+  "parentLastActive": "Terakhir belajar {date}",
+  "parentNeverActive": "Belum pernah belajar",
+  "parentStreak": "Streak",
+  "parentLessonsWeek": "Pelajaran (7 hari)",
+  "parentQuizzesWeek": "Kuis (7 hari)",
+  "parentAvgQuiz": "Rata-rata kuis",
+  "parentCourses": "Kelas yang diikuti",
+  "parentCopySummary": "Salin ringkasan",
+  "parentShareText": "Ringkasan belajar {name} minggu ini di JeniusAcademy: {lessons} pelajaran selesai, {quizzes} kuis, streak {streak} hari.",
+  "parentUnlink": "Lepaskan tautan",
+  "parentConfirmUnlink": "Berhenti memantau {name}?",
+  "parentConfirmUnlinkParent": "Lepaskan {name} sebagai orang tua yang memantau akunmu?",
+  "parentProfileTitle": "Orang tua",
+  "parentProfileHint": "Buat kode, lalu berikan ke orang tua. Mereka memasukkannya di menu Pantauan orang tua untuk melihat ringkasan belajarmu (bukan jawaban atau pesanmu).",
+  "parentCreateCode": "Buat kode untuk orang tua",
+  "parentCodeExpires": "Berlaku sampai {date}",
+  "copied": "Disalin",
+  "@parentLinked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@parentLastActive": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@parentShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "lessons": {
+        "type": "int"
+      },
+      "quizzes": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
+  "@parentConfirmUnlink": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@parentConfirmUnlinkParent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@parentCodeExpires": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -52,7 +52,8 @@ Status: **Fase 1 (MVP) selesai di kode** — menunggu uji dengan data asli di pe
 
 ### Fase 3 — Khas mobile
 - [ ] Unduh materi untuk offline
-- [ ] Mode orang tua + push ringkasan mingguan
+- [x] Mode orang tua (tautkan dengan kode, ringkasan anak, salin ringkasan, lepas tautan dari dua sisi)
+- [ ] Push ringkasan mingguan untuk orang tua (saat ini lewat email)
 - [ ] Widget streak di layar utama
 - [ ] Login Google
 

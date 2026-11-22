@@ -183,6 +183,7 @@ class QuickLinks extends StatelessWidget {
       (Icons.timer_outlined, t.tryoutTitle, '/tryouts'),
       (Icons.videocam_outlined, t.liveTitle, '/live'),
       (Icons.groups_outlined, t.classesTitle, '/classes'),
+      (Icons.family_restroom, t.parentTitle, '/parent'),
     ];
     return Wrap(
       spacing: 8,

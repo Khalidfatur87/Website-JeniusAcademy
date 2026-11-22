@@ -1783,6 +1783,168 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Tutor AI sedang tidak bisa dihubungi. Coba lagi.'**
   String get tutorErrGeneric;
+
+  /// No description provided for @parentTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pantauan orang tua'**
+  String get parentTitle;
+
+  /// No description provided for @parentSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat perkembangan belajar anak setiap minggu.'**
+  String get parentSubtitle;
+
+  /// No description provided for @parentCode.
+  ///
+  /// In id, this message translates to:
+  /// **'Kode dari anak'**
+  String get parentCode;
+
+  /// No description provided for @parentCodeHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Anak membuat kode 8 karakter di halaman Profil miliknya (berlaku 7 hari).'**
+  String get parentCodeHint;
+
+  /// No description provided for @parentLink.
+  ///
+  /// In id, this message translates to:
+  /// **'Tautkan'**
+  String get parentLink;
+
+  /// No description provided for @parentLinked.
+  ///
+  /// In id, this message translates to:
+  /// **'Berhasil tertaut dengan {name}.'**
+  String parentLinked(String name);
+
+  /// No description provided for @parentEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada anak yang tertaut. Masukkan kode dari akun anak di atas.'**
+  String get parentEmpty;
+
+  /// No description provided for @parentErrInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Kode tidak ditemukan atau sudah kedaluwarsa.'**
+  String get parentErrInvalid;
+
+  /// No description provided for @parentErrOwn.
+  ///
+  /// In id, this message translates to:
+  /// **'Itu kode milik akunmu sendiri.'**
+  String get parentErrOwn;
+
+  /// No description provided for @parentErrGeneric.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal menautkan. Coba lagi.'**
+  String get parentErrGeneric;
+
+  /// No description provided for @parentLastActive.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir belajar {date}'**
+  String parentLastActive(String date);
+
+  /// No description provided for @parentNeverActive.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum pernah belajar'**
+  String get parentNeverActive;
+
+  /// No description provided for @parentStreak.
+  ///
+  /// In id, this message translates to:
+  /// **'Streak'**
+  String get parentStreak;
+
+  /// No description provided for @parentLessonsWeek.
+  ///
+  /// In id, this message translates to:
+  /// **'Pelajaran (7 hari)'**
+  String get parentLessonsWeek;
+
+  /// No description provided for @parentQuizzesWeek.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuis (7 hari)'**
+  String get parentQuizzesWeek;
+
+  /// No description provided for @parentAvgQuiz.
+  ///
+  /// In id, this message translates to:
+  /// **'Rata-rata kuis'**
+  String get parentAvgQuiz;
+
+  /// No description provided for @parentCourses.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas yang diikuti'**
+  String get parentCourses;
+
+  /// No description provided for @parentCopySummary.
+  ///
+  /// In id, this message translates to:
+  /// **'Salin ringkasan'**
+  String get parentCopySummary;
+
+  /// No description provided for @parentShareText.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan belajar {name} minggu ini di JeniusAcademy: {lessons} pelajaran selesai, {quizzes} kuis, streak {streak} hari.'**
+  String parentShareText(String name, int lessons, int quizzes, int streak);
+
+  /// No description provided for @parentUnlink.
+  ///
+  /// In id, this message translates to:
+  /// **'Lepaskan tautan'**
+  String get parentUnlink;
+
+  /// No description provided for @parentConfirmUnlink.
+  ///
+  /// In id, this message translates to:
+  /// **'Berhenti memantau {name}?'**
+  String parentConfirmUnlink(String name);
+
+  /// No description provided for @parentConfirmUnlinkParent.
+  ///
+  /// In id, this message translates to:
+  /// **'Lepaskan {name} sebagai orang tua yang memantau akunmu?'**
+  String parentConfirmUnlinkParent(String name);
+
+  /// No description provided for @parentProfileTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Orang tua'**
+  String get parentProfileTitle;
+
+  /// No description provided for @parentProfileHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat kode, lalu berikan ke orang tua. Mereka memasukkannya di menu Pantauan orang tua untuk melihat ringkasan belajarmu (bukan jawaban atau pesanmu).'**
+  String get parentProfileHint;
+
+  /// No description provided for @parentCreateCode.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat kode untuk orang tua'**
+  String get parentCreateCode;
+
+  /// No description provided for @parentCodeExpires.
+  ///
+  /// In id, this message translates to:
+  /// **'Berlaku sampai {date}'**
+  String parentCodeExpires(String date);
+
+  /// No description provided for @copied.
+  ///
+  /// In id, this message translates to:
+  /// **'Disalin'**
+  String get copied;
 }
 
 class _AppLocalizationsDelegate

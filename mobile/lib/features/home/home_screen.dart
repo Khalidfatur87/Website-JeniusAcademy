@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../data/engagement_repository.dart';
@@ -45,6 +46,10 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 24),
+              Text(t.quickLinks, style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 8),
+              const QuickLinks(),
               const SizedBox(height: 24),
               Text(t.badgesTitle, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
@@ -163,6 +168,31 @@ class _BadgeTile extends StatelessWidget {
         subtitle: Text(how),
         trailing: earned ? Icon(Icons.check, color: scheme.primary) : null,
       ),
+    );
+  }
+}
+
+/// Pintu masuk fitur di luar tab bawah (try-out, kelas live, kelas sekolah).
+class QuickLinks extends StatelessWidget {
+  const QuickLinks({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final links = [
+      (Icons.timer_outlined, t.tryoutTitle, '/tryouts'),
+    ];
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final (icon, label, route) in links)
+          ActionChip(
+            avatar: Icon(icon, size: 18),
+            label: Text(label),
+            onPressed: () => context.push(route),
+          ),
+      ],
     );
   }
 }

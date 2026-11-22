@@ -43,3 +43,6 @@ class LocaleNotifier extends Notifier<Locale> {
 }
 
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(LocaleNotifier.new);
+
+/// Jam saat ini (diganti di tes untuk timer try-out & jadwal).
+final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);

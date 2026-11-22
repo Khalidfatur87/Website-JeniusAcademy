@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import shared from "../../shared/fixtures/tryout.json";
 import { currentSection, formatClock, totalMinutes, tryoutWindow, weakestSections } from "./tryout";
 
 const sections = [{ minutes: 10 }, { minutes: 5 }, { minutes: 20 }];
@@ -53,5 +54,25 @@ describe("weakestSections", () => {
     ]);
     expect(r.map((x) => x.id)).toEqual(["b", "c"]);
     expect(r[0].percent).toBe(20);
+  });
+});
+
+// Kasus uji bersama dengan aplikasi mobile (mobile/test/domain/tryout_test.dart).
+describe("kasus uji bersama (shared/fixtures/tryout.json)", () => {
+  const at = (m: number, s: number) => new Date(Date.parse(shared.start) + m * 60_000 + s * 1000);
+  it.each(shared.currentSection)("currentSection #%#", ({ atMinutes, atSeconds, finishedThrough, expected }) => {
+    expect(currentSection(shared.sections, shared.start, at(atMinutes, atSeconds), finishedThrough)).toEqual(expected);
+  });
+  it.each(shared.formatClock)("formatClock($seconds)", ({ seconds, expected }) => {
+    expect(formatClock(seconds)).toBe(expected);
+  });
+  it("totalMinutes", () => expect(totalMinutes(shared.sections)).toBe(shared.totalMinutes));
+  it.each(shared.tryoutWindow.cases)("tryoutWindow #%#", ({ opensAt, closesAt, expected }) => {
+    expect(tryoutWindow({ opensAt, closesAt }, new Date(shared.tryoutWindow.now))).toBe(expected);
+  });
+  it("weakestSections", () => {
+    const r = weakestSections(shared.weakestSections.scores);
+    expect(r.map((x) => x.id)).toEqual(shared.weakestSections.expectedIds);
+    expect(r[0].percent).toBe(shared.weakestSections.expectedFirstPercent);
   });
 });

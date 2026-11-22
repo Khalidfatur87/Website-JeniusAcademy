@@ -568,4 +568,180 @@ class AppLocalizationsId extends AppLocalizations {
   String practiceMasteredCount(int count) {
     return '$count soal dikuasai.';
   }
+
+  @override
+  String get tryoutTitle => 'Try-out UTBK';
+
+  @override
+  String get tryoutSubtitle =>
+      'Latihan ujian bertimer per subtes, lengkap dengan skor, peringkat, dan pembahasan.';
+
+  @override
+  String get tryoutEmpty => 'Belum ada try-out yang dibuka.';
+
+  @override
+  String tryoutSectionCount(int count) {
+    return '$count subtes';
+  }
+
+  @override
+  String tryoutTotalTime(int count) {
+    return 'Total waktu $count menit';
+  }
+
+  @override
+  String tryoutOpensAt(String date) {
+    return 'Dibuka $date';
+  }
+
+  @override
+  String tryoutClosesAt(String date) {
+    return 'Ditutup $date';
+  }
+
+  @override
+  String get tryoutWindowOpen => 'Dibuka';
+
+  @override
+  String get tryoutWindowUpcoming => 'Segera dibuka';
+
+  @override
+  String get tryoutWindowClosed => 'Sudah ditutup';
+
+  @override
+  String get tryoutSections => 'Subtes';
+
+  @override
+  String get tryoutRule1 =>
+      'Subtes dikerjakan berurutan dengan waktu masing-masing; subtes yang sudah lewat tidak bisa dibuka lagi.';
+
+  @override
+  String get tryoutRule2 =>
+      'Jawaban tersimpan otomatis. Jika koneksi terputus, buka lagi try-out ini untuk melanjutkan.';
+
+  @override
+  String get tryoutRule3 =>
+      'Waktu habis = jawaban otomatis diserahkan. Hanya satu kali percobaan yang dihitung untuk peringkat.';
+
+  @override
+  String get tryoutStart => 'Mulai try-out';
+
+  @override
+  String get tryoutContinue => 'Lanjutkan try-out';
+
+  @override
+  String get tryoutDone => 'Selesai';
+
+  @override
+  String get tryoutOneAttempt =>
+      'Kamu hanya punya satu kesempatan. Pastikan koneksi stabil sebelum mulai.';
+
+  @override
+  String tryoutSectionOf(int current, int total) {
+    return 'Subtes $current dari $total';
+  }
+
+  @override
+  String tryoutAnsweredOf(int answered, int total) {
+    return '$answered dari $total terjawab';
+  }
+
+  @override
+  String get tryoutSaving => 'Menyimpan…';
+
+  @override
+  String get tryoutSaved => 'Tersimpan';
+
+  @override
+  String get tryoutSaveFailed => 'Gagal menyimpan, akan dicoba lagi';
+
+  @override
+  String get tryoutNextSection => 'Lanjut subtes berikutnya';
+
+  @override
+  String get tryoutSubmit => 'Serahkan jawaban';
+
+  @override
+  String tryoutConfirmNext(int count) {
+    return 'Lanjut ke subtes berikutnya? Kamu tidak bisa kembali ke subtes ini. Soal kosong: $count.';
+  }
+
+  @override
+  String tryoutConfirmSubmit(int count) {
+    return 'Serahkan semua jawaban sekarang? Jawaban tidak bisa diubah lagi. Soal kosong: $count.';
+  }
+
+  @override
+  String get tryoutSubmitting => 'Menyerahkan jawaban…';
+
+  @override
+  String get tryoutErrNoAccess =>
+      'Try-out ini termasuk paket berbayar. Berlangganan untuk mengerjakannya.';
+
+  @override
+  String get tryoutErrClosed => 'Try-out ini sedang tidak dibuka.';
+
+  @override
+  String get tryoutErrNotSignedIn => 'Masuk dulu untuk mengerjakan try-out.';
+
+  @override
+  String get tryoutErrGeneric => 'Try-out gagal dimuat. Coba lagi.';
+
+  @override
+  String get tryoutYourResult => 'Hasil kamu';
+
+  @override
+  String tryoutRank(int rank, int participants) {
+    return 'Peringkat $rank dari $participants';
+  }
+
+  @override
+  String get tryoutFocus => 'Perlu dipelajari lagi';
+
+  @override
+  String get tryoutAllGood => 'Semua subtes sudah bagus. Pertahankan!';
+
+  @override
+  String get tryoutPerSection => 'Skor per subtes';
+
+  @override
+  String tryoutAverage(int percent) {
+    return 'rata-rata peserta $percent%';
+  }
+
+  @override
+  String get tryoutReview => 'Pembahasan';
+
+  @override
+  String get tryoutUnanswered => 'Tidak dijawab';
+
+  @override
+  String get tryoutLeaderboard => 'Peringkat peserta';
+
+  @override
+  String get tryoutLeaderboardEmpty =>
+      'Belum ada peserta yang menyerahkan jawaban.';
+
+  @override
+  String get tryoutHiddenName => 'Peserta';
+
+  @override
+  String get tryoutYou => 'kamu';
+
+  @override
+  String tryoutSubmittedOn(String date) {
+    return 'Diserahkan $date';
+  }
+
+  @override
+  String get continueAction => 'Lanjut';
+
+  @override
+  String get quickLinks => 'Fitur lainnya';
+
+  @override
+  String get liveTitle => 'Kelas live';
+
+  @override
+  String get classesTitle => 'Kelas sekolah';
 }

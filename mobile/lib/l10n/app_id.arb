@@ -357,5 +357,140 @@
         "type": "int"
       }
     }
+  },
+  "tryoutTitle": "Try-out UTBK",
+  "tryoutSubtitle": "Latihan ujian bertimer per subtes, lengkap dengan skor, peringkat, dan pembahasan.",
+  "tryoutEmpty": "Belum ada try-out yang dibuka.",
+  "tryoutSectionCount": "{count} subtes",
+  "tryoutTotalTime": "Total waktu {count} menit",
+  "tryoutOpensAt": "Dibuka {date}",
+  "tryoutClosesAt": "Ditutup {date}",
+  "tryoutWindowOpen": "Dibuka",
+  "tryoutWindowUpcoming": "Segera dibuka",
+  "tryoutWindowClosed": "Sudah ditutup",
+  "tryoutSections": "Subtes",
+  "tryoutRule1": "Subtes dikerjakan berurutan dengan waktu masing-masing; subtes yang sudah lewat tidak bisa dibuka lagi.",
+  "tryoutRule2": "Jawaban tersimpan otomatis. Jika koneksi terputus, buka lagi try-out ini untuk melanjutkan.",
+  "tryoutRule3": "Waktu habis = jawaban otomatis diserahkan. Hanya satu kali percobaan yang dihitung untuk peringkat.",
+  "tryoutStart": "Mulai try-out",
+  "tryoutContinue": "Lanjutkan try-out",
+  "tryoutDone": "Selesai",
+  "tryoutOneAttempt": "Kamu hanya punya satu kesempatan. Pastikan koneksi stabil sebelum mulai.",
+  "tryoutSectionOf": "Subtes {current} dari {total}",
+  "tryoutAnsweredOf": "{answered} dari {total} terjawab",
+  "tryoutSaving": "Menyimpan…",
+  "tryoutSaved": "Tersimpan",
+  "tryoutSaveFailed": "Gagal menyimpan, akan dicoba lagi",
+  "tryoutNextSection": "Lanjut subtes berikutnya",
+  "tryoutSubmit": "Serahkan jawaban",
+  "tryoutConfirmNext": "Lanjut ke subtes berikutnya? Kamu tidak bisa kembali ke subtes ini. Soal kosong: {count}.",
+  "tryoutConfirmSubmit": "Serahkan semua jawaban sekarang? Jawaban tidak bisa diubah lagi. Soal kosong: {count}.",
+  "tryoutSubmitting": "Menyerahkan jawaban…",
+  "tryoutErrNoAccess": "Try-out ini termasuk paket berbayar. Berlangganan untuk mengerjakannya.",
+  "tryoutErrClosed": "Try-out ini sedang tidak dibuka.",
+  "tryoutErrNotSignedIn": "Masuk dulu untuk mengerjakan try-out.",
+  "tryoutErrGeneric": "Try-out gagal dimuat. Coba lagi.",
+  "tryoutYourResult": "Hasil kamu",
+  "tryoutRank": "Peringkat {rank} dari {participants}",
+  "tryoutFocus": "Perlu dipelajari lagi",
+  "tryoutAllGood": "Semua subtes sudah bagus. Pertahankan!",
+  "tryoutPerSection": "Skor per subtes",
+  "tryoutAverage": "rata-rata peserta {percent}%",
+  "tryoutReview": "Pembahasan",
+  "tryoutUnanswered": "Tidak dijawab",
+  "tryoutLeaderboard": "Peringkat peserta",
+  "tryoutLeaderboardEmpty": "Belum ada peserta yang menyerahkan jawaban.",
+  "tryoutHiddenName": "Peserta",
+  "tryoutYou": "kamu",
+  "tryoutSubmittedOn": "Diserahkan {date}",
+  "continueAction": "Lanjut",
+  "quickLinks": "Fitur lainnya",
+  "liveTitle": "Kelas live",
+  "classesTitle": "Kelas sekolah",
+  "@tryoutSectionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutTotalTime": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutOpensAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@tryoutClosesAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@tryoutSectionOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutAnsweredOf": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutConfirmNext": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutConfirmSubmit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "participants": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutAverage": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@tryoutSubmittedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

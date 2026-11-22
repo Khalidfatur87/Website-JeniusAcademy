@@ -17,6 +17,9 @@ import '../features/practice/practice_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/quiz/quiz_screen.dart';
 import '../features/shell/main_shell.dart';
+import '../features/tryout/tryout_detail_screen.dart';
+import '../features/tryout/tryout_take_screen.dart';
+import '../features/tryout/tryouts_screen.dart';
 import 'providers.dart';
 
 const _publicPaths = {'/login', '/register', '/forgot-password'};
@@ -72,6 +75,15 @@ GoRouter buildRouter({Listenable? refreshListenable, GoRouterRedirect? redirect}
       GoRoute(
         path: '/courses/:slug/quiz',
         builder: (_, s) => QuizScreen(slug: s.pathParameters['slug']!),
+      ),
+      GoRoute(path: '/tryouts', builder: (_, _) => const TryoutsScreen()),
+      GoRoute(
+        path: '/tryouts/:slug',
+        builder: (_, s) => TryoutDetailScreen(slug: s.pathParameters['slug']!),
+      ),
+      GoRoute(
+        path: '/tryouts/:slug/take',
+        builder: (_, s) => TryoutTakeScreen(slug: s.pathParameters['slug']!),
       ),
       GoRoute(
         path: '/certificates/:code',

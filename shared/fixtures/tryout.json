@@ -1,0 +1,41 @@
+{
+  "_note": "Kasus uji bersama website (src/lib/tryout.test.ts) dan aplikasi (mobile/test/domain/tryout_test.dart).",
+  "sections": [{ "minutes": 10 }, { "minutes": 5 }, { "minutes": 20 }],
+  "start": "2026-11-20T10:00:00Z",
+  "currentSection": [
+    { "atMinutes": 0, "atSeconds": 0, "finishedThrough": -1, "expected": { "index": 0, "secondsLeft": 600 } },
+    { "atMinutes": 9, "atSeconds": 30, "finishedThrough": -1, "expected": { "index": 0, "secondsLeft": 30 } },
+    { "atMinutes": 10, "atSeconds": 0, "finishedThrough": -1, "expected": { "index": 1, "secondsLeft": 300 } },
+    { "atMinutes": 16, "atSeconds": 0, "finishedThrough": -1, "expected": { "index": 2, "secondsLeft": 1140 } },
+    { "atMinutes": 35, "atSeconds": 0, "finishedThrough": -1, "expected": { "index": 3, "secondsLeft": 0 } },
+    { "atMinutes": 2, "atSeconds": 0, "finishedThrough": 0, "expected": { "index": 1, "secondsLeft": 780 } },
+    { "atMinutes": 2, "atSeconds": 0, "finishedThrough": 2, "expected": { "index": 3, "secondsLeft": 0 } },
+    { "atMinutes": 0, "atSeconds": 0.5, "finishedThrough": -1, "expected": { "index": 0, "secondsLeft": 600 } }
+  ],
+  "formatClock": [
+    { "seconds": 309, "expected": "05:09" },
+    { "seconds": 3909, "expected": "1:05:09" },
+    { "seconds": -5, "expected": "00:00" },
+    { "seconds": 0, "expected": "00:00" }
+  ],
+  "totalMinutes": 35,
+  "tryoutWindow": {
+    "now": "2026-11-20T10:00:00Z",
+    "cases": [
+      { "opensAt": null, "closesAt": null, "expected": "open" },
+      { "opensAt": "2026-11-21T00:00:00Z", "closesAt": null, "expected": "upcoming" },
+      { "opensAt": null, "closesAt": "2026-11-19T00:00:00Z", "expected": "closed" },
+      { "opensAt": "2026-11-19T00:00:00Z", "closesAt": "2026-11-21T00:00:00Z", "expected": "open" }
+    ]
+  },
+  "weakestSections": {
+    "scores": [
+      { "id": "a", "score": 8, "total": 10 },
+      { "id": "b", "score": 2, "total": 10 },
+      { "id": "c", "score": 5, "total": 10 },
+      { "id": "d", "score": 0, "total": 0 }
+    ],
+    "expectedIds": ["b", "c"],
+    "expectedFirstPercent": 20
+  }
+}

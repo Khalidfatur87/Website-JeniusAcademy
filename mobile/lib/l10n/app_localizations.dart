@@ -1099,6 +1099,300 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'{count} soal dikuasai.'**
   String practiceMasteredCount(int count);
+
+  /// No description provided for @tryoutTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Try-out UTBK'**
+  String get tryoutTitle;
+
+  /// No description provided for @tryoutSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan ujian bertimer per subtes, lengkap dengan skor, peringkat, dan pembahasan.'**
+  String get tryoutSubtitle;
+
+  /// No description provided for @tryoutEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada try-out yang dibuka.'**
+  String get tryoutEmpty;
+
+  /// No description provided for @tryoutSectionCount.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} subtes'**
+  String tryoutSectionCount(int count);
+
+  /// No description provided for @tryoutTotalTime.
+  ///
+  /// In id, this message translates to:
+  /// **'Total waktu {count} menit'**
+  String tryoutTotalTime(int count);
+
+  /// No description provided for @tryoutOpensAt.
+  ///
+  /// In id, this message translates to:
+  /// **'Dibuka {date}'**
+  String tryoutOpensAt(String date);
+
+  /// No description provided for @tryoutClosesAt.
+  ///
+  /// In id, this message translates to:
+  /// **'Ditutup {date}'**
+  String tryoutClosesAt(String date);
+
+  /// No description provided for @tryoutWindowOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Dibuka'**
+  String get tryoutWindowOpen;
+
+  /// No description provided for @tryoutWindowUpcoming.
+  ///
+  /// In id, this message translates to:
+  /// **'Segera dibuka'**
+  String get tryoutWindowUpcoming;
+
+  /// No description provided for @tryoutWindowClosed.
+  ///
+  /// In id, this message translates to:
+  /// **'Sudah ditutup'**
+  String get tryoutWindowClosed;
+
+  /// No description provided for @tryoutSections.
+  ///
+  /// In id, this message translates to:
+  /// **'Subtes'**
+  String get tryoutSections;
+
+  /// No description provided for @tryoutRule1.
+  ///
+  /// In id, this message translates to:
+  /// **'Subtes dikerjakan berurutan dengan waktu masing-masing; subtes yang sudah lewat tidak bisa dibuka lagi.'**
+  String get tryoutRule1;
+
+  /// No description provided for @tryoutRule2.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban tersimpan otomatis. Jika koneksi terputus, buka lagi try-out ini untuk melanjutkan.'**
+  String get tryoutRule2;
+
+  /// No description provided for @tryoutRule3.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu habis = jawaban otomatis diserahkan. Hanya satu kali percobaan yang dihitung untuk peringkat.'**
+  String get tryoutRule3;
+
+  /// No description provided for @tryoutStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai try-out'**
+  String get tryoutStart;
+
+  /// No description provided for @tryoutContinue.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjutkan try-out'**
+  String get tryoutContinue;
+
+  /// No description provided for @tryoutDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get tryoutDone;
+
+  /// No description provided for @tryoutOneAttempt.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu hanya punya satu kesempatan. Pastikan koneksi stabil sebelum mulai.'**
+  String get tryoutOneAttempt;
+
+  /// No description provided for @tryoutSectionOf.
+  ///
+  /// In id, this message translates to:
+  /// **'Subtes {current} dari {total}'**
+  String tryoutSectionOf(int current, int total);
+
+  /// No description provided for @tryoutAnsweredOf.
+  ///
+  /// In id, this message translates to:
+  /// **'{answered} dari {total} terjawab'**
+  String tryoutAnsweredOf(int answered, int total);
+
+  /// No description provided for @tryoutSaving.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyimpan…'**
+  String get tryoutSaving;
+
+  /// No description provided for @tryoutSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Tersimpan'**
+  String get tryoutSaved;
+
+  /// No description provided for @tryoutSaveFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal menyimpan, akan dicoba lagi'**
+  String get tryoutSaveFailed;
+
+  /// No description provided for @tryoutNextSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut subtes berikutnya'**
+  String get tryoutNextSection;
+
+  /// No description provided for @tryoutSubmit.
+  ///
+  /// In id, this message translates to:
+  /// **'Serahkan jawaban'**
+  String get tryoutSubmit;
+
+  /// No description provided for @tryoutConfirmNext.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut ke subtes berikutnya? Kamu tidak bisa kembali ke subtes ini. Soal kosong: {count}.'**
+  String tryoutConfirmNext(int count);
+
+  /// No description provided for @tryoutConfirmSubmit.
+  ///
+  /// In id, this message translates to:
+  /// **'Serahkan semua jawaban sekarang? Jawaban tidak bisa diubah lagi. Soal kosong: {count}.'**
+  String tryoutConfirmSubmit(int count);
+
+  /// No description provided for @tryoutSubmitting.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyerahkan jawaban…'**
+  String get tryoutSubmitting;
+
+  /// No description provided for @tryoutErrNoAccess.
+  ///
+  /// In id, this message translates to:
+  /// **'Try-out ini termasuk paket berbayar. Berlangganan untuk mengerjakannya.'**
+  String get tryoutErrNoAccess;
+
+  /// No description provided for @tryoutErrClosed.
+  ///
+  /// In id, this message translates to:
+  /// **'Try-out ini sedang tidak dibuka.'**
+  String get tryoutErrClosed;
+
+  /// No description provided for @tryoutErrNotSignedIn.
+  ///
+  /// In id, this message translates to:
+  /// **'Masuk dulu untuk mengerjakan try-out.'**
+  String get tryoutErrNotSignedIn;
+
+  /// No description provided for @tryoutErrGeneric.
+  ///
+  /// In id, this message translates to:
+  /// **'Try-out gagal dimuat. Coba lagi.'**
+  String get tryoutErrGeneric;
+
+  /// No description provided for @tryoutYourResult.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil kamu'**
+  String get tryoutYourResult;
+
+  /// No description provided for @tryoutRank.
+  ///
+  /// In id, this message translates to:
+  /// **'Peringkat {rank} dari {participants}'**
+  String tryoutRank(int rank, int participants);
+
+  /// No description provided for @tryoutFocus.
+  ///
+  /// In id, this message translates to:
+  /// **'Perlu dipelajari lagi'**
+  String get tryoutFocus;
+
+  /// No description provided for @tryoutAllGood.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua subtes sudah bagus. Pertahankan!'**
+  String get tryoutAllGood;
+
+  /// No description provided for @tryoutPerSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor per subtes'**
+  String get tryoutPerSection;
+
+  /// No description provided for @tryoutAverage.
+  ///
+  /// In id, this message translates to:
+  /// **'rata-rata peserta {percent}%'**
+  String tryoutAverage(int percent);
+
+  /// No description provided for @tryoutReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Pembahasan'**
+  String get tryoutReview;
+
+  /// No description provided for @tryoutUnanswered.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak dijawab'**
+  String get tryoutUnanswered;
+
+  /// No description provided for @tryoutLeaderboard.
+  ///
+  /// In id, this message translates to:
+  /// **'Peringkat peserta'**
+  String get tryoutLeaderboard;
+
+  /// No description provided for @tryoutLeaderboardEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada peserta yang menyerahkan jawaban.'**
+  String get tryoutLeaderboardEmpty;
+
+  /// No description provided for @tryoutHiddenName.
+  ///
+  /// In id, this message translates to:
+  /// **'Peserta'**
+  String get tryoutHiddenName;
+
+  /// No description provided for @tryoutYou.
+  ///
+  /// In id, this message translates to:
+  /// **'kamu'**
+  String get tryoutYou;
+
+  /// No description provided for @tryoutSubmittedOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Diserahkan {date}'**
+  String tryoutSubmittedOn(String date);
+
+  /// No description provided for @continueAction.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut'**
+  String get continueAction;
+
+  /// No description provided for @quickLinks.
+  ///
+  /// In id, this message translates to:
+  /// **'Fitur lainnya'**
+  String get quickLinks;
+
+  /// No description provided for @liveTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas live'**
+  String get liveTitle;
+
+  /// No description provided for @classesTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelas sekolah'**
+  String get classesTitle;
 }
 
 class _AppLocalizationsDelegate

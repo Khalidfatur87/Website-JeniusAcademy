@@ -572,4 +572,179 @@ class AppLocalizationsEn extends AppLocalizations {
   String practiceMasteredCount(int count) {
     return '$count questions mastered.';
   }
+
+  @override
+  String get tryoutTitle => 'UTBK mock exams';
+
+  @override
+  String get tryoutSubtitle =>
+      'Timed practice exams per section, with scores, rankings and explanations.';
+
+  @override
+  String get tryoutEmpty => 'No mock exams are open yet.';
+
+  @override
+  String tryoutSectionCount(int count) {
+    return '$count sections';
+  }
+
+  @override
+  String tryoutTotalTime(int count) {
+    return 'Total time $count min';
+  }
+
+  @override
+  String tryoutOpensAt(String date) {
+    return 'Opens $date';
+  }
+
+  @override
+  String tryoutClosesAt(String date) {
+    return 'Closes $date';
+  }
+
+  @override
+  String get tryoutWindowOpen => 'Open';
+
+  @override
+  String get tryoutWindowUpcoming => 'Opening soon';
+
+  @override
+  String get tryoutWindowClosed => 'Closed';
+
+  @override
+  String get tryoutSections => 'Sections';
+
+  @override
+  String get tryoutRule1 =>
+      'Sections run in order, each with its own timer; you cannot go back to a finished section.';
+
+  @override
+  String get tryoutRule2 =>
+      'Answers save automatically. If you lose connection, open this exam again to continue.';
+
+  @override
+  String get tryoutRule3 =>
+      'When time runs out, your answers are submitted. Only one attempt counts for the ranking.';
+
+  @override
+  String get tryoutStart => 'Start exam';
+
+  @override
+  String get tryoutContinue => 'Continue exam';
+
+  @override
+  String get tryoutDone => 'Done';
+
+  @override
+  String get tryoutOneAttempt =>
+      'You only get one attempt. Make sure your connection is stable before starting.';
+
+  @override
+  String tryoutSectionOf(int current, int total) {
+    return 'Section $current of $total';
+  }
+
+  @override
+  String tryoutAnsweredOf(int answered, int total) {
+    return '$answered of $total answered';
+  }
+
+  @override
+  String get tryoutSaving => 'Saving…';
+
+  @override
+  String get tryoutSaved => 'Saved';
+
+  @override
+  String get tryoutSaveFailed => 'Couldn\'t save, will retry';
+
+  @override
+  String get tryoutNextSection => 'Next section';
+
+  @override
+  String get tryoutSubmit => 'Submit answers';
+
+  @override
+  String tryoutConfirmNext(int count) {
+    return 'Go to the next section? You can\'t come back to this one. Unanswered: $count.';
+  }
+
+  @override
+  String tryoutConfirmSubmit(int count) {
+    return 'Submit all answers now? They can\'t be changed afterwards. Unanswered: $count.';
+  }
+
+  @override
+  String get tryoutSubmitting => 'Submitting answers…';
+
+  @override
+  String get tryoutErrNoAccess =>
+      'This exam is part of a paid plan. Subscribe to take it.';
+
+  @override
+  String get tryoutErrClosed => 'This exam is not open right now.';
+
+  @override
+  String get tryoutErrNotSignedIn => 'Sign in first to take the exam.';
+
+  @override
+  String get tryoutErrGeneric => 'Couldn\'t load the exam. Please try again.';
+
+  @override
+  String get tryoutYourResult => 'Your result';
+
+  @override
+  String tryoutRank(int rank, int participants) {
+    return 'Rank $rank of $participants';
+  }
+
+  @override
+  String get tryoutFocus => 'Worth reviewing';
+
+  @override
+  String get tryoutAllGood => 'Every section looks good. Keep it up!';
+
+  @override
+  String get tryoutPerSection => 'Score per section';
+
+  @override
+  String tryoutAverage(int percent) {
+    return 'participant average $percent%';
+  }
+
+  @override
+  String get tryoutReview => 'Explanations';
+
+  @override
+  String get tryoutUnanswered => 'Not answered';
+
+  @override
+  String get tryoutLeaderboard => 'Ranking';
+
+  @override
+  String get tryoutLeaderboardEmpty => 'Nobody has submitted yet.';
+
+  @override
+  String get tryoutHiddenName => 'Participant';
+
+  @override
+  String get tryoutYou => 'you';
+
+  @override
+  String tryoutSubmittedOn(String date) {
+    return 'Submitted $date';
+  }
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get quickLinks => 'More features';
+
+  @override
+  String get liveTitle => 'Live classes';
+
+  @override
+  String get classesTitle => 'School classes';
 }
